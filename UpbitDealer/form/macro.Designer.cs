@@ -29,6 +29,9 @@ namespace UpbitDealer.form
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Macro));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBox41 = new System.Windows.Forms.TextBox();
@@ -65,57 +68,14 @@ namespace UpbitDealer.form
             this.text_parName0 = new System.Windows.Forms.TextBox();
             this.btn_save = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox17 = new System.Windows.Forms.TextBox();
-            this.text_ba_week_2 = new System.Windows.Forms.TextBox();
-            this.textBox16 = new System.Windows.Forms.TextBox();
-            this.textBox15 = new System.Windows.Forms.TextBox();
-            this.text_ba_day_2 = new System.Windows.Forms.TextBox();
-            this.text_ba_hour4_2 = new System.Windows.Forms.TextBox();
-            this.text_ba_hour1_2 = new System.Windows.Forms.TextBox();
-            this.text_ba_min30_2 = new System.Windows.Forms.TextBox();
-            this.text_ba_week_1 = new System.Windows.Forms.TextBox();
-            this.text_ba_day_1 = new System.Windows.Forms.TextBox();
-            this.text_ba_hour4_1 = new System.Windows.Forms.TextBox();
-            this.text_ba_hour1_1 = new System.Windows.Forms.TextBox();
-            this.text_ba_min30_1 = new System.Windows.Forms.TextBox();
-            this.text_ba_week_0 = new System.Windows.Forms.TextBox();
-            this.text_ba_day_0 = new System.Windows.Forms.TextBox();
-            this.text_ba_hour4_0 = new System.Windows.Forms.TextBox();
-            this.text_ba_hour1_0 = new System.Windows.Forms.TextBox();
-            this.text_ba_min30_0 = new System.Windows.Forms.TextBox();
-            this.textBox14 = new System.Windows.Forms.TextBox();
-            this.textBox12 = new System.Windows.Forms.TextBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.textBox18 = new System.Windows.Forms.TextBox();
-            this.text_bb_week_2 = new System.Windows.Forms.TextBox();
-            this.textBox20 = new System.Windows.Forms.TextBox();
-            this.textBox21 = new System.Windows.Forms.TextBox();
-            this.text_bb_day_2 = new System.Windows.Forms.TextBox();
-            this.text_bb_hour4_2 = new System.Windows.Forms.TextBox();
-            this.text_bb_hour1_2 = new System.Windows.Forms.TextBox();
-            this.text_bb_min30_2 = new System.Windows.Forms.TextBox();
-            this.text_bb_week_1 = new System.Windows.Forms.TextBox();
-            this.text_bb_day_1 = new System.Windows.Forms.TextBox();
-            this.text_bb_hour4_1 = new System.Windows.Forms.TextBox();
-            this.text_bb_hour1_1 = new System.Windows.Forms.TextBox();
-            this.text_bb_min30_1 = new System.Windows.Forms.TextBox();
-            this.text_bb_week_0 = new System.Windows.Forms.TextBox();
-            this.text_bb_day_0 = new System.Windows.Forms.TextBox();
-            this.text_bb_hour4_0 = new System.Windows.Forms.TextBox();
-            this.text_bb_hour1_0 = new System.Windows.Forms.TextBox();
-            this.text_bb_min30_0 = new System.Windows.Forms.TextBox();
-            this.textBox36 = new System.Windows.Forms.TextBox();
-            this.textBox37 = new System.Windows.Forms.TextBox();
-            this.textBox38 = new System.Windows.Forms.TextBox();
-            this.textBox39 = new System.Windows.Forms.TextBox();
-            this.textBox40 = new System.Windows.Forms.TextBox();
+            this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.btn_min30 = new System.Windows.Forms.Button();
+            this.btn_hour1 = new System.Windows.Forms.Button();
+            this.btn_hour4 = new System.Windows.Forms.Button();
+            this.btn_day = new System.Windows.Forms.Button();
+            this.btn_week = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -628,777 +588,109 @@ namespace UpbitDealer.form
             this.btn_cancel.UseVisualStyleBackColor = false;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.textBox17);
-            this.groupBox2.Controls.Add(this.text_ba_week_2);
-            this.groupBox2.Controls.Add(this.textBox16);
-            this.groupBox2.Controls.Add(this.textBox15);
-            this.groupBox2.Controls.Add(this.text_ba_day_2);
-            this.groupBox2.Controls.Add(this.text_ba_hour4_2);
-            this.groupBox2.Controls.Add(this.text_ba_hour1_2);
-            this.groupBox2.Controls.Add(this.text_ba_min30_2);
-            this.groupBox2.Controls.Add(this.text_ba_week_1);
-            this.groupBox2.Controls.Add(this.text_ba_day_1);
-            this.groupBox2.Controls.Add(this.text_ba_hour4_1);
-            this.groupBox2.Controls.Add(this.text_ba_hour1_1);
-            this.groupBox2.Controls.Add(this.text_ba_min30_1);
-            this.groupBox2.Controls.Add(this.text_ba_week_0);
-            this.groupBox2.Controls.Add(this.text_ba_day_0);
-            this.groupBox2.Controls.Add(this.text_ba_hour4_0);
-            this.groupBox2.Controls.Add(this.text_ba_hour1_0);
-            this.groupBox2.Controls.Add(this.text_ba_min30_0);
-            this.groupBox2.Controls.Add(this.textBox14);
-            this.groupBox2.Controls.Add(this.textBox12);
-            this.groupBox2.Controls.Add(this.textBox10);
-            this.groupBox2.Controls.Add(this.textBox6);
-            this.groupBox2.Controls.Add(this.textBox1);
-            this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(12, 12);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(372, 206);
-            this.groupBox2.TabIndex = 20;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Weighted";
-            // 
-            // textBox17
-            // 
-            this.textBox17.BackColor = System.Drawing.Color.Black;
-            this.textBox17.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox17.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox17.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox17.ForeColor = System.Drawing.Color.White;
-            this.textBox17.Location = new System.Drawing.Point(283, 21);
-            this.textBox17.Name = "textBox17";
-            this.textBox17.ReadOnly = true;
-            this.textBox17.Size = new System.Drawing.Size(81, 19);
-            this.textBox17.TabIndex = 25;
-            this.textBox17.Text = "-2";
-            this.textBox17.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox17.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_week_2
-            // 
-            this.text_ba_week_2.BackColor = System.Drawing.Color.Black;
-            this.text_ba_week_2.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_week_2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_week_2.ForeColor = System.Drawing.Color.White;
-            this.text_ba_week_2.Location = new System.Drawing.Point(285, 46);
-            this.text_ba_week_2.Name = "text_ba_week_2";
-            this.text_ba_week_2.ReadOnly = true;
-            this.text_ba_week_2.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_week_2.TabIndex = 19;
-            this.text_ba_week_2.Text = "0";
-            this.text_ba_week_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_week_2.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // textBox16
-            // 
-            this.textBox16.BackColor = System.Drawing.Color.Black;
-            this.textBox16.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox16.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox16.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox16.ForeColor = System.Drawing.Color.White;
-            this.textBox16.Location = new System.Drawing.Point(198, 21);
-            this.textBox16.Name = "textBox16";
-            this.textBox16.ReadOnly = true;
-            this.textBox16.Size = new System.Drawing.Size(81, 19);
-            this.textBox16.TabIndex = 24;
-            this.textBox16.Text = "-1";
-            this.textBox16.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox16.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // textBox15
-            // 
-            this.textBox15.BackColor = System.Drawing.Color.Black;
-            this.textBox15.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox15.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox15.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox15.ForeColor = System.Drawing.Color.White;
-            this.textBox15.Location = new System.Drawing.Point(111, 21);
-            this.textBox15.Name = "textBox15";
-            this.textBox15.ReadOnly = true;
-            this.textBox15.Size = new System.Drawing.Size(81, 19);
-            this.textBox15.TabIndex = 23;
-            this.textBox15.Text = "Current";
-            this.textBox15.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox15.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_day_2
-            // 
-            this.text_ba_day_2.BackColor = System.Drawing.Color.Black;
-            this.text_ba_day_2.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_day_2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_day_2.ForeColor = System.Drawing.Color.White;
-            this.text_ba_day_2.Location = new System.Drawing.Point(285, 78);
-            this.text_ba_day_2.Name = "text_ba_day_2";
-            this.text_ba_day_2.ReadOnly = true;
-            this.text_ba_day_2.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_day_2.TabIndex = 18;
-            this.text_ba_day_2.Text = "0";
-            this.text_ba_day_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_day_2.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_hour4_2
-            // 
-            this.text_ba_hour4_2.BackColor = System.Drawing.Color.Black;
-            this.text_ba_hour4_2.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_hour4_2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_hour4_2.ForeColor = System.Drawing.Color.White;
-            this.text_ba_hour4_2.Location = new System.Drawing.Point(285, 110);
-            this.text_ba_hour4_2.Name = "text_ba_hour4_2";
-            this.text_ba_hour4_2.ReadOnly = true;
-            this.text_ba_hour4_2.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_hour4_2.TabIndex = 17;
-            this.text_ba_hour4_2.Text = "0";
-            this.text_ba_hour4_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_hour4_2.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_hour1_2
-            // 
-            this.text_ba_hour1_2.BackColor = System.Drawing.Color.Black;
-            this.text_ba_hour1_2.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_hour1_2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_hour1_2.ForeColor = System.Drawing.Color.White;
-            this.text_ba_hour1_2.Location = new System.Drawing.Point(285, 142);
-            this.text_ba_hour1_2.Name = "text_ba_hour1_2";
-            this.text_ba_hour1_2.ReadOnly = true;
-            this.text_ba_hour1_2.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_hour1_2.TabIndex = 16;
-            this.text_ba_hour1_2.Text = "0";
-            this.text_ba_hour1_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_hour1_2.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_min30_2
-            // 
-            this.text_ba_min30_2.BackColor = System.Drawing.Color.Black;
-            this.text_ba_min30_2.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_min30_2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_min30_2.ForeColor = System.Drawing.Color.White;
-            this.text_ba_min30_2.Location = new System.Drawing.Point(285, 174);
-            this.text_ba_min30_2.Name = "text_ba_min30_2";
-            this.text_ba_min30_2.ReadOnly = true;
-            this.text_ba_min30_2.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_min30_2.TabIndex = 15;
-            this.text_ba_min30_2.Text = "0";
-            this.text_ba_min30_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_min30_2.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_week_1
-            // 
-            this.text_ba_week_1.BackColor = System.Drawing.Color.Black;
-            this.text_ba_week_1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_week_1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_week_1.ForeColor = System.Drawing.Color.White;
-            this.text_ba_week_1.Location = new System.Drawing.Point(198, 46);
-            this.text_ba_week_1.Name = "text_ba_week_1";
-            this.text_ba_week_1.ReadOnly = true;
-            this.text_ba_week_1.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_week_1.TabIndex = 14;
-            this.text_ba_week_1.Text = "0";
-            this.text_ba_week_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_week_1.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_day_1
-            // 
-            this.text_ba_day_1.BackColor = System.Drawing.Color.Black;
-            this.text_ba_day_1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_day_1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_day_1.ForeColor = System.Drawing.Color.White;
-            this.text_ba_day_1.Location = new System.Drawing.Point(198, 78);
-            this.text_ba_day_1.Name = "text_ba_day_1";
-            this.text_ba_day_1.ReadOnly = true;
-            this.text_ba_day_1.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_day_1.TabIndex = 13;
-            this.text_ba_day_1.Text = "0";
-            this.text_ba_day_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_day_1.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_hour4_1
-            // 
-            this.text_ba_hour4_1.BackColor = System.Drawing.Color.Black;
-            this.text_ba_hour4_1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_hour4_1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_hour4_1.ForeColor = System.Drawing.Color.White;
-            this.text_ba_hour4_1.Location = new System.Drawing.Point(198, 110);
-            this.text_ba_hour4_1.Name = "text_ba_hour4_1";
-            this.text_ba_hour4_1.ReadOnly = true;
-            this.text_ba_hour4_1.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_hour4_1.TabIndex = 12;
-            this.text_ba_hour4_1.Text = "0";
-            this.text_ba_hour4_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_hour4_1.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_hour1_1
-            // 
-            this.text_ba_hour1_1.BackColor = System.Drawing.Color.Black;
-            this.text_ba_hour1_1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_hour1_1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_hour1_1.ForeColor = System.Drawing.Color.White;
-            this.text_ba_hour1_1.Location = new System.Drawing.Point(198, 142);
-            this.text_ba_hour1_1.Name = "text_ba_hour1_1";
-            this.text_ba_hour1_1.ReadOnly = true;
-            this.text_ba_hour1_1.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_hour1_1.TabIndex = 11;
-            this.text_ba_hour1_1.Text = "0";
-            this.text_ba_hour1_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_hour1_1.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_min30_1
-            // 
-            this.text_ba_min30_1.BackColor = System.Drawing.Color.Black;
-            this.text_ba_min30_1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_min30_1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_min30_1.ForeColor = System.Drawing.Color.White;
-            this.text_ba_min30_1.Location = new System.Drawing.Point(198, 174);
-            this.text_ba_min30_1.Name = "text_ba_min30_1";
-            this.text_ba_min30_1.ReadOnly = true;
-            this.text_ba_min30_1.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_min30_1.TabIndex = 10;
-            this.text_ba_min30_1.Text = "0";
-            this.text_ba_min30_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_min30_1.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_week_0
-            // 
-            this.text_ba_week_0.BackColor = System.Drawing.Color.Black;
-            this.text_ba_week_0.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_week_0.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_week_0.ForeColor = System.Drawing.Color.White;
-            this.text_ba_week_0.Location = new System.Drawing.Point(111, 46);
-            this.text_ba_week_0.Name = "text_ba_week_0";
-            this.text_ba_week_0.ReadOnly = true;
-            this.text_ba_week_0.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_week_0.TabIndex = 9;
-            this.text_ba_week_0.Text = "0";
-            this.text_ba_week_0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_week_0.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_day_0
-            // 
-            this.text_ba_day_0.BackColor = System.Drawing.Color.Black;
-            this.text_ba_day_0.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_day_0.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_day_0.ForeColor = System.Drawing.Color.White;
-            this.text_ba_day_0.Location = new System.Drawing.Point(111, 78);
-            this.text_ba_day_0.Name = "text_ba_day_0";
-            this.text_ba_day_0.ReadOnly = true;
-            this.text_ba_day_0.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_day_0.TabIndex = 8;
-            this.text_ba_day_0.Text = "0";
-            this.text_ba_day_0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_day_0.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_hour4_0
-            // 
-            this.text_ba_hour4_0.BackColor = System.Drawing.Color.Black;
-            this.text_ba_hour4_0.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_hour4_0.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_hour4_0.ForeColor = System.Drawing.Color.White;
-            this.text_ba_hour4_0.Location = new System.Drawing.Point(111, 110);
-            this.text_ba_hour4_0.Name = "text_ba_hour4_0";
-            this.text_ba_hour4_0.ReadOnly = true;
-            this.text_ba_hour4_0.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_hour4_0.TabIndex = 7;
-            this.text_ba_hour4_0.Text = "0";
-            this.text_ba_hour4_0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_hour4_0.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_hour1_0
-            // 
-            this.text_ba_hour1_0.BackColor = System.Drawing.Color.Black;
-            this.text_ba_hour1_0.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_hour1_0.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_hour1_0.ForeColor = System.Drawing.Color.White;
-            this.text_ba_hour1_0.Location = new System.Drawing.Point(111, 142);
-            this.text_ba_hour1_0.Name = "text_ba_hour1_0";
-            this.text_ba_hour1_0.ReadOnly = true;
-            this.text_ba_hour1_0.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_hour1_0.TabIndex = 6;
-            this.text_ba_hour1_0.Text = "0";
-            this.text_ba_hour1_0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_hour1_0.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_ba_min30_0
-            // 
-            this.text_ba_min30_0.BackColor = System.Drawing.Color.Black;
-            this.text_ba_min30_0.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_ba_min30_0.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_ba_min30_0.ForeColor = System.Drawing.Color.White;
-            this.text_ba_min30_0.Location = new System.Drawing.Point(111, 174);
-            this.text_ba_min30_0.Name = "text_ba_min30_0";
-            this.text_ba_min30_0.ReadOnly = true;
-            this.text_ba_min30_0.Size = new System.Drawing.Size(81, 26);
-            this.text_ba_min30_0.TabIndex = 5;
-            this.text_ba_min30_0.Text = "0";
-            this.text_ba_min30_0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_ba_min30_0.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // textBox14
-            // 
-            this.textBox14.BackColor = System.Drawing.Color.Black;
-            this.textBox14.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox14.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox14.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox14.ForeColor = System.Drawing.Color.White;
-            this.textBox14.Location = new System.Drawing.Point(6, 49);
-            this.textBox14.Name = "textBox14";
-            this.textBox14.ReadOnly = true;
-            this.textBox14.Size = new System.Drawing.Size(99, 19);
-            this.textBox14.TabIndex = 4;
-            this.textBox14.Text = "Week";
-            this.textBox14.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox14.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // textBox12
-            // 
-            this.textBox12.BackColor = System.Drawing.Color.Black;
-            this.textBox12.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox12.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox12.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox12.ForeColor = System.Drawing.Color.White;
-            this.textBox12.Location = new System.Drawing.Point(6, 78);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.ReadOnly = true;
-            this.textBox12.Size = new System.Drawing.Size(99, 19);
-            this.textBox12.TabIndex = 3;
-            this.textBox12.Text = "Day";
-            this.textBox12.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox12.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // textBox10
-            // 
-            this.textBox10.BackColor = System.Drawing.Color.Black;
-            this.textBox10.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox10.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox10.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox10.ForeColor = System.Drawing.Color.White;
-            this.textBox10.Location = new System.Drawing.Point(6, 110);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.ReadOnly = true;
-            this.textBox10.Size = new System.Drawing.Size(99, 19);
-            this.textBox10.TabIndex = 2;
-            this.textBox10.Text = "4 Hour";
-            this.textBox10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox10.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // textBox6
-            // 
-            this.textBox6.BackColor = System.Drawing.Color.Black;
-            this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox6.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox6.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox6.ForeColor = System.Drawing.Color.White;
-            this.textBox6.Location = new System.Drawing.Point(6, 142);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.ReadOnly = true;
-            this.textBox6.Size = new System.Drawing.Size(99, 19);
-            this.textBox6.TabIndex = 1;
-            this.textBox6.Text = "1 Hour";
-            this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox6.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.Color.Black;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(6, 174);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(99, 19);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.Text = "30 Minute";
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox1.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.textBox18);
-            this.groupBox3.Controls.Add(this.text_bb_week_2);
-            this.groupBox3.Controls.Add(this.textBox20);
-            this.groupBox3.Controls.Add(this.textBox21);
-            this.groupBox3.Controls.Add(this.text_bb_day_2);
-            this.groupBox3.Controls.Add(this.text_bb_hour4_2);
-            this.groupBox3.Controls.Add(this.text_bb_hour1_2);
-            this.groupBox3.Controls.Add(this.text_bb_min30_2);
-            this.groupBox3.Controls.Add(this.text_bb_week_1);
-            this.groupBox3.Controls.Add(this.text_bb_day_1);
-            this.groupBox3.Controls.Add(this.text_bb_hour4_1);
-            this.groupBox3.Controls.Add(this.text_bb_hour1_1);
-            this.groupBox3.Controls.Add(this.text_bb_min30_1);
-            this.groupBox3.Controls.Add(this.text_bb_week_0);
-            this.groupBox3.Controls.Add(this.text_bb_day_0);
-            this.groupBox3.Controls.Add(this.text_bb_hour4_0);
-            this.groupBox3.Controls.Add(this.text_bb_hour1_0);
-            this.groupBox3.Controls.Add(this.text_bb_min30_0);
-            this.groupBox3.Controls.Add(this.textBox36);
-            this.groupBox3.Controls.Add(this.textBox37);
-            this.groupBox3.Controls.Add(this.textBox38);
-            this.groupBox3.Controls.Add(this.textBox39);
-            this.groupBox3.Controls.Add(this.textBox40);
-            this.groupBox3.ForeColor = System.Drawing.Color.White;
-            this.groupBox3.Location = new System.Drawing.Point(12, 224);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(372, 206);
-            this.groupBox3.TabIndex = 26;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Average";
-            // 
-            // textBox18
-            // 
-            this.textBox18.BackColor = System.Drawing.Color.Black;
-            this.textBox18.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox18.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox18.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox18.ForeColor = System.Drawing.Color.White;
-            this.textBox18.Location = new System.Drawing.Point(283, 21);
-            this.textBox18.Name = "textBox18";
-            this.textBox18.ReadOnly = true;
-            this.textBox18.Size = new System.Drawing.Size(81, 19);
-            this.textBox18.TabIndex = 25;
-            this.textBox18.Text = "-2";
-            this.textBox18.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox18.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_week_2
-            // 
-            this.text_bb_week_2.BackColor = System.Drawing.Color.Black;
-            this.text_bb_week_2.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_week_2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_week_2.ForeColor = System.Drawing.Color.White;
-            this.text_bb_week_2.Location = new System.Drawing.Point(285, 46);
-            this.text_bb_week_2.Name = "text_bb_week_2";
-            this.text_bb_week_2.ReadOnly = true;
-            this.text_bb_week_2.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_week_2.TabIndex = 19;
-            this.text_bb_week_2.Text = "0";
-            this.text_bb_week_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_week_2.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // textBox20
-            // 
-            this.textBox20.BackColor = System.Drawing.Color.Black;
-            this.textBox20.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox20.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox20.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox20.ForeColor = System.Drawing.Color.White;
-            this.textBox20.Location = new System.Drawing.Point(198, 21);
-            this.textBox20.Name = "textBox20";
-            this.textBox20.ReadOnly = true;
-            this.textBox20.Size = new System.Drawing.Size(81, 19);
-            this.textBox20.TabIndex = 24;
-            this.textBox20.Text = "-1";
-            this.textBox20.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox20.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // textBox21
-            // 
-            this.textBox21.BackColor = System.Drawing.Color.Black;
-            this.textBox21.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox21.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox21.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox21.ForeColor = System.Drawing.Color.White;
-            this.textBox21.Location = new System.Drawing.Point(111, 21);
-            this.textBox21.Name = "textBox21";
-            this.textBox21.ReadOnly = true;
-            this.textBox21.Size = new System.Drawing.Size(81, 19);
-            this.textBox21.TabIndex = 23;
-            this.textBox21.Text = "Current";
-            this.textBox21.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox21.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_day_2
-            // 
-            this.text_bb_day_2.BackColor = System.Drawing.Color.Black;
-            this.text_bb_day_2.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_day_2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_day_2.ForeColor = System.Drawing.Color.White;
-            this.text_bb_day_2.Location = new System.Drawing.Point(285, 78);
-            this.text_bb_day_2.Name = "text_bb_day_2";
-            this.text_bb_day_2.ReadOnly = true;
-            this.text_bb_day_2.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_day_2.TabIndex = 18;
-            this.text_bb_day_2.Text = "0";
-            this.text_bb_day_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_day_2.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_hour4_2
-            // 
-            this.text_bb_hour4_2.BackColor = System.Drawing.Color.Black;
-            this.text_bb_hour4_2.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_hour4_2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_hour4_2.ForeColor = System.Drawing.Color.White;
-            this.text_bb_hour4_2.Location = new System.Drawing.Point(285, 110);
-            this.text_bb_hour4_2.Name = "text_bb_hour4_2";
-            this.text_bb_hour4_2.ReadOnly = true;
-            this.text_bb_hour4_2.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_hour4_2.TabIndex = 17;
-            this.text_bb_hour4_2.Text = "0";
-            this.text_bb_hour4_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_hour4_2.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_hour1_2
-            // 
-            this.text_bb_hour1_2.BackColor = System.Drawing.Color.Black;
-            this.text_bb_hour1_2.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_hour1_2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_hour1_2.ForeColor = System.Drawing.Color.White;
-            this.text_bb_hour1_2.Location = new System.Drawing.Point(285, 142);
-            this.text_bb_hour1_2.Name = "text_bb_hour1_2";
-            this.text_bb_hour1_2.ReadOnly = true;
-            this.text_bb_hour1_2.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_hour1_2.TabIndex = 16;
-            this.text_bb_hour1_2.Text = "0";
-            this.text_bb_hour1_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_hour1_2.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_min30_2
-            // 
-            this.text_bb_min30_2.BackColor = System.Drawing.Color.Black;
-            this.text_bb_min30_2.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_min30_2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_min30_2.ForeColor = System.Drawing.Color.White;
-            this.text_bb_min30_2.Location = new System.Drawing.Point(285, 174);
-            this.text_bb_min30_2.Name = "text_bb_min30_2";
-            this.text_bb_min30_2.ReadOnly = true;
-            this.text_bb_min30_2.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_min30_2.TabIndex = 15;
-            this.text_bb_min30_2.Text = "0";
-            this.text_bb_min30_2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_min30_2.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_week_1
-            // 
-            this.text_bb_week_1.BackColor = System.Drawing.Color.Black;
-            this.text_bb_week_1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_week_1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_week_1.ForeColor = System.Drawing.Color.White;
-            this.text_bb_week_1.Location = new System.Drawing.Point(198, 46);
-            this.text_bb_week_1.Name = "text_bb_week_1";
-            this.text_bb_week_1.ReadOnly = true;
-            this.text_bb_week_1.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_week_1.TabIndex = 14;
-            this.text_bb_week_1.Text = "0";
-            this.text_bb_week_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_week_1.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_day_1
-            // 
-            this.text_bb_day_1.BackColor = System.Drawing.Color.Black;
-            this.text_bb_day_1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_day_1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_day_1.ForeColor = System.Drawing.Color.White;
-            this.text_bb_day_1.Location = new System.Drawing.Point(198, 78);
-            this.text_bb_day_1.Name = "text_bb_day_1";
-            this.text_bb_day_1.ReadOnly = true;
-            this.text_bb_day_1.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_day_1.TabIndex = 13;
-            this.text_bb_day_1.Text = "0";
-            this.text_bb_day_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_day_1.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_hour4_1
-            // 
-            this.text_bb_hour4_1.BackColor = System.Drawing.Color.Black;
-            this.text_bb_hour4_1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_hour4_1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_hour4_1.ForeColor = System.Drawing.Color.White;
-            this.text_bb_hour4_1.Location = new System.Drawing.Point(198, 110);
-            this.text_bb_hour4_1.Name = "text_bb_hour4_1";
-            this.text_bb_hour4_1.ReadOnly = true;
-            this.text_bb_hour4_1.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_hour4_1.TabIndex = 12;
-            this.text_bb_hour4_1.Text = "0";
-            this.text_bb_hour4_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_hour4_1.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_hour1_1
-            // 
-            this.text_bb_hour1_1.BackColor = System.Drawing.Color.Black;
-            this.text_bb_hour1_1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_hour1_1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_hour1_1.ForeColor = System.Drawing.Color.White;
-            this.text_bb_hour1_1.Location = new System.Drawing.Point(198, 142);
-            this.text_bb_hour1_1.Name = "text_bb_hour1_1";
-            this.text_bb_hour1_1.ReadOnly = true;
-            this.text_bb_hour1_1.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_hour1_1.TabIndex = 11;
-            this.text_bb_hour1_1.Text = "0";
-            this.text_bb_hour1_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_hour1_1.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_min30_1
-            // 
-            this.text_bb_min30_1.BackColor = System.Drawing.Color.Black;
-            this.text_bb_min30_1.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_min30_1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_min30_1.ForeColor = System.Drawing.Color.White;
-            this.text_bb_min30_1.Location = new System.Drawing.Point(198, 174);
-            this.text_bb_min30_1.Name = "text_bb_min30_1";
-            this.text_bb_min30_1.ReadOnly = true;
-            this.text_bb_min30_1.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_min30_1.TabIndex = 10;
-            this.text_bb_min30_1.Text = "0";
-            this.text_bb_min30_1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_min30_1.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_week_0
-            // 
-            this.text_bb_week_0.BackColor = System.Drawing.Color.Black;
-            this.text_bb_week_0.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_week_0.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_week_0.ForeColor = System.Drawing.Color.White;
-            this.text_bb_week_0.Location = new System.Drawing.Point(111, 46);
-            this.text_bb_week_0.Name = "text_bb_week_0";
-            this.text_bb_week_0.ReadOnly = true;
-            this.text_bb_week_0.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_week_0.TabIndex = 9;
-            this.text_bb_week_0.Text = "0";
-            this.text_bb_week_0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_week_0.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_day_0
-            // 
-            this.text_bb_day_0.BackColor = System.Drawing.Color.Black;
-            this.text_bb_day_0.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_day_0.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_day_0.ForeColor = System.Drawing.Color.White;
-            this.text_bb_day_0.Location = new System.Drawing.Point(111, 78);
-            this.text_bb_day_0.Name = "text_bb_day_0";
-            this.text_bb_day_0.ReadOnly = true;
-            this.text_bb_day_0.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_day_0.TabIndex = 8;
-            this.text_bb_day_0.Text = "0";
-            this.text_bb_day_0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_day_0.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_hour4_0
-            // 
-            this.text_bb_hour4_0.BackColor = System.Drawing.Color.Black;
-            this.text_bb_hour4_0.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_hour4_0.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_hour4_0.ForeColor = System.Drawing.Color.White;
-            this.text_bb_hour4_0.Location = new System.Drawing.Point(111, 110);
-            this.text_bb_hour4_0.Name = "text_bb_hour4_0";
-            this.text_bb_hour4_0.ReadOnly = true;
-            this.text_bb_hour4_0.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_hour4_0.TabIndex = 7;
-            this.text_bb_hour4_0.Text = "0";
-            this.text_bb_hour4_0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_hour4_0.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_hour1_0
-            // 
-            this.text_bb_hour1_0.BackColor = System.Drawing.Color.Black;
-            this.text_bb_hour1_0.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_hour1_0.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_hour1_0.ForeColor = System.Drawing.Color.White;
-            this.text_bb_hour1_0.Location = new System.Drawing.Point(111, 142);
-            this.text_bb_hour1_0.Name = "text_bb_hour1_0";
-            this.text_bb_hour1_0.ReadOnly = true;
-            this.text_bb_hour1_0.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_hour1_0.TabIndex = 6;
-            this.text_bb_hour1_0.Text = "0";
-            this.text_bb_hour1_0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_hour1_0.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_bb_min30_0
-            // 
-            this.text_bb_min30_0.BackColor = System.Drawing.Color.Black;
-            this.text_bb_min30_0.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bb_min30_0.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bb_min30_0.ForeColor = System.Drawing.Color.White;
-            this.text_bb_min30_0.Location = new System.Drawing.Point(111, 174);
-            this.text_bb_min30_0.Name = "text_bb_min30_0";
-            this.text_bb_min30_0.ReadOnly = true;
-            this.text_bb_min30_0.Size = new System.Drawing.Size(81, 26);
-            this.text_bb_min30_0.TabIndex = 5;
-            this.text_bb_min30_0.Text = "0";
-            this.text_bb_min30_0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_bb_min30_0.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // textBox36
-            // 
-            this.textBox36.BackColor = System.Drawing.Color.Black;
-            this.textBox36.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox36.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox36.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox36.ForeColor = System.Drawing.Color.White;
-            this.textBox36.Location = new System.Drawing.Point(6, 49);
-            this.textBox36.Name = "textBox36";
-            this.textBox36.ReadOnly = true;
-            this.textBox36.Size = new System.Drawing.Size(99, 19);
-            this.textBox36.TabIndex = 4;
-            this.textBox36.Text = "Week";
-            this.textBox36.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox36.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // textBox37
-            // 
-            this.textBox37.BackColor = System.Drawing.Color.Black;
-            this.textBox37.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox37.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox37.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox37.ForeColor = System.Drawing.Color.White;
-            this.textBox37.Location = new System.Drawing.Point(6, 78);
-            this.textBox37.Name = "textBox37";
-            this.textBox37.ReadOnly = true;
-            this.textBox37.Size = new System.Drawing.Size(99, 19);
-            this.textBox37.TabIndex = 3;
-            this.textBox37.Text = "Day";
-            this.textBox37.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox37.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // textBox38
-            // 
-            this.textBox38.BackColor = System.Drawing.Color.Black;
-            this.textBox38.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox38.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox38.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox38.ForeColor = System.Drawing.Color.White;
-            this.textBox38.Location = new System.Drawing.Point(6, 110);
-            this.textBox38.Name = "textBox38";
-            this.textBox38.ReadOnly = true;
-            this.textBox38.Size = new System.Drawing.Size(99, 19);
-            this.textBox38.TabIndex = 2;
-            this.textBox38.Text = "4 Hour";
-            this.textBox38.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox38.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // textBox39
-            // 
-            this.textBox39.BackColor = System.Drawing.Color.Black;
-            this.textBox39.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox39.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox39.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox39.ForeColor = System.Drawing.Color.White;
-            this.textBox39.Location = new System.Drawing.Point(6, 142);
-            this.textBox39.Name = "textBox39";
-            this.textBox39.ReadOnly = true;
-            this.textBox39.Size = new System.Drawing.Size(99, 19);
-            this.textBox39.TabIndex = 1;
-            this.textBox39.Text = "1 Hour";
-            this.textBox39.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox39.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // textBox40
-            // 
-            this.textBox40.BackColor = System.Drawing.Color.Black;
-            this.textBox40.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox40.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox40.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox40.ForeColor = System.Drawing.Color.White;
-            this.textBox40.Location = new System.Drawing.Point(6, 174);
-            this.textBox40.Name = "textBox40";
-            this.textBox40.ReadOnly = true;
-            this.textBox40.Size = new System.Drawing.Size(99, 19);
-            this.textBox40.TabIndex = 0;
-            this.textBox40.Text = "30 Minute";
-            this.textBox40.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox40.Enter += new System.EventHandler(this.text_focus_disable);
+            // chart
+            // 
+            this.chart.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.chart.BackColor = System.Drawing.Color.Black;
+            chartArea1.AxisX.IsLabelAutoFit = false;
+            chartArea1.AxisX.LineColor = System.Drawing.Color.LightGray;
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            chartArea1.AxisX.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisX2.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            chartArea1.AxisX2.MajorGrid.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea1.AxisY.LineColor = System.Drawing.Color.LightGray;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea1.AxisY2.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea1.BackColor = System.Drawing.Color.Black;
+            chartArea1.Name = "ChartArea";
+            this.chart.ChartAreas.Add(chartArea1);
+            this.chart.Location = new System.Drawing.Point(-12, 9);
+            this.chart.Name = "chart";
+            series1.BorderWidth = 3;
+            series1.ChartArea = "ChartArea";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Color = System.Drawing.Color.Red;
+            series1.Name = "weight";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series2.BorderWidth = 3;
+            series2.ChartArea = "ChartArea";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Color = System.Drawing.Color.RoyalBlue;
+            series2.Name = "avg";
+            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.chart.Series.Add(series1);
+            this.chart.Series.Add(series2);
+            this.chart.Size = new System.Drawing.Size(400, 425);
+            this.chart.TabIndex = 21;
+            this.chart.Text = "chart1";
+            // 
+            // btn_min30
+            // 
+            this.btn_min30.BackColor = System.Drawing.Color.DarkGray;
+            this.btn_min30.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_min30.ForeColor = System.Drawing.Color.Black;
+            this.btn_min30.Location = new System.Drawing.Point(10, 400);
+            this.btn_min30.Name = "btn_min30";
+            this.btn_min30.Size = new System.Drawing.Size(70, 30);
+            this.btn_min30.TabIndex = 22;
+            this.btn_min30.Text = "30 Min";
+            this.btn_min30.UseVisualStyleBackColor = false;
+            this.btn_min30.Click += new System.EventHandler(this.btn_min30_Click);
+            // 
+            // btn_hour1
+            // 
+            this.btn_hour1.BackColor = System.Drawing.Color.DarkGray;
+            this.btn_hour1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_hour1.ForeColor = System.Drawing.Color.Black;
+            this.btn_hour1.Location = new System.Drawing.Point(86, 400);
+            this.btn_hour1.Name = "btn_hour1";
+            this.btn_hour1.Size = new System.Drawing.Size(70, 30);
+            this.btn_hour1.TabIndex = 23;
+            this.btn_hour1.Text = "1 Hour";
+            this.btn_hour1.UseVisualStyleBackColor = false;
+            this.btn_hour1.Click += new System.EventHandler(this.btn_hour1_Click);
+            // 
+            // btn_hour4
+            // 
+            this.btn_hour4.BackColor = System.Drawing.Color.DarkGray;
+            this.btn_hour4.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_hour4.ForeColor = System.Drawing.Color.Black;
+            this.btn_hour4.Location = new System.Drawing.Point(162, 400);
+            this.btn_hour4.Name = "btn_hour4";
+            this.btn_hour4.Size = new System.Drawing.Size(70, 30);
+            this.btn_hour4.TabIndex = 24;
+            this.btn_hour4.Text = "4 Hour";
+            this.btn_hour4.UseVisualStyleBackColor = false;
+            this.btn_hour4.Click += new System.EventHandler(this.btn_hour4_Click);
+            // 
+            // btn_day
+            // 
+            this.btn_day.BackColor = System.Drawing.Color.DarkGray;
+            this.btn_day.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_day.ForeColor = System.Drawing.Color.Black;
+            this.btn_day.Location = new System.Drawing.Point(238, 400);
+            this.btn_day.Name = "btn_day";
+            this.btn_day.Size = new System.Drawing.Size(70, 30);
+            this.btn_day.TabIndex = 25;
+            this.btn_day.Text = "Day";
+            this.btn_day.UseVisualStyleBackColor = false;
+            this.btn_day.Click += new System.EventHandler(this.btn_day_Click);
+            // 
+            // btn_week
+            // 
+            this.btn_week.BackColor = System.Drawing.Color.DarkGray;
+            this.btn_week.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_week.ForeColor = System.Drawing.Color.Black;
+            this.btn_week.Location = new System.Drawing.Point(314, 400);
+            this.btn_week.Name = "btn_week";
+            this.btn_week.Size = new System.Drawing.Size(70, 30);
+            this.btn_week.TabIndex = 26;
+            this.btn_week.Text = "Week";
+            this.btn_week.UseVisualStyleBackColor = false;
+            this.btn_week.Click += new System.EventHandler(this.btn_week_Click);
             // 
             // Macro
             // 
@@ -1406,11 +698,15 @@ namespace UpbitDealer.form
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(774, 442);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.btn_week);
+            this.Controls.Add(this.btn_day);
+            this.Controls.Add(this.btn_hour4);
+            this.Controls.Add(this.btn_hour1);
+            this.Controls.Add(this.btn_min30);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.chart);
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1423,10 +719,7 @@ namespace UpbitDealer.form
             this.Load += new System.EventHandler(this.Macro_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1462,59 +755,17 @@ namespace UpbitDealer.form
         private System.Windows.Forms.TextBox text_hour4_to;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox text_day_to;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox text_ba_week_2;
-        private System.Windows.Forms.TextBox text_ba_day_2;
-        private System.Windows.Forms.TextBox text_ba_hour4_2;
-        private System.Windows.Forms.TextBox text_ba_hour1_2;
-        private System.Windows.Forms.TextBox text_ba_min30_2;
-        private System.Windows.Forms.TextBox text_ba_week_1;
-        private System.Windows.Forms.TextBox text_ba_day_1;
-        private System.Windows.Forms.TextBox text_ba_hour4_1;
-        private System.Windows.Forms.TextBox text_ba_hour1_1;
-        private System.Windows.Forms.TextBox text_ba_min30_1;
-        private System.Windows.Forms.TextBox text_ba_week_0;
-        private System.Windows.Forms.TextBox text_ba_day_0;
-        private System.Windows.Forms.TextBox text_ba_hour4_0;
-        private System.Windows.Forms.TextBox text_ba_hour1_0;
-        private System.Windows.Forms.TextBox text_ba_min30_0;
-        private System.Windows.Forms.TextBox textBox14;
-        private System.Windows.Forms.TextBox textBox12;
-        private System.Windows.Forms.TextBox textBox10;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox17;
-        private System.Windows.Forms.TextBox textBox16;
-        private System.Windows.Forms.TextBox textBox15;
         private System.Windows.Forms.CheckBox check_min30;
         private System.Windows.Forms.CheckBox check_hour1;
         private System.Windows.Forms.CheckBox check_hour4;
         private System.Windows.Forms.CheckBox check_day;
         private System.Windows.Forms.CheckBox check_week;
         private System.Windows.Forms.TextBox textBox41;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.TextBox textBox18;
-        private System.Windows.Forms.TextBox text_bb_week_2;
-        private System.Windows.Forms.TextBox textBox20;
-        private System.Windows.Forms.TextBox textBox21;
-        private System.Windows.Forms.TextBox text_bb_day_2;
-        private System.Windows.Forms.TextBox text_bb_hour4_2;
-        private System.Windows.Forms.TextBox text_bb_hour1_2;
-        private System.Windows.Forms.TextBox text_bb_min30_2;
-        private System.Windows.Forms.TextBox text_bb_week_1;
-        private System.Windows.Forms.TextBox text_bb_day_1;
-        private System.Windows.Forms.TextBox text_bb_hour4_1;
-        private System.Windows.Forms.TextBox text_bb_hour1_1;
-        private System.Windows.Forms.TextBox text_bb_min30_1;
-        private System.Windows.Forms.TextBox text_bb_week_0;
-        private System.Windows.Forms.TextBox text_bb_day_0;
-        private System.Windows.Forms.TextBox text_bb_hour4_0;
-        private System.Windows.Forms.TextBox text_bb_hour1_0;
-        private System.Windows.Forms.TextBox text_bb_min30_0;
-        private System.Windows.Forms.TextBox textBox36;
-        private System.Windows.Forms.TextBox textBox37;
-        private System.Windows.Forms.TextBox textBox38;
-        private System.Windows.Forms.TextBox textBox39;
-        private System.Windows.Forms.TextBox textBox40;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart;
+        private System.Windows.Forms.Button btn_min30;
+        private System.Windows.Forms.Button btn_hour1;
+        private System.Windows.Forms.Button btn_hour4;
+        private System.Windows.Forms.Button btn_day;
+        private System.Windows.Forms.Button btn_week;
     }
 }

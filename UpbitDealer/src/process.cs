@@ -275,18 +275,18 @@ namespace UpbitDealer.src
             apiData = new ApiData(access_key, secret_key);
 
             pendingData.Columns.Add("uuid", typeof(string));
-            pendingData.Columns.Add("date", typeof(DateTime));
             pendingData.Columns.Add("coinName", typeof(string));
+            pendingData.Columns.Add("date", typeof(DateTime));
             pendingData.Columns.Add("isBid", typeof(bool));
             pendingData.Columns.Add("unit", typeof(double));
-            pendingData.Columns.Add("price", typeof(int));
+            pendingData.Columns.Add("price", typeof(double));
             pendingData.Columns.Add("fee", typeof(double));
 
-            historyData.Columns.Add("date", typeof(DateTime));
             historyData.Columns.Add("coinName", typeof(string));
+            historyData.Columns.Add("date", typeof(DateTime));
             historyData.Columns.Add("isBid", typeof(bool));
             historyData.Columns.Add("unit", typeof(double));
-            historyData.Columns.Add("price", typeof(int));
+            historyData.Columns.Add("price", typeof(double));
             historyData.Columns.Add("fee", typeof(double));
         }
         public int loadFile()
@@ -303,8 +303,8 @@ namespace UpbitDealer.src
                             string[] tempLine = reader[i].Split('\t');
                             TradeData tempData = new TradeData();
                             tempData.uuid = tempLine[0];
-                            tempData.date = DateTime.ParseExact(tempLine[1], "u", provider);
-                            tempData.coinName = tempLine[2];
+                            tempData.coinName = tempLine[1];
+                            tempData.date = DateTime.ParseExact(tempLine[2], "u", provider);
                             tempData.isBid = bool.Parse(tempLine[3]);
                             tempData.unit = double.Parse(tempLine[4]);
                             tempData.price = double.Parse(tempLine[5]);
@@ -336,8 +336,8 @@ namespace UpbitDealer.src
                     {
                         string temp
                             = pendingData.Rows[i][0].ToString() + '\t'
-                            + ((DateTime)pendingData.Rows[i][1]).ToString("u") + '\t'
-                            + pendingData.Rows[i][2].ToString() + '\t'
+                            + pendingData.Rows[i][1].ToString() + '\t'
+                            + ((DateTime)pendingData.Rows[i][2]).ToString("u") + '\t'
                             + pendingData.Rows[i][3].ToString() + '\t'
                             + pendingData.Rows[i][4].ToString() + '\t'
                             + pendingData.Rows[i][5].ToString() + '\t'
@@ -361,8 +361,8 @@ namespace UpbitDealer.src
         {
             DataRow row = pendingData.NewRow();
             row["uuid"] = tradeData.uuid;
-            row["date"] = tradeData.date;
             row["coinName"] = tradeData.coinName;
+            row["date"] = tradeData.date;
             row["isBid"] = tradeData.isBid;
             row["unit"] = tradeData.unit;
             row["price"] = tradeData.price;
@@ -391,7 +391,6 @@ namespace UpbitDealer.src
             if (retData == null) return -1;
             if (retData["state"].ToString() != "done" && retData["state"].ToString() != "cancel") return 0;
 
-            string[] coinName = retData["market"].ToString().Split('-');
             double volume = 0d;
             double price = 0d;
             double fee = (double)retData["paid_fee"];
@@ -408,13 +407,13 @@ namespace UpbitDealer.src
                 executionStr.Add(new output(1, "Trade Execution",
                     pendingData.Rows[index]["coinName"]
                     + " buy " + volume.ToString("0.########") + " " + pendingData.Rows[index]["coinName"]
-                    + " for " + (volume * price).ToString("0.##") + " KRW"));
+                    + " for " + (volume * price).ToString("0.##") + " KRW (fee : " + fee + ")"));
 
             else
                 executionStr.Add(new output(1, "Trade Execution",
                     pendingData.Rows[index]["coinName"]
-                    + " sell (" + volume.ToString("0.####") + " " + pendingData.Rows[index]["coinName"]
-                    + " for " + (volume * price).ToString("0.##") + " KRW"));
+                    + " sell " + volume.ToString("0.####") + " " + pendingData.Rows[index]["coinName"]
+                    + " for " + (volume * price).ToString("0.##") + " KRW (fee : " + fee + ")"));
 
             pendingData.Rows.RemoveAt(index);
             return 1;
@@ -433,8 +432,8 @@ namespace UpbitDealer.src
                 {
                     double buf = 0;
                     DataRow dataRow = historyData.NewRow();
-                    dataRow["date"] = Convert.ToDateTime(jArray[i]["created_at"]);
                     dataRow["coinName"] = coinName;
+                    dataRow["date"] = Convert.ToDateTime(jArray[i]["created_at"]);
                     dataRow["isBid"] = jArray[i]["side"].ToString() == "bid" ? true : false;
                     dataRow["unit"] = double.TryParse(jArray[i]["volume"].ToString(), out buf) ? buf : 0;
                     dataRow["price"] = double.TryParse(jArray[i]["price"].ToString(), out buf) ? buf : 0;

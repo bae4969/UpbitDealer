@@ -2,18 +2,28 @@
 using System;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Data;
+using System.Windows.Forms.DataVisualization.Charting;
+using System.Drawing;
 
 namespace UpbitDealer.form
 {
     public partial class Macro : Form
     {
-        public Macro()
+        private Main ownerForm;
+        MacroSettingData setting;
+        DataView[] weightBollinger = new DataView[5];
+        DataView[] avgBollinger = new DataView[5];
+
+        public Macro(Main ownerForm)
         {
             InitializeComponent();
+            this.ownerForm = ownerForm;
         }
         private void Macro_Load(object sender, EventArgs e)
         {
             setDefaultSetting();
+            btn_min30.PerformClick();
         }
         private void text_focus_disable(object sender, EventArgs e)
         {
@@ -23,56 +33,15 @@ namespace UpbitDealer.form
 
         private void setDefaultSetting()
         {
-            MacroSettingData setting;
-            List<BollingerAverage> ba0;
-            List<BollingerAverage> ba1;
-            List<BollingerAverage> ba2;
-            List<BollingerAverage> bb0;
-            List<BollingerAverage> bb1;
-            List<BollingerAverage> bb2;
-
-            lock (((Main)Owner).lock_macro)
+            lock (ownerForm.lock_macro)
             {
-                setting = ((Main)Owner).macro.setting;
-                ba0 = ((Main)Owner).macro.ba0;
-                ba1 = ((Main)Owner).macro.ba1;
-                ba2 = ((Main)Owner).macro.ba2;
-                bb0 = ((Main)Owner).macro.bb0;
-                bb1 = ((Main)Owner).macro.bb1;
-                bb2 = ((Main)Owner).macro.bb2;
+                setting = ownerForm.macro.setting;
+                for (int i = 0; i < 5; i++)
+                {
+                    weightBollinger[i] = new DataView(ownerForm.macro.weightBollinger[i]);
+                    avgBollinger[i] = new DataView(ownerForm.macro.avgBollinger[i]);
+                }
             }
-
-            text_ba_min30_0.Text = ba0[0].avg.ToString("0.##");
-            text_ba_min30_1.Text = ba1[0].avg.ToString("0.##");
-            text_ba_min30_2.Text = ba2[0].avg.ToString("0.##");
-            text_ba_hour1_0.Text = ba0[1].avg.ToString("0.##");
-            text_ba_hour1_1.Text = ba1[1].avg.ToString("0.##");
-            text_ba_hour1_2.Text = ba2[1].avg.ToString("0.##");
-            text_ba_hour4_0.Text = ba0[2].avg.ToString("0.##");
-            text_ba_hour4_1.Text = ba1[2].avg.ToString("0.##");
-            text_ba_hour4_2.Text = ba2[2].avg.ToString("0.##");
-            text_ba_day_0.Text = ba0[3].avg.ToString("0.##");
-            text_ba_day_1.Text = ba1[3].avg.ToString("0.##");
-            text_ba_day_2.Text = ba2[3].avg.ToString("0.##");
-            text_ba_week_0.Text = ba0[4].avg.ToString("0.##");
-            text_ba_week_1.Text = ba1[4].avg.ToString("0.##");
-            text_ba_week_2.Text = ba2[4].avg.ToString("0.##");
-
-            text_bb_min30_0.Text = bb0[0].avg.ToString("0.##");
-            text_bb_min30_1.Text = bb1[0].avg.ToString("0.##");
-            text_bb_min30_2.Text = bb2[0].avg.ToString("0.##");
-            text_bb_hour1_0.Text = bb0[1].avg.ToString("0.##");
-            text_bb_hour1_1.Text = bb1[1].avg.ToString("0.##");
-            text_bb_hour1_2.Text = bb2[1].avg.ToString("0.##");
-            text_bb_hour4_0.Text = bb0[2].avg.ToString("0.##");
-            text_bb_hour4_1.Text = bb1[2].avg.ToString("0.##");
-            text_bb_hour4_2.Text = bb2[2].avg.ToString("0.##");
-            text_bb_day_0.Text = bb0[3].avg.ToString("0.##");
-            text_bb_day_1.Text = bb1[3].avg.ToString("0.##");
-            text_bb_day_2.Text = bb2[3].avg.ToString("0.##");
-            text_bb_week_0.Text = bb0[4].avg.ToString("0.##");
-            text_bb_week_1.Text = bb1[4].avg.ToString("0.##");
-            text_bb_week_2.Text = bb2[4].avg.ToString("0.##");
 
             text_yield.Text = setting.yield.ToString();
             text_krw.Text = setting.krw.ToString();
@@ -87,6 +56,20 @@ namespace UpbitDealer.form
             if (setting.hour1_to > -90000d) text_hour1_to.Text = setting.hour1_to.ToString();
             if (setting.min30_from > -90000d) text_min30_from.Text = setting.min30_from.ToString();
             if (setting.min30_to > -90000d) text_min30_to.Text = setting.min30_to.ToString();
+
+            check_week.Checked = setting.week_bias;
+            check_day.Checked = setting.day_bias;
+            check_hour4.Checked = setting.hour4_bias;
+            check_hour1.Checked = setting.hour1_bias;
+            check_min30.Checked = setting.min30_bias;
+        }
+        private void setDefaultButton()
+        {
+            btn_min30.BackColor = Color.DarkGray;
+            btn_hour1.BackColor = Color.DarkGray;
+            btn_hour4.BackColor = Color.DarkGray;
+            btn_day.BackColor = Color.DarkGray;
+            btn_week.BackColor = Color.DarkGray;
         }
 
 
@@ -262,8 +245,8 @@ namespace UpbitDealer.form
                 setting.hour1_bias = check_hour1.Checked;
                 setting.min30_bias = check_min30.Checked;
 
-                lock (((Main)Owner).lock_macro)
-                    ((Main)Owner).macro.saveMacroSetting(setting);
+                lock (ownerForm.lock_macro)
+                    ownerForm.macro.saveMacroSetting(setting);
 
                 setDefaultSetting();
                 MessageBox.Show("Save success.");
@@ -274,6 +257,78 @@ namespace UpbitDealer.form
         private void btn_cancel_Click(object sender, EventArgs e)
         {
             setDefaultSetting();
+        }
+
+
+        private void btn_min30_Click(object sender, EventArgs e)
+        {
+            setDefaultButton();
+            btn_min30.BackColor = Color.Red;
+            chart.Series["weight"].Points.DataBind(weightBollinger[0], "date", "value", "");
+            chart.Series["avg"].Points.DataBind(avgBollinger[0], "date", "value", "");
+            chart.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Hours;
+            chart.ChartAreas["ChartArea"].AxisX.Interval = 3;
+            chart.ChartAreas["ChartArea"].AxisX.Maximum = DateTime.Now.AddHours(1).ToOADate();
+            chart.ChartAreas["ChartArea"].AxisX.Minimum = DateTime.Now.AddHours(-30).ToOADate();
+            chart.ChartAreas["ChartArea"].AxisY.Interval = 50;
+            chart.ChartAreas["ChartArea"].AxisY.Maximum = 200;
+            chart.ChartAreas["ChartArea"].AxisY.Minimum = -200;
+        }
+        private void btn_hour1_Click(object sender, EventArgs e)
+        {
+            setDefaultButton();
+            btn_hour1.BackColor = Color.Red;
+            chart.Series["weight"].Points.DataBind(weightBollinger[1], "date", "value", "");
+            chart.Series["avg"].Points.DataBind(avgBollinger[1], "date", "value", "");
+            chart.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Hours;
+            chart.ChartAreas["ChartArea"].AxisX.Interval = 6;
+            chart.ChartAreas["ChartArea"].AxisX.Maximum = DateTime.Now.AddHours(2).ToOADate();
+            chart.ChartAreas["ChartArea"].AxisX.Minimum = DateTime.Now.AddHours(-60).ToOADate();
+            chart.ChartAreas["ChartArea"].AxisY.Interval = 50;
+            chart.ChartAreas["ChartArea"].AxisY.Maximum = 200;
+            chart.ChartAreas["ChartArea"].AxisY.Minimum = -200;
+        }
+        private void btn_hour4_Click(object sender, EventArgs e)
+        {
+            setDefaultButton();
+            btn_hour4.BackColor = Color.Red;
+            chart.Series["weight"].Points.DataBind(weightBollinger[2], "date", "value", "");
+            chart.Series["avg"].Points.DataBind(avgBollinger[2], "date", "value", "");
+            chart.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Days;
+            chart.ChartAreas["ChartArea"].AxisX.Interval = 1;
+            chart.ChartAreas["ChartArea"].AxisX.Maximum = DateTime.Now.AddHours(8).ToOADate();
+            chart.ChartAreas["ChartArea"].AxisX.Minimum = DateTime.Now.AddHours(-240).ToOADate();
+            chart.ChartAreas["ChartArea"].AxisY.Interval = 50;
+            chart.ChartAreas["ChartArea"].AxisY.Maximum = 200;
+            chart.ChartAreas["ChartArea"].AxisY.Minimum = -200;
+        }
+        private void btn_day_Click(object sender, EventArgs e)
+        {
+            setDefaultButton();
+            btn_day.BackColor = Color.Red;
+            chart.Series["weight"].Points.DataBind(weightBollinger[3], "date", "value", "");
+            chart.Series["avg"].Points.DataBind(avgBollinger[3], "date", "value", "");
+            chart.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Days;
+            chart.ChartAreas["ChartArea"].AxisX.Interval = 6;
+            chart.ChartAreas["ChartArea"].AxisX.Maximum = DateTime.Now.AddDays(2).ToOADate();
+            chart.ChartAreas["ChartArea"].AxisX.Minimum = DateTime.Now.AddDays(-60).ToOADate();
+            chart.ChartAreas["ChartArea"].AxisY.Interval = 50;
+            chart.ChartAreas["ChartArea"].AxisY.Maximum = 200;
+            chart.ChartAreas["ChartArea"].AxisY.Minimum = -200;
+        }
+        private void btn_week_Click(object sender, EventArgs e)
+        {
+            setDefaultButton();
+            btn_week.BackColor = Color.Red;
+            chart.Series["weight"].Points.DataBind(weightBollinger[4], "date", "value", "");
+            chart.Series["avg"].Points.DataBind(avgBollinger[4], "date", "value", "");
+            chart.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Weeks;
+            chart.ChartAreas["ChartArea"].AxisX.Interval = 6;
+            chart.ChartAreas["ChartArea"].AxisX.Maximum = DateTime.Now.AddDays(14).ToOADate();
+            chart.ChartAreas["ChartArea"].AxisX.Minimum = DateTime.Now.AddDays(-420).ToOADate();
+            chart.ChartAreas["ChartArea"].AxisY.Interval = 50;
+            chart.ChartAreas["ChartArea"].AxisY.Maximum = 200;
+            chart.ChartAreas["ChartArea"].AxisY.Minimum = -200;
         }
     }
 }

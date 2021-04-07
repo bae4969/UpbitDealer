@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace UpbitDealer.form
 {
@@ -13,6 +14,7 @@ namespace UpbitDealer.form
         private string sAPI_Secret;
 
         private List<string> coinList = new List<string>();
+        private List<Form> openFormList = new List<Form>();
 
         private bool isInit = false;
         private bool AllStop = false;
@@ -133,6 +135,9 @@ namespace UpbitDealer.form
             savingMsg closing = new savingMsg();
             closing.Show(this);
 
+            for (int i = 0; i < openFormList.Count; i++)
+                openFormList[i].Close();
+
             AllStop = true;
             thread_updater.Join();
             thread_tradeHistory.Join();
@@ -206,7 +211,7 @@ namespace UpbitDealer.form
         {
             while (!AllStop)
             {
-                for (int i = 0; i < tradeHistory.pendingData.Rows.Count; i++)
+                for (int i = 0; !AllStop && i < tradeHistory.pendingData.Rows.Count; i++)
                 {
                     lock (lock_tradeHistory)
                     {
@@ -232,48 +237,44 @@ namespace UpbitDealer.form
         private void executeMacro()
         {
             logIn(new output(0, "Macro Exection", "Load candle data"));
-            for (int i = 0; i < 70 && i < coinList.Count; i++)
+            for (int i = 0; !AllStop && i < 70 && i < coinList.Count; i++)
             {
-                for (int j = 0; j < 10; j++)
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                lock (lock_macro)
+                    if (macro.initCandleData(i) < 0) i--;
+                stopwatch.Stop();
+
+                long sleepTime = 1000 - stopwatch.ElapsedMilliseconds;
+                while(sleepTime > 0)
                 {
                     if (AllStop) break;
                     Thread.Sleep(100);
-                }
-                if (AllStop) break;
-
-                lock (lock_macro)
-                {
-                    if (macro.setCandleData(i) < 0) continue;
-                    macro.addBABB(i);
+                    sleepTime -= 100;
                 }
             }
+            macro.initBollingerWeightAvg();
             logIn(new output(0, "Macro Exection", "Finish to load, Start macro"));
+
             while (!AllStop)
             {
-                macro.setBABB();
-                for (int i = 0; i < coinList.Count && i < 70; i++)
+                for (int i = 0; !AllStop && i < coinList.Count && i < 70; i++)
                 {
-                    for (int j = 0; j < 10; j++)
-                    {
-                        if (AllStop) break;
-                        Thread.Sleep(100);
-                    }
-                    if (AllStop) break;
-
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
                     lock (lock_macro)
                     {
                         int ret = 0;
-                        if ((ret = macro.setCandleData(i)) < 0)
+                        if ((ret = macro.updateCandleData(i)) < 0)
                         {
                             logIn(new output(0, "Macro Exection", "Fail to update candle (" + ret + ")"));
                             continue;
                         }
-                        if ((ret = macro.setLastKrw()) < 0)
+                        if ((ret = macro.updateLastKrw()) < 0)
                         {
                             logIn(new output(0, "Macro Exection", "Fail to update hold krw (" + ret + ")"));
                             continue;
                         }
-                        macro.addBABB(i);
 
                         bool needSave = false;
                         if (macro.executeMacroBuy(i) > 0) needSave = true;
@@ -288,8 +289,17 @@ namespace UpbitDealer.form
                         macro.executionStr.Clear();
                         if (needSave) macro.saveFile();
                     }
+                    stopwatch.Stop();
+
+                    long sleepTime = 1000 - stopwatch.ElapsedMilliseconds;
+                    while (sleepTime > 0)
+                    {
+                        if (AllStop) break;
+                        Thread.Sleep(100);
+                        sleepTime -= 100;
+                    }
                 }
-                Thread.Sleep(100);
+                macro.updateBollingerWeightAvg();
             }
         }
 
@@ -370,7 +380,8 @@ namespace UpbitDealer.form
                     }
 
                 graph chartForm = new graph(name, sAPI_Key, sAPI_Secret);
-                chartForm.Show(this);
+                chartForm.Show();
+                openFormList.Add(chartForm);
                 return;
             }
 
@@ -387,8 +398,9 @@ namespace UpbitDealer.form
 
             Trader traderForm;
             lock (lock_mainUpdater)
-                traderForm = new Trader(sAPI_Key, sAPI_Secret, coinList);
-            traderForm.Show(this);
+                traderForm = new Trader(this, sAPI_Key, sAPI_Secret, coinList);
+            traderForm.Show();
+            openFormList.Add(traderForm);
         }
         private void btn_history_Click(object sender, EventArgs e)
         {
@@ -401,8 +413,9 @@ namespace UpbitDealer.form
 
             History historyForm;
             lock (lock_mainUpdater)
-                historyForm = new History();
-            historyForm.Show(this);
+                historyForm = new History(this);
+            historyForm.Show();
+            openFormList.Add(historyForm);
         }
         private void btn_macro_Click(object sender, EventArgs e)
         {
@@ -413,8 +426,9 @@ namespace UpbitDealer.form
                     return;
                 }
 
-            Macro macroForm = new Macro();
-            macroForm.Show(this);
+            Macro macroForm = new Macro(this);
+            macroForm.Show();
+            openFormList.Add(macroForm);
         }
         private void btn_save_Click(object sender, EventArgs e)
         {

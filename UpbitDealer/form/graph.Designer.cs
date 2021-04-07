@@ -138,6 +138,7 @@ namespace UpbitDealer.form
             series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series1.YValuesPerPoint = 4;
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series2.BorderWidth = 3;
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series2.Color = System.Drawing.Color.Green;
@@ -147,6 +148,7 @@ namespace UpbitDealer.form
             series2.Name = "top";
             series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series3.BorderWidth = 3;
             series3.ChartArea = "ChartArea1";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series3.Color = System.Drawing.Color.Orange;
@@ -155,6 +157,7 @@ namespace UpbitDealer.form
             series3.Name = "mid";
             series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series4.BorderWidth = 3;
             series4.ChartArea = "ChartArea1";
             series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series4.Color = System.Drawing.Color.Green;
@@ -164,18 +167,21 @@ namespace UpbitDealer.form
             series4.Name = "bot";
             series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series4.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series5.BorderWidth = 3;
             series5.ChartArea = "ChartArea2";
             series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series5.Color = System.Drawing.Color.Yellow;
             series5.Name = "MFI";
             series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series5.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series6.BorderWidth = 3;
             series6.ChartArea = "ChartArea2";
             series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series6.Color = System.Drawing.Color.RoyalBlue;
             series6.Name = "Stochastic_k";
             series6.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series6.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series7.BorderWidth = 3;
             series7.ChartArea = "ChartArea2";
             series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series7.Color = System.Drawing.Color.Red;

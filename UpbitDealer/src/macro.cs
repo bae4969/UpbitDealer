@@ -28,26 +28,6 @@ namespace UpbitDealer.src
         public bool hour1_bias;
         public bool min30_bias;
     }
-    public class BollingerAverage
-    {
-        public double total = 0;
-        public double count = 0;
-        public double avg = 0;
-
-
-        public void addTotal(double val, double weight)
-        {
-            total += (val * weight);
-            count += weight;
-        }
-        public double setAverage()
-        {
-            avg = count < 1 ? 0 : total / count;
-            total = 0;
-            count = 0;
-            return avg;
-        }
-    }
 
 
 
@@ -66,103 +46,32 @@ namespace UpbitDealer.src
 
         private double holdKRW = 0;
         private DataTable lastCandleUpdate = new DataTable();
-        private DataSet min30_candle = new DataSet();
-        private DataSet hour1_candle = new DataSet();
-        private DataSet hour4_candle = new DataSet();
-        private DataSet day_candle = new DataSet();
-        private DataSet week_candle = new DataSet();
-
-        public List<BollingerAverage> ba0 = new List<BollingerAverage>();
-        public List<BollingerAverage> ba1 = new List<BollingerAverage>();
-        public List<BollingerAverage> ba2 = new List<BollingerAverage>();
-
-        public List<BollingerAverage> bb0 = new List<BollingerAverage>();
-        public List<BollingerAverage> bb1 = new List<BollingerAverage>();
-        public List<BollingerAverage> bb2 = new List<BollingerAverage>();
-
+        private DataSet[] candle = new DataSet[5];
+        private DataSet[] bollinger = new DataSet[5];
+        public DataTable[] weightBollinger = new DataTable[5];
+        public DataTable[] avgBollinger = new DataTable[5];
+        private bool[] needWeightAvgAdd = new bool[5] { false, false, false, false, false };
 
 
         public MacroSetting(string access_key, string secret_key, List<string> coinList)
         {
             apiData = new ApiData(access_key, secret_key);
 
-            lastCandleUpdate.Columns.Add("week", typeof(DateTime));
-            lastCandleUpdate.Columns.Add("day", typeof(DateTime));
-            lastCandleUpdate.Columns.Add("hour4", typeof(DateTime));
-            lastCandleUpdate.Columns.Add("hour1", typeof(DateTime));
-            lastCandleUpdate.Columns.Add("min30", typeof(DateTime));
+            initDefaultSetting();
 
             order.Columns.Add("coinName", typeof(string));
             order.Columns.Add("uuid", typeof(string));
             order.Columns.Add("target_uuid", typeof(string));
 
-            for (int i = 0; i < 5; i++)
-            {
-                ba0.Add(new BollingerAverage());
-                ba1.Add(new BollingerAverage());
-                ba2.Add(new BollingerAverage());
-                bb0.Add(new BollingerAverage());
-                bb1.Add(new BollingerAverage());
-                bb2.Add(new BollingerAverage());
-            }
+            lastCandleUpdate.Columns.Add("min30", typeof(DateTime));
+            lastCandleUpdate.Columns.Add("hour1", typeof(DateTime));
+            lastCandleUpdate.Columns.Add("hour4", typeof(DateTime));
+            lastCandleUpdate.Columns.Add("day", typeof(DateTime));
+            lastCandleUpdate.Columns.Add("week", typeof(DateTime));
 
             this.coinList = coinList;
             for (int i = 0; i < coinList.Count; i++)
             {
-                DataRow dataRow = lastCandleUpdate.NewRow();
-                dataRow["week"] = DateTime.Now.AddMonths(-1);
-                dataRow["day"] = DateTime.Now.AddMonths(-1);
-                dataRow["hour4"] = DateTime.Now.AddMonths(-1);
-                dataRow["hour1"] = DateTime.Now.AddMonths(-1);
-                dataRow["min30"] = DateTime.Now.AddMonths(-1);
-                lastCandleUpdate.Rows.Add(dataRow);
-
-                DataTable week_candle_single = new DataTable(coinList[i]);
-                week_candle_single.Columns.Add("date", typeof(DateTime));
-                week_candle_single.Columns.Add("open", typeof(double));
-                week_candle_single.Columns.Add("close", typeof(double));
-                week_candle_single.Columns.Add("max", typeof(double));
-                week_candle_single.Columns.Add("min", typeof(double));
-                week_candle_single.Columns.Add("volume", typeof(double));
-                week_candle.Tables.Add(week_candle_single);
-
-                DataTable day_candle_single = new DataTable(coinList[i]);
-                day_candle_single.Columns.Add("date", typeof(DateTime));
-                day_candle_single.Columns.Add("open", typeof(double));
-                day_candle_single.Columns.Add("close", typeof(double));
-                day_candle_single.Columns.Add("max", typeof(double));
-                day_candle_single.Columns.Add("min", typeof(double));
-                day_candle_single.Columns.Add("volume", typeof(double));
-                day_candle.Tables.Add(day_candle_single);
-
-                DataTable hour4_candle_single = new DataTable(coinList[i]);
-                hour4_candle_single.Columns.Add("date", typeof(DateTime));
-                hour4_candle_single.Columns.Add("open", typeof(double));
-                hour4_candle_single.Columns.Add("close", typeof(double));
-                hour4_candle_single.Columns.Add("max", typeof(double));
-                hour4_candle_single.Columns.Add("min", typeof(double));
-                hour4_candle_single.Columns.Add("volume", typeof(double));
-                hour4_candle.Tables.Add(hour4_candle_single);
-
-                DataTable hour1_candle_single = new DataTable(coinList[i]);
-                hour1_candle_single.Columns.Add("date", typeof(DateTime));
-                hour1_candle_single.Columns.Add("open", typeof(double));
-                hour1_candle_single.Columns.Add("close", typeof(double));
-                hour1_candle_single.Columns.Add("max", typeof(double));
-                hour1_candle_single.Columns.Add("min", typeof(double));
-                hour1_candle_single.Columns.Add("volume", typeof(double));
-                hour1_candle.Tables.Add(hour1_candle_single);
-
-                DataTable min30_candle_single = new DataTable(coinList[i]);
-                min30_candle_single.Columns.Add("date", typeof(DateTime));
-                min30_candle_single.Columns.Add("open", typeof(double));
-                min30_candle_single.Columns.Add("close", typeof(double));
-                min30_candle_single.Columns.Add("max", typeof(double));
-                min30_candle_single.Columns.Add("min", typeof(double));
-                min30_candle_single.Columns.Add("volume", typeof(double));
-                min30_candle.Tables.Add(min30_candle_single);
-
-
                 DataTable state_table = new DataTable(coinList[i]);
                 state_table.Columns.Add("uuid", typeof(string));
                 state_table.Columns.Add("date", typeof(DateTime));
@@ -170,6 +79,44 @@ namespace UpbitDealer.src
                 state_table.Columns.Add("price", typeof(double));
                 state_table.Columns.Add("krw", typeof(double));
                 state.Tables.Add(state_table);
+
+                DataRow dataRow = lastCandleUpdate.NewRow();
+                dataRow["min30"] = DateTime.Now.AddMonths(-1);
+                dataRow["hour1"] = DateTime.Now.AddMonths(-1);
+                dataRow["hour4"] = DateTime.Now.AddMonths(-1);
+                dataRow["day"] = DateTime.Now.AddMonths(-1);
+                dataRow["week"] = DateTime.Now.AddMonths(-1);
+                lastCandleUpdate.Rows.Add(dataRow);
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                candle[i] = new DataSet();
+                bollinger[i] = new DataSet();
+                for (int j = 0; j < coinList.Count; j++)
+                {
+                    DataTable dataTable = new DataTable(coinList[j]);
+                    dataTable.Columns.Add("date", typeof(DateTime));
+                    dataTable.Columns.Add("open", typeof(double));
+                    dataTable.Columns.Add("close", typeof(double));
+                    dataTable.Columns.Add("max", typeof(double));
+                    dataTable.Columns.Add("min", typeof(double));
+                    dataTable.Columns.Add("volume", typeof(double));
+                    candle[i].Tables.Add(dataTable);
+
+                    dataTable = new DataTable(coinList[j]);
+                    dataTable.Columns.Add("date", typeof(DateTime));
+                    dataTable.Columns.Add("value", typeof(double));
+                    bollinger[i].Tables.Add(dataTable);
+                }
+
+                weightBollinger[i] = new DataTable();
+                avgBollinger[i] = new DataTable();
+
+                weightBollinger[i].Columns.Add("date", typeof(DateTime));
+                weightBollinger[i].Columns.Add("value", typeof(double));
+                avgBollinger[i].Columns.Add("date", typeof(DateTime));
+                avgBollinger[i].Columns.Add("value", typeof(double));
             }
         }
         public int loadFile()
@@ -180,20 +127,14 @@ namespace UpbitDealer.src
 
             try
             {
-                if (!System.IO.File.Exists(macroSettingDataPath))
-                {
-                    setDefaultSetting();
-                    System.IO.File.Create(macroSettingDataPath);
-                }
+                if (!System.IO.File.Exists(macroSettingDataPath)) System.IO.File.Create(macroSettingDataPath);
                 else
                 {
                     string[] reader = System.IO.File.ReadAllLines(macroSettingDataPath);
-                    if (reader.Length < 1) setDefaultSetting();
-                    else
+                    if (reader.Length > 0)
                     {
                         string[] singleData = reader[0].Split('\t');
-                        if (singleData.Length < 18) setDefaultSetting();
-                        else
+                        if (singleData.Length > 17)
                         {
                             setting.yield = double.Parse(singleData[0]);
                             setting.krw = double.Parse(singleData[1]);
@@ -370,14 +311,9 @@ namespace UpbitDealer.src
 
             return 0;
         }
-        public void saveMacroSetting(MacroSettingData setting)
-        {
-            this.setting = setting;
-            saveFile();
-        }
 
 
-        private void setDefaultSetting()
+        private void initDefaultSetting()
         {
             setting.yield = 1;
             setting.krw = 5000;
@@ -399,7 +335,120 @@ namespace UpbitDealer.src
             setting.hour1_bias = false;
             setting.min30_bias = false;
         }
-        public int setLastKrw()
+        public int initCandleData(int index)
+        {
+            string coinName = coinList[index];
+
+            for (int i = 0; i < 5; i++)
+            {
+                DateTime now = DateTime.Now.AddSeconds(-10);
+                JArray jArray;
+                switch (i)
+                {
+                    case 0: jArray = apiData.getCandle(coinName, ac.CANDLE_MIN30, 200); break;
+                    case 1: jArray = apiData.getCandle(coinName, ac.CANDLE_HOUR1, 200); break;
+                    case 2: jArray = apiData.getCandle(coinName, ac.CANDLE_HOUR4, 200); break;
+                    case 3: jArray = apiData.getCandle(coinName, ac.CANDLE_DAY, 200); break;
+                    case 4: jArray = apiData.getCandle(coinName, ac.CANDLE_WEEK, 200); break;
+                    default: jArray = null; break;
+                }
+                if (jArray == null) return -10 * i;
+                if (jArray.Count < 1) return -10 * i - 1;
+                candle[i].Tables[coinName].Rows.Clear();
+                for (int j = 0; j < jArray.Count; j++)
+                {
+                    DataRow dataRow = candle[i].Tables[coinName].NewRow();
+                    dataRow["date"] = Convert.ToDateTime(jArray[j]["candle_date_time_kst"]);
+                    dataRow["open"] = (double)jArray[j]["opening_price"];
+                    dataRow["close"] = (double)jArray[j]["trade_price"];
+                    dataRow["max"] = (double)jArray[j]["high_price"];
+                    dataRow["min"] = (double)jArray[j]["low_price"];
+                    dataRow["volume"] = (double)jArray[j]["candle_acc_trade_volume"];
+                    candle[i].Tables[coinName].Rows.Add(dataRow);
+                }
+                lastCandleUpdate.Rows[index][i] = now;
+
+                for (int j = 0; j < 60 && j < candle[i].Tables[coinName].Rows.Count - 28; j++)
+                {
+                    double averagePrice = 0;
+                    double dispersion = 0;
+                    double value;
+
+                    for (int k = 0; k < 28; k++)
+                        averagePrice += (double)candle[i].Tables[coinName].Rows[j + k]["close"];
+                    averagePrice /= 28;
+                    for (int k = 0; k < 28; k++)
+                        dispersion += Math.Pow(averagePrice - (double)candle[i].Tables[coinName].Rows[j + k]["close"], 2);
+                    dispersion = Math.Sqrt(dispersion / 28d);
+                    value = (double)candle[i].Tables[coinName].Rows[j]["close"] - averagePrice;
+                    value /= 2 * dispersion;
+                    value *= 100;
+
+                    DataRow dataRow = bollinger[i].Tables[coinName].NewRow();
+                    dataRow["date"] = candle[i].Tables[coinName].Rows[j]["date"];
+                    dataRow["value"] = value;
+                    bollinger[i].Tables[coinName].Rows.Add(dataRow);
+                }
+            }
+
+            return 0;
+        }
+        public void initBollingerWeightAvg()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 60 && j < bollinger[i].Tables[0].Rows.Count; j++)
+                {
+                    double weight = 0;
+                    double avg = 0;
+                    double weightCount = 0;
+                    double avgCount = 0;
+
+                    for (int k = 0; k < coinList.Count; k++)
+                    {
+                        if (j < bollinger[i].Tables[k].Rows.Count)
+                        {
+                            weight += (double)bollinger[i].Tables[k].Rows[j]["value"] / Math.Pow(k + 1, 2);
+                            avg += (double)bollinger[i].Tables[k].Rows[j]["value"];
+                            weightCount += 1 / Math.Pow(k + 1, 2);
+                            avgCount += 1;
+                        }
+                    }
+                    DataRow dataRow = weightBollinger[i].NewRow();
+                    dataRow["date"] = bollinger[i].Tables[0].Rows[j]["date"];
+                    dataRow["value"] = weight / weightCount;
+                    weightBollinger[i].Rows.Add(dataRow);
+
+                    dataRow = avgBollinger[i].NewRow();
+                    dataRow["date"] = bollinger[i].Tables[0].Rows[j]["date"];
+                    dataRow["value"] = avg / avgCount;
+                    avgBollinger[i].Rows.Add(dataRow);
+                }
+            }
+        }
+
+
+        public void saveMacroSetting(MacroSettingData setting)
+        {
+            this.setting = setting;
+            saveFile();
+        }
+        public int deleteMacroState(string coinName, string uuid)
+        {
+            for (int i = 0; i < state.Tables[coinName].Rows.Count; i++)
+            {
+                if (uuid == state.Tables[coinName].Rows[i]["uuid"].ToString())
+                {
+                    state.Tables[coinName].Rows.RemoveAt(i);
+                    saveFile();
+                    return 0;
+                }
+            }
+            return -1;
+        }
+
+
+        public int updateLastKrw()
         {
             JArray retData = apiData.getAsset();
             if (retData == null) return -1;
@@ -415,349 +464,157 @@ namespace UpbitDealer.src
 
             return -2;
         }
-        public int setCandleData(int index)
+        public int updateCandleData(int index)
         {
             string coinName = coinList[index];
-            DateTime last;
-            DateTime now = DateTime.Now.AddSeconds(-10);
 
-            last = (DateTime)lastCandleUpdate.Rows[index]["min30"];
-            if (min30_candle.Tables[coinName].Rows.Count < 1 || now.Minute % 30 < last.Minute % 30)
+            for (int i = 0; i < 5; i++)
             {
-                JArray jArray = apiData.getCandle(coinName, ac.CANDLE_MIN30, 200);
-                if (jArray == null) return -10;
-                if (jArray.Count < min30_candle.Tables[coinName].Rows.Count) return -11;
-
-                min30_candle.Tables[coinName].Rows.Clear();
-                for (int i = 0; i < jArray.Count; i++)
+                DateTime now = DateTime.Now.AddSeconds(-10);
+                DateTime last = (DateTime)lastCandleUpdate.Rows[index][i];
+                string apiPar = "";
+                bool isAdd = false;
+                switch (i)
                 {
-                    DataRow dataRow = min30_candle.Tables[coinName].NewRow();
-                    dataRow["date"] = Convert.ToDateTime(jArray[i]["candle_date_time_kst"]);
-                    dataRow["open"] = (double)jArray[i]["opening_price"];
-                    dataRow["close"] = (double)jArray[i]["trade_price"];
-                    dataRow["max"] = (double)jArray[i]["high_price"];
-                    dataRow["min"] = (double)jArray[i]["low_price"];
-                    dataRow["volume"] = (double)jArray[i]["candle_acc_trade_volume"];
-                    min30_candle.Tables[coinName].Rows.Add(dataRow);
+                    case 0:
+                        apiPar = ac.CANDLE_MIN30; ;
+                        isAdd = now.Minute % 30 < last.Minute % 30;
+                        break;
+                    case 1:
+                        apiPar = ac.CANDLE_HOUR1;
+                        isAdd = now.Minute < last.Minute;
+                        break;
+                    case 2:
+                        apiPar = ac.CANDLE_HOUR4;
+                        isAdd = now.Hour % 4 < last.Hour % 4;
+                        break;
+                    case 3:
+                        apiPar = ac.CANDLE_DAY;
+                        isAdd = now.Hour < last.Hour;
+                        break;
+                    case 4:
+                        apiPar = ac.CANDLE_WEEK;
+                        isAdd = ((int)now.DayOfWeek == 6 ? -1 : (int)now.DayOfWeek)
+                            < ((int)last.DayOfWeek == 6 ? -1 : (int)last.DayOfWeek);
+                        break;
                 }
-                lastCandleUpdate.Rows[index]["min30"] = now;
-            }
-            else
-            {
-                JArray jArray = apiData.getCandle(coinName, ac.CANDLE_MIN30, 1);
-                if (jArray == null) return -12;
-                if (jArray.Count < 1) return -13;
 
-                min30_candle.Tables[coinName].Rows[0]["date"] = Convert.ToDateTime(jArray[0]["candle_date_time_kst"]);
-                min30_candle.Tables[coinName].Rows[0]["open"] = (double)jArray[0]["opening_price"];
-                min30_candle.Tables[coinName].Rows[0]["close"] = (double)jArray[0]["trade_price"];
-                min30_candle.Tables[coinName].Rows[0]["max"] = (double)jArray[0]["high_price"];
-                min30_candle.Tables[coinName].Rows[0]["min"] = (double)jArray[0]["low_price"];
-                min30_candle.Tables[coinName].Rows[0]["volume"] = (double)jArray[0]["candle_acc_trade_volume"];
-            }
+                JArray jArray = apiData.getCandle(coinName, apiPar, 1);
+                if (jArray == null) return -10 * i;
+                if (jArray.Count < 1) return -10 * i - 1;
 
-            last = (DateTime)lastCandleUpdate.Rows[index]["hour1"];
-            if (hour1_candle.Tables[coinName].Rows.Count < 1 || now.Minute < last.Minute)
-            {
-                JArray jArray = apiData.getCandle(coinName, ac.CANDLE_HOUR1, 200);
-                if (jArray == null) return -20;
-                if (jArray.Count < hour1_candle.Tables[coinName].Rows.Count) return -21;
-
-                hour1_candle.Tables[coinName].Rows.Clear();
-                for (int i = 0; i < jArray.Count; i++)
+                if (isAdd)
                 {
-                    DataRow dataRow = hour1_candle.Tables[coinName].NewRow();
-                    dataRow["date"] = Convert.ToDateTime(jArray[i]["candle_date_time_kst"]);
-                    dataRow["open"] = (double)jArray[i]["opening_price"];
-                    dataRow["close"] = (double)jArray[i]["trade_price"];
-                    dataRow["max"] = (double)jArray[i]["high_price"];
-                    dataRow["min"] = (double)jArray[i]["low_price"];
-                    dataRow["volume"] = (double)jArray[i]["candle_acc_trade_volume"];
-                    hour1_candle.Tables[coinName].Rows.Add(dataRow);
+                    lastCandleUpdate.Rows[index][i] = now;
+
+                    DataRow dataRow = candle[i].Tables[coinName].NewRow();
+                    dataRow["date"] = Convert.ToDateTime(jArray[0]["candle_date_time_kst"]);
+                    dataRow["open"] = (double)jArray[0]["opening_price"];
+                    dataRow["close"] = (double)jArray[0]["trade_price"];
+                    dataRow["max"] = (double)jArray[0]["high_price"];
+                    dataRow["min"] = (double)jArray[0]["low_price"];
+                    dataRow["volume"] = (double)jArray[0]["candle_acc_trade_volume"];
+                    candle[i].Tables[coinName].Rows.InsertAt(dataRow, 0);
+
+                    if (candle[i].Tables[coinName].Rows.Count > 200)
+                        candle[i].Tables[coinName].Rows.RemoveAt(candle[i].Tables[coinName].Rows.Count - 1);
                 }
-                lastCandleUpdate.Rows[index]["hour1"] = now;
-            }
-            else
-            {
-                JArray jArray = apiData.getCandle(coinName, ac.CANDLE_HOUR1, 1);
-                if (jArray == null) return -22;
-                if (jArray.Count < 1) return -23;
-
-                hour1_candle.Tables[coinName].Rows[0]["date"] = Convert.ToDateTime(jArray[0]["candle_date_time_kst"]);
-                hour1_candle.Tables[coinName].Rows[0]["open"] = (double)jArray[0]["opening_price"];
-                hour1_candle.Tables[coinName].Rows[0]["close"] = (double)jArray[0]["trade_price"];
-                hour1_candle.Tables[coinName].Rows[0]["max"] = (double)jArray[0]["high_price"];
-                hour1_candle.Tables[coinName].Rows[0]["min"] = (double)jArray[0]["low_price"];
-                hour1_candle.Tables[coinName].Rows[0]["volume"] = (double)jArray[0]["candle_acc_trade_volume"];
-            }
-
-            last = (DateTime)lastCandleUpdate.Rows[index]["hour4"];
-            if (hour4_candle.Tables[coinName].Rows.Count < 1 || now.Hour % 4 < last.Hour % 4)
-            {
-                JArray jArray = apiData.getCandle(coinName, ac.CANDLE_HOUR4, 200);
-                if (jArray == null) return -30;
-                if (jArray.Count < hour4_candle.Tables[coinName].Rows.Count) return -31;
-
-                hour4_candle.Tables[coinName].Rows.Clear();
-                for (int i = 0; i < jArray.Count; i++)
+                else
                 {
-                    DataRow dataRow = hour4_candle.Tables[coinName].NewRow();
-                    dataRow["date"] = Convert.ToDateTime(jArray[i]["candle_date_time_kst"]);
-                    dataRow["open"] = (double)jArray[i]["opening_price"];
-                    dataRow["close"] = (double)jArray[i]["trade_price"];
-                    dataRow["max"] = (double)jArray[i]["high_price"];
-                    dataRow["min"] = (double)jArray[i]["low_price"];
-                    dataRow["volume"] = (double)jArray[i]["candle_acc_trade_volume"];
-                    hour4_candle.Tables[coinName].Rows.Add(dataRow);
+                    candle[i].Tables[coinName].Rows[0]["date"] = Convert.ToDateTime(jArray[0]["candle_date_time_kst"]);
+                    candle[i].Tables[coinName].Rows[0]["open"] = (double)jArray[0]["opening_price"];
+                    candle[i].Tables[coinName].Rows[0]["close"] = (double)jArray[0]["trade_price"];
+                    candle[i].Tables[coinName].Rows[0]["max"] = (double)jArray[0]["high_price"];
+                    candle[i].Tables[coinName].Rows[0]["min"] = (double)jArray[0]["low_price"];
+                    candle[i].Tables[coinName].Rows[0]["volume"] = (double)jArray[0]["candle_acc_trade_volume"];
                 }
-                lastCandleUpdate.Rows[index]["hour4"] = now;
-            }
-            else
-            {
-                JArray jArray = apiData.getCandle(coinName, ac.CANDLE_HOUR4, 1);
-                if (jArray == null) return -32;
-                if (jArray.Count < 1) return -33;
 
-                hour4_candle.Tables[coinName].Rows[0]["date"] = Convert.ToDateTime(jArray[0]["candle_date_time_kst"]);
-                hour4_candle.Tables[coinName].Rows[0]["open"] = (double)jArray[0]["opening_price"];
-                hour4_candle.Tables[coinName].Rows[0]["close"] = (double)jArray[0]["trade_price"];
-                hour4_candle.Tables[coinName].Rows[0]["max"] = (double)jArray[0]["high_price"];
-                hour4_candle.Tables[coinName].Rows[0]["min"] = (double)jArray[0]["low_price"];
-                hour4_candle.Tables[coinName].Rows[0]["volume"] = (double)jArray[0]["candle_acc_trade_volume"];
-            }
+                double averagePrice = 0;
+                double dispersion = 0;
+                double value;
 
-            last = (DateTime)lastCandleUpdate.Rows[index]["day"];
-            if (day_candle.Tables[coinName].Rows.Count < 1 || now.Hour < last.Hour)
-            {
-                JArray jArray = apiData.getCandle(coinName, ac.CANDLE_DAY, 200);
-                if (jArray == null) return -40;
-                if (jArray.Count < day_candle.Tables[coinName].Rows.Count) return -41;
+                for (int j = 0; j < 28; j++)
+                    averagePrice += (double)candle[i].Tables[coinName].Rows[j]["close"];
+                averagePrice /= 28;
+                for (int j = 0; j < 28; j++)
+                    dispersion += Math.Pow(averagePrice - (double)candle[i].Tables[coinName].Rows[j]["close"], 2);
+                dispersion = Math.Sqrt(dispersion / 28d);
+                value = (double)candle[i].Tables[coinName].Rows[0]["close"] - averagePrice;
+                value /= 2 * dispersion;
+                value *= 100;
 
-                day_candle.Tables[coinName].Rows.Clear();
-                for (int i = 0; i < jArray.Count; i++)
+                if (isAdd)
                 {
-                    DataRow dataRow = day_candle.Tables[coinName].NewRow();
-                    dataRow["date"] = Convert.ToDateTime(jArray[i]["candle_date_time_kst"]);
-                    dataRow["open"] = (double)jArray[i]["opening_price"];
-                    dataRow["close"] = (double)jArray[i]["trade_price"];
-                    dataRow["max"] = (double)jArray[i]["high_price"];
-                    dataRow["min"] = (double)jArray[i]["low_price"];
-                    dataRow["volume"] = (double)jArray[i]["candle_acc_trade_volume"];
-                    day_candle.Tables[coinName].Rows.Add(dataRow);
+                    DataRow dataRow = bollinger[i].Tables[coinName].NewRow();
+                    dataRow["date"] = candle[i].Tables[coinName].Rows[0]["date"];
+                    dataRow["value"] = value;
+                    bollinger[i].Tables[coinName].Rows.InsertAt(dataRow, 0);
+                    needWeightAvgAdd[i] = true;
+
+                    if (bollinger[i].Tables[coinName].Rows.Count > 60)
+                        bollinger[i].Tables[coinName].Rows.RemoveAt(bollinger[i].Tables[coinName].Rows.Count - 1);
                 }
-                lastCandleUpdate.Rows[index]["day"] = now;
-            }
-            else
-            {
-                JArray jArray = apiData.getCandle(coinName, ac.CANDLE_DAY, 1);
-                if (jArray == null) return -42;
-                if (jArray.Count < 1) return -43;
-
-                day_candle.Tables[coinName].Rows[0]["date"] = Convert.ToDateTime(jArray[0]["candle_date_time_kst"]);
-                day_candle.Tables[coinName].Rows[0]["open"] = (double)jArray[0]["opening_price"];
-                day_candle.Tables[coinName].Rows[0]["close"] = (double)jArray[0]["trade_price"];
-                day_candle.Tables[coinName].Rows[0]["max"] = (double)jArray[0]["high_price"];
-                day_candle.Tables[coinName].Rows[0]["min"] = (double)jArray[0]["low_price"];
-                day_candle.Tables[coinName].Rows[0]["volume"] = (double)jArray[0]["candle_acc_trade_volume"];
-            }
-
-            last = (DateTime)lastCandleUpdate.Rows[index]["week"];
-            int nowWeek = (int)now.DayOfWeek == 6 ? -1 : (int)now.DayOfWeek;
-            int lastWeek = (int)last.DayOfWeek == 6 ? -1 : (int)last.DayOfWeek;
-            if (week_candle.Tables[coinName].Rows.Count < 1 || nowWeek < lastWeek)
-            {
-                JArray jArray = apiData.getCandle(coinName, ac.CANDLE_WEEK, 200);
-                if (jArray == null) return -50;
-                if (jArray.Count < week_candle.Tables[coinName].Rows.Count) return -51;
-
-                week_candle.Tables[coinName].Rows.Clear();
-                for (int i = 0; i < jArray.Count; i++)
+                else
                 {
-                    DataRow dataRow = week_candle.Tables[coinName].NewRow();
-                    dataRow["date"] = Convert.ToDateTime(jArray[i]["candle_date_time_kst"]);
-                    dataRow["open"] = (double)jArray[i]["opening_price"];
-                    dataRow["close"] = (double)jArray[i]["trade_price"];
-                    dataRow["max"] = (double)jArray[i]["high_price"];
-                    dataRow["min"] = (double)jArray[i]["low_price"];
-                    dataRow["volume"] = (double)jArray[i]["candle_acc_trade_volume"];
-                    week_candle.Tables[coinName].Rows.Add(dataRow);
+                    bollinger[i].Tables[coinName].Rows[0]["value"] = value;
                 }
-                lastCandleUpdate.Rows[index]["week"] = now;
             }
-            else
-            {
-                JArray jArray = apiData.getCandle(coinName, ac.CANDLE_WEEK, 1);
-                if (jArray == null) return -52;
-                if (jArray.Count < 1) return -53;
-
-                week_candle.Tables[coinName].Rows[0]["date"] = Convert.ToDateTime(jArray[0]["candle_date_time_kst"]);
-                week_candle.Tables[coinName].Rows[0]["open"] = (double)jArray[0]["opening_price"];
-                week_candle.Tables[coinName].Rows[0]["close"] = (double)jArray[0]["trade_price"];
-                week_candle.Tables[coinName].Rows[0]["max"] = (double)jArray[0]["high_price"];
-                week_candle.Tables[coinName].Rows[0]["min"] = (double)jArray[0]["low_price"];
-                week_candle.Tables[coinName].Rows[0]["volume"] = (double)jArray[0]["candle_acc_trade_volume"];
-            }
-
 
             return 0;
         }
-        public void addBABB(int index)
-        {
-            string coinName = coinList[index];
-            double tempPercent;
-
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_MIN30, 0)) > -10000)
-            {
-                ba0[0].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb0[0].addTotal(tempPercent, 1);
-            }
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_HOUR1, 0)) > -10000)
-            {
-                ba0[1].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb0[1].addTotal(tempPercent, 1);
-            }
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_HOUR4, 0)) > -10000)
-            {
-                ba0[2].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb0[2].addTotal(tempPercent, 1);
-            }
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_DAY, 0)) > -10000)
-            {
-                ba0[3].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb0[3].addTotal(tempPercent, 1);
-            }
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_WEEK, 0)) > -10000)
-            {
-                ba0[4].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb0[4].addTotal(tempPercent, 1);
-            }
-
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_MIN30, 1)) > -10000)
-            {
-                ba1[0].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb1[0].addTotal(tempPercent, 1);
-            }
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_HOUR1, 1)) > -10000)
-            {
-                ba1[1].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb1[1].addTotal(tempPercent, 1);
-            }
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_HOUR4, 1)) > -10000)
-            {
-                ba1[2].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb1[2].addTotal(tempPercent, 1);
-            }
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_DAY, 1)) > -10000)
-            {
-                ba1[3].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb1[3].addTotal(tempPercent, 1);
-            }
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_WEEK, 1)) > -10000)
-            {
-                ba1[4].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb1[4].addTotal(tempPercent, 1);
-            }
-
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_MIN30, 2)) > -10000)
-            {
-                ba2[0].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb2[0].addTotal(tempPercent, 1);
-            }
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_HOUR1, 2)) > -10000)
-            {
-                ba2[1].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb2[1].addTotal(tempPercent, 1);
-            }
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_HOUR4, 2)) > -10000)
-            {
-                ba2[2].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb2[2].addTotal(tempPercent, 1);
-            }
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_DAY, 2)) > -10000)
-            {
-                ba2[3].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb2[3].addTotal(tempPercent, 1);
-            }
-            if ((tempPercent = getBollingerPercent(coinName, ac.CANDLE_WEEK, 2)) > -10000)
-            {
-                ba2[4].addTotal(tempPercent, 1 / (index + 1) / (index + 1));
-                bb2[4].addTotal(tempPercent, 1);
-            }
-        }
-        public void setBABB()
+        public void updateBollingerWeightAvg()
         {
             for (int i = 0; i < 5; i++)
             {
-                ba0[i].setAverage();
-                ba1[i].setAverage();
-                ba2[i].setAverage();
-                bb0[i].setAverage();
-                bb1[i].setAverage();
-                bb2[i].setAverage();
+                double weight = 0;
+                double avg = 0;
+                double weightCount = 0;
+                double avgCount = 0;
+
+                for (int j = 0; j < coinList.Count; j++)
+                {
+                    if (bollinger[i].Tables[j].Rows.Count > 0)
+                    {
+                        weight += (double)bollinger[i].Tables[j].Rows[0]["value"] / Math.Pow(j + 1, 2);
+                        avg += (double)bollinger[i].Tables[j].Rows[0]["value"];
+                        weightCount += 1 / Math.Pow(j + 1, 2);
+                        avgCount += 1;
+                    }
+                }
+
+                if (needWeightAvgAdd[i])
+                {
+                    needWeightAvgAdd[i] = false;
+
+                    DataRow dataRow = weightBollinger[i].NewRow();
+                    dataRow["date"] = bollinger[i].Tables[0].Rows[0]["date"];
+                    dataRow["value"] = weight / weightCount;
+                    weightBollinger[i].Rows.InsertAt(dataRow, 0);
+
+                    dataRow = avgBollinger[i].NewRow();
+                    dataRow["date"] = bollinger[i].Tables[0].Rows[0]["date"];
+                    dataRow["value"] = avg / avgCount;
+                    avgBollinger[i].Rows.InsertAt(dataRow, 0);
+
+                    if (weightBollinger[i].Rows.Count > 60)
+                        weightBollinger[i].Rows.RemoveAt(weightBollinger[i].Rows.Count - 1);
+                    if (avgBollinger[i].Rows.Count > 60)
+                        avgBollinger[i].Rows.RemoveAt(avgBollinger[i].Rows.Count - 1);
+                }
+                else
+                {
+                    weightBollinger[i].Rows[0]["value"] = weight / weightCount;
+                    avgBollinger[i].Rows[0]["value"] = avg / avgCount;
+                }
             }
         }
 
 
-        private double getCandleAverage(string coinName, string dataType, int index)
+        private int getBollingerResult(string coinName, int dataType, int index, double targetPercent)
         {
-            DataTable lastCandle = null;
-            if (dataType == ac.CANDLE_WEEK) lastCandle = week_candle.Tables[coinName];
-            else if (dataType == ac.CANDLE_DAY) lastCandle = day_candle.Tables[coinName];
-            else if (dataType == ac.CANDLE_HOUR4) lastCandle = hour4_candle.Tables[coinName];
-            else if (dataType == ac.CANDLE_HOUR1) lastCandle = hour1_candle.Tables[coinName];
-            else if (dataType == ac.CANDLE_MIN30) lastCandle = min30_candle.Tables[coinName];
-            if (lastCandle.Rows.Count < 28 + index) return -1d;
+            if (bollinger[dataType].Tables[coinName].Rows.Count < index) return 0;
 
-            double averagePrice = 0;
-            for (int i = 0; i < 28; i++)
-                averagePrice += (double)lastCandle.Rows[i + index]["close"];
-
-            return averagePrice / 28d;
-        }
-        private double[] getBollingerValue(string coinName, string dataType, int index)
-        {
-            DataTable lastCandle = null;
-            if (dataType == ac.CANDLE_WEEK) lastCandle = week_candle.Tables[coinName];
-            else if (dataType == ac.CANDLE_DAY) lastCandle = day_candle.Tables[coinName];
-            else if (dataType == ac.CANDLE_HOUR4) lastCandle = hour4_candle.Tables[coinName];
-            else if (dataType == ac.CANDLE_HOUR1) lastCandle = hour1_candle.Tables[coinName];
-            else if (dataType == ac.CANDLE_MIN30) lastCandle = min30_candle.Tables[coinName];
-            if (lastCandle.Rows.Count < 28 + index) return null;
-
-            double averagePrice = getCandleAverage(coinName, dataType, index);
-            if (averagePrice < 0d) return null;
-            double dispersion = 0;
-            for (int i = 0; i < 28; i++)
-                dispersion += Math.Pow(averagePrice - (double)lastCandle.Rows[i + index]["close"], 2);
-            dispersion = Math.Sqrt(dispersion / 28d);
-
-            return new double[] { averagePrice, dispersion };
-        }
-        private double getBollingerPercent(string coinName, string dataType, int index)
-        {
-            DataTable lastCandle = null;
-            if (dataType == ac.CANDLE_WEEK) lastCandle = week_candle.Tables[coinName];
-            else if (dataType == ac.CANDLE_DAY) lastCandle = day_candle.Tables[coinName];
-            else if (dataType == ac.CANDLE_HOUR4) lastCandle = hour4_candle.Tables[coinName];
-            else if (dataType == ac.CANDLE_HOUR1) lastCandle = hour1_candle.Tables[coinName];
-            else if (dataType == ac.CANDLE_MIN30) lastCandle = min30_candle.Tables[coinName];
-            if (lastCandle.Rows.Count < 28 + index) return -100000;
-
-            double[] avgDis = getBollingerValue(coinName, dataType, index);
-            double retVal = (double)lastCandle.Rows[index]["close"];
-
-            retVal -= avgDis[0];
-            retVal /= 2 * avgDis[1];
-            retVal *= 100d;
-
-            return retVal;
-        }
-
-
-        private int getBollingerResult(string coinName, string dataType, int index, double targetPercent)
-        {
-            double curPercent = getBollingerPercent(coinName, dataType, index);
-            if (curPercent < -10000) return 0;
+            double curPercent = (double)bollinger[dataType].Tables[coinName].Rows[index]["value"];
             if (curPercent < targetPercent) return -1;
             else return 1;
         }
@@ -834,11 +691,11 @@ namespace UpbitDealer.src
 
 
             DataTable buyCandle = null;
-            if (setting.min30_from > -90000d) buyCandle = min30_candle.Tables[coinName];
-            else if (setting.hour1_from > -90000d) buyCandle = hour1_candle.Tables[coinName];
-            else if (setting.hour4_from > -90000d) buyCandle = hour4_candle.Tables[coinName];
-            else if (setting.day_from > -90000d) buyCandle = day_candle.Tables[coinName];
-            else if (setting.week_from > -90000d) buyCandle = week_candle.Tables[coinName];
+            if (setting.min30_from > -90000d) buyCandle = candle[0].Tables[coinName];
+            else if (setting.hour1_from > -90000d) buyCandle = candle[1].Tables[coinName];
+            else if (setting.hour4_from > -90000d) buyCandle = candle[2].Tables[coinName];
+            else if (setting.day_from > -90000d) buyCandle = candle[3].Tables[coinName];
+            else if (setting.week_from > -90000d) buyCandle = candle[4].Tables[coinName];
             if (buyCandle == null)
             {
                 executionStr.Add(new output(0, "Macro Execution", "Fail to load " + coinName + " buy candle (NULL)"));
@@ -882,37 +739,37 @@ namespace UpbitDealer.src
             if (setting.week_from > -90000d)
             {
                 if (setting.week_bias)
-                { if (getBollingerResult(coinName, ac.CANDLE_WEEK, 0, setting.week_from + bb0[4].avg) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 4, 0, setting.week_from + (double)avgBollinger[4].Rows[0]["value"]) >= 0) return 0; }
                 else
-                { if (getBollingerResult(coinName, ac.CANDLE_WEEK, 0, setting.week_from) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 4, 0, setting.week_from) >= 0) return 0; }
             }
             if (setting.day_from > -90000d)
             {
                 if (setting.day_bias)
-                { if (getBollingerResult(coinName, ac.CANDLE_DAY, 0, setting.day_from + bb0[3].avg) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 3, 0, setting.day_from + (double)avgBollinger[3].Rows[0]["value"]) >= 0) return 0; }
                 else
-                { if (getBollingerResult(coinName, ac.CANDLE_DAY, 0, setting.day_from) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 3, 0, setting.day_from) >= 0) return 0; }
             }
             if (setting.hour4_from > -90000d)
             {
                 if (setting.hour4_bias)
-                { if (getBollingerResult(coinName, ac.CANDLE_HOUR4, 0, setting.hour4_from + bb0[2].avg) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 2, 0, setting.hour4_from + (double)avgBollinger[2].Rows[0]["value"]) >= 0) return 0; }
                 else
-                { if (getBollingerResult(coinName, ac.CANDLE_HOUR4, 0, setting.hour4_from) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 2, 0, setting.hour4_from) >= 0) return 0; }
             }
             if (setting.hour1_from > -90000d)
             {
                 if (setting.hour1_bias)
-                { if (getBollingerResult(coinName, ac.CANDLE_HOUR1, 0, setting.hour1_from + bb0[1].avg) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 1, 0, setting.hour1_from + (double)avgBollinger[1].Rows[0]["value"]) >= 0) return 0; }
                 else
-                { if (getBollingerResult(coinName, ac.CANDLE_HOUR1, 0, setting.hour1_from) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 1, 0, setting.hour1_from) >= 0) return 0; }
             }
             if (setting.min30_from > -90000d)
             {
                 if (setting.min30_bias)
-                { if (getBollingerResult(coinName, ac.CANDLE_MIN30, 0, setting.min30_from + bb0[0].avg) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 0, 0, setting.min30_from + (double)avgBollinger[0].Rows[0]["value"]) >= 0) return 0; }
                 else
-                { if (getBollingerResult(coinName, ac.CANDLE_MIN30, 0, setting.min30_from) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 0, 0, setting.min30_from) >= 0) return 0; }
             }
 
 
@@ -941,7 +798,7 @@ namespace UpbitDealer.src
             string coinName = coinList[index];
             if (state.Tables[coinName].Rows.Count < 1) return 0;
 
-            DataTable sellCandle = min30_candle.Tables[coinName];
+            DataTable sellCandle = candle[0].Tables[coinName];
             if (sellCandle == null)
             {
                 executionStr.Add(new output(0, "Macro Execution", "Fail to load " + coinName + " sell candle (NULL)"));
@@ -968,37 +825,37 @@ namespace UpbitDealer.src
                 if (setting.week_to > -90000d)
                 {
                     if (setting.week_bias)
-                    { if (getBollingerResult(coinName, ac.CANDLE_WEEK, 0, setting.week_to + bb0[4].avg) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 4, 0, setting.week_to + (double)avgBollinger[4].Rows[0]["value"]) <= 0) return 0; }
                     else
-                    { if (getBollingerResult(coinName, ac.CANDLE_WEEK, 0, setting.week_to) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 4, 0, setting.week_to) <= 0) return 0; }
                 }
                 if (setting.day_to > -90000d)
                 {
                     if (setting.day_bias)
-                    { if (getBollingerResult(coinName, ac.CANDLE_DAY, 0, setting.day_to + bb0[3].avg) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 3, 0, setting.day_to + (double)avgBollinger[3].Rows[0]["value"]) <= 0) return 0; }
                     else
-                    { if (getBollingerResult(coinName, ac.CANDLE_DAY, 0, setting.day_to) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 3, 0, setting.day_to) <= 0) return 0; }
                 }
                 if (setting.hour4_to > -90000d)
                 {
                     if (setting.hour4_bias)
-                    { if (getBollingerResult(coinName, ac.CANDLE_HOUR4, 0, setting.hour4_to + bb0[2].avg) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 2, 0, setting.hour4_to + (double)avgBollinger[2].Rows[0]["value"]) <= 0) return 0; }
                     else
-                    { if (getBollingerResult(coinName, ac.CANDLE_HOUR4, 0, setting.hour4_to) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 2, 0, setting.hour4_to) <= 0) return 0; }
                 }
                 if (setting.hour1_to > -90000d)
                 {
                     if (setting.hour1_bias)
-                    { if (getBollingerResult(coinName, ac.CANDLE_HOUR1, 0, setting.hour1_to + bb0[1].avg) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 1, 0, setting.hour1_to + (double)avgBollinger[1].Rows[0]["value"]) <= 0) return 0; }
                     else
-                    { if (getBollingerResult(coinName, ac.CANDLE_HOUR1, 0, setting.hour1_to) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 1, 0, setting.hour1_to) <= 0) return 0; }
                 }
                 if (setting.min30_to > -90000d)
                 {
                     if (setting.min30_bias)
-                    { if (getBollingerResult(coinName, ac.CANDLE_MIN30, 0, setting.min30_to + bb0[0].avg) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 0, 0, setting.min30_to + (double)avgBollinger[0].Rows[0]["value"]) <= 0) return 0; }
                     else
-                    { if (getBollingerResult(coinName, ac.CANDLE_MIN30, 0, setting.min30_to) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 0, 0, setting.min30_to) <= 0) return 0; }
                 }
 
 

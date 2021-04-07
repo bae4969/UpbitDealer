@@ -1,13 +1,9 @@
 ﻿using UpbitDealer.src;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace UpbitDealer.form
@@ -16,15 +12,16 @@ namespace UpbitDealer.form
     {
         private bool AllStop = false;
         private bool isInit = false;
+        private Main ownerForm;
 
         private int type = 0;
         private Thread loadData;
         private readonly object lock_load = new object();
 
-        private DataTable pendingData;
+        private DataTable pendingData = new DataTable();
         TradeData selected = new TradeData();
 
-        private DataTable historyData;
+        private DataTable historyData = new DataTable();
         private bool isNeedUpdateHistory = false;
         private bool isNeedBindHistory = false;
         private int page = 1;
@@ -35,16 +32,29 @@ namespace UpbitDealer.form
         private DataSet macroState;
 
 
-        public History()
+        public History(Main ownerForm)
         {
             InitializeComponent();
+            this.ownerForm = ownerForm;
         }
         private void History_Load(object sender, EventArgs e)
         {
             DateTime tempDateTime = DateTime.Now.AddHours(-DateTime.Now.Hour).AddMinutes(-DateTime.Now.Minute).AddSeconds(-DateTime.Now.Second);
 
-            lock (((Main)Owner).lock_tradeHistory)
-                pendingData = ((Main)Owner).tradeHistory.pendingData.Copy();
+            pendingData.Columns.Add("uuid", typeof(string));
+            pendingData.Columns.Add("coinName", typeof(string));
+            pendingData.Columns.Add("date", typeof(DateTime));
+            pendingData.Columns.Add("isBid", typeof(bool));
+            pendingData.Columns.Add("unit", typeof(double));
+            pendingData.Columns.Add("price", typeof(double));
+            pendingData.Columns.Add("fee", typeof(double));
+
+            historyData.Columns.Add("coinName", typeof(string));
+            historyData.Columns.Add("date", typeof(DateTime));
+            historyData.Columns.Add("isBid", typeof(bool));
+            historyData.Columns.Add("unit", typeof(double));
+            historyData.Columns.Add("price", typeof(int));
+            historyData.Columns.Add("fee", typeof(double));
 
             macroPrint.Columns.Add("coinName", typeof(string));
             macroPrint.Columns.Add("date", typeof(DateTime));
@@ -52,11 +62,15 @@ namespace UpbitDealer.form
             macroPrint.Columns.Add("price", typeof(double));
             macroPrint.Columns.Add("target", typeof(double));
 
+            macroPrintSwap.Columns.Add("uuid", typeof(string));
             macroPrintSwap.Columns.Add("coinName", typeof(string));
             macroPrintSwap.Columns.Add("date", typeof(DateTime));
             macroPrintSwap.Columns.Add("unit", typeof(double));
             macroPrintSwap.Columns.Add("price", typeof(double));
             macroPrintSwap.Columns.Add("target", typeof(double));
+
+            lock (ownerForm.lock_tradeHistory)
+                pendingData = ownerForm.tradeHistory.pendingData.Copy();
 
             loadData = new Thread(() => executeLoadData());
             loadData.Start();
@@ -90,29 +104,29 @@ namespace UpbitDealer.form
                     switch (type)
                     {
                         case 0:
-                            lock (((Main)Owner).lock_tradeHistory)
-                                pendingData = ((Main)Owner).tradeHistory.pendingData.Copy();
+                            lock (ownerForm.lock_tradeHistory)
+                                pendingData = ownerForm.tradeHistory.pendingData.Copy();
                             break;
                         case 1:
                             if (isNeedUpdateHistory)
                             {
                                 isNeedUpdateHistory = false;
-                                int ret = ((Main)Owner).tradeHistory.updateHistoryData(text_historyCoinName.Text.ToUpper(), page);
+                                int ret = ownerForm.tradeHistory.updateHistoryData(text_historyCoinName.Text.ToUpper(), page);
                                 if (ret < 0)
                                 {
                                     MessageBox.Show("Invalid coin name.");
                                     return;
                                 }
-                                lock (((Main)Owner).lock_tradeHistory)
-                                    historyData = ((Main)Owner).tradeHistory.historyData.Copy();
+                                lock (ownerForm.lock_tradeHistory)
+                                    historyData = ownerForm.tradeHistory.historyData.Copy();
                                 isNeedBindHistory = true;
                             }
                             break;
                         case 2:
-                            lock (((Main)Owner).lock_macro)
+                            lock (ownerForm.lock_macro)
                             {
-                                macroSetting = ((Main)Owner).macro.setting;
-                                macroState = ((Main)Owner).macro.state.Copy();
+                                macroSetting = ownerForm.macro.setting;
+                                macroState = ownerForm.macro.state.Copy();
                             }
                             macroPrintSwap.Rows.Clear();
                             for (int i = 0; i < macroState.Tables.Count; i++)
@@ -121,12 +135,13 @@ namespace UpbitDealer.form
                                 for (int j = 0; j < macroState.Tables[i].Rows.Count; j++)
                                 {
                                     DataRow dataRow = macroPrintSwap.NewRow();
+                                    dataRow["uuid"] = macroState.Tables[tempCoinName].Rows[j]["uuid"];
                                     dataRow["coinName"] = tempCoinName;
                                     dataRow["date"] = macroState.Tables[tempCoinName].Rows[j]["date"];
                                     dataRow["unit"] = macroState.Tables[tempCoinName].Rows[j]["unit"];
                                     dataRow["price"] = macroState.Tables[tempCoinName].Rows[j]["price"];
                                     dataRow["target"] = (double)macroState.Tables[tempCoinName].Rows[j]["price"]
-                                        * (100d + (double)macroSetting.yield) / 100d;
+                                        * (100d + macroSetting.yield) / 100d;
                                     macroPrintSwap.Rows.Add(dataRow);
                                 }
                             }
@@ -208,6 +223,7 @@ namespace UpbitDealer.form
                         {
                             macroPrint = macroPrintSwap.Copy();
                             dataGridView1.DataSource = macroPrint;
+                            dataGridView1.Columns["uuid"].Visible = false;
                             dataGridView1.Columns["coinName"].HeaderText = "Coin Name";
                             dataGridView1.Columns["coinName"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                             dataGridView1.Columns["date"].DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss";
@@ -227,26 +243,18 @@ namespace UpbitDealer.form
                 }
                 if (dataGridView1.Rows.Count > 0)
                 {
-                    dataGridView1.FirstDisplayedScrollingRowIndex = index;
                     ((DataTable)dataGridView1.DataSource).DefaultView.Sort = sort;
+                    dataGridView1.FirstDisplayedScrollingRowIndex = index;
+                    dataGridView1.ClearSelection();
                 }
             }
-        }
-        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
-        {
-            if (type == 2)
-                dataGridView1.ClearSelection();
-        }
-        private void dataGridView1_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-                ((DataTable)dataGridView1.DataSource).DefaultView.Sort = "";
         }
 
 
         private void btn_order_Click(object sender, EventArgs e)
         {
             type = 0;
+            dataGridView1.DataSource = null;
             btn_order.BackColor = Color.Red;
             btn_history.BackColor = Color.DarkGray;
             btn_macro.BackColor = Color.DarkGray;
@@ -261,6 +269,7 @@ namespace UpbitDealer.form
         private void btn_history_Click(object sender, EventArgs e)
         {
             type = 1;
+            dataGridView1.DataSource = null;
             btn_order.BackColor = Color.DarkGray;
             btn_history.BackColor = Color.Red;
             btn_macro.BackColor = Color.DarkGray;
@@ -277,13 +286,15 @@ namespace UpbitDealer.form
         private void btn_macro_Click(object sender, EventArgs e)
         {
             type = 2;
+            dataGridView1.DataSource = null;
             btn_order.BackColor = Color.DarkGray;
             btn_history.BackColor = Color.DarkGray;
             btn_macro.BackColor = Color.Red;
-            text_selectInfo.Visible = false;
-            btn_cancel.Visible = false;
+            selected.uuid = "";
+            text_selectInfo.Text = "";
+            text_selectInfo.Visible = true;
+            btn_cancel.Visible = true;
             btn_history_get.Visible = false;
-            text_historyCoinName.Text = "";
             text_historyCoinName.Visible = false;
             text_page.Visible = false;
         }
@@ -291,28 +302,56 @@ namespace UpbitDealer.form
 
         private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (type == 0 && dataGridView1.GetCellCount(DataGridViewElementStates.Selected) > 0)
-                lock (((Main)Owner).lock_tradeHistory)
+            if (dataGridView1.GetCellCount(DataGridViewElementStates.Selected) < 1) return;
+            lock (lock_load)
+            {
+                if (type == 0)
                 {
-                    int row = dataGridView1.SelectedCells[0].RowIndex;
-                    selected.uuid = pendingData.Rows[row]["uuid"].ToString();
-                    selected.date = (DateTime)pendingData.Rows[row]["date"];
-                    selected.coinName = pendingData.Rows[row]["coinName"].ToString().ToUpper();
-                    selected.isBid = (bool)pendingData.Rows[row]["isBid"];
-                    selected.unit = (double)pendingData.Rows[row]["unit"];
-                    selected.price = (int)pendingData.Rows[row]["price"];
+                    selected.uuid = (string)dataGridView1.SelectedCells[0].Value;
+                    selected.coinName = (string)dataGridView1.SelectedCells[1].Value;
+                    selected.date = (DateTime)dataGridView1.SelectedCells[2].Value;
+                    selected.isBid = (bool)dataGridView1.SelectedCells[3].Value;
+                    selected.unit = (double)dataGridView1.SelectedCells[4].Value;
+                    selected.price = (double)dataGridView1.SelectedCells[5].Value;
 
                     text_selectInfo.Text
-                        = selected.date.ToString("yy-MM-dd HH:mm:ss") + " // "
-                        + selected.coinName + " // "
-                        + (selected.isBid ? "Bid" : "Ask") + " // "
-                        + selected.unit.ToString(",0.####") + " // "
-                        + selected.price.ToString(",0");
+                        = selected.coinName + " ll "
+                        + selected.date.ToString("yy-MM-dd HH:mm:ss") + " ll "
+                        + (selected.isBid ? "Bid" : "Ask") + " ll "
+                        + selected.unit.ToString(",0.####") + " ll "
+                        + selected.price.ToString(",0.##");
                 }
+                else if (type == 2)
+                {
+                    selected.uuid = (string)dataGridView1.SelectedCells[0].Value;
+                    selected.coinName = (string)dataGridView1.SelectedCells[1].Value;
+                    selected.date = (DateTime)dataGridView1.SelectedCells[2].Value;
+                    selected.unit = (double)dataGridView1.SelectedCells[3].Value;
+                    selected.price = (double)dataGridView1.SelectedCells[4].Value;
+
+                    text_selectInfo.Text
+                        = selected.coinName + " ll "
+                        + selected.date.ToString("yy-MM-dd HH:mm:ss") + " ll "
+                        + selected.unit.ToString(",0.####") + " ll "
+                        + selected.price.ToString(",0.##");
+                }
+            }
+        }
+        private void dataGridView1_MouseUp(object sender, MouseEventArgs e)
+        {
+            dataGridView1.ClearSelection();
+            if (e.Button == MouseButtons.Right)
+                ((DataTable)dataGridView1.DataSource).DefaultView.Sort = "";
+        }
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            if (type == 1)
+                dataGridView1.ClearSelection();
         }
         private void btn_cancel_Click(object sender, EventArgs e)
         {
-            if (type == 0 && selected.uuid != "")
+            if (selected.uuid == "") return;
+            if (type == 0)
             {
                 DialogResult test = MessageBox.Show(
                       "Name : " + selected.coinName + Environment.NewLine
@@ -322,18 +361,37 @@ namespace UpbitDealer.form
                       , "Confirm", MessageBoxButtons.OKCancel);
                 if (test == DialogResult.OK)
                 {
-                    int ret = ((Main)Owner).tradeHistory.cancelPending(selected.uuid);
+                    int ret = ownerForm.tradeHistory.cancelPending(selected.uuid);
                     if (ret < 0)
                     {
                         MessageBox.Show("API error, try again");
                         return;
                     }
-                    else
+                    MessageBox.Show("Success!");
+                    text_selectInfo.Text = "";
+                    selected.uuid = "";
+                }
+            }
+            else if (type == 2)
+            {
+                DialogResult test = MessageBox.Show(
+                      "Name : " + selected.coinName + Environment.NewLine
+                      + "Unit : " + selected.unit + Environment.NewLine
+                      + "Price : " + selected.price + Environment.NewLine
+                      , "Confirm", MessageBoxButtons.OKCancel);
+                if (test == DialogResult.OK)
+                {
+                    int ret;
+                    lock (ownerForm.lock_macro)
+                        ret = ownerForm.macro.deleteMacroState(selected.coinName, selected.uuid);
+                    if (ret < 0)
                     {
-                        MessageBox.Show("Success!");
-                        text_selectInfo.Text = "";
-                        selected.uuid = "";
+                        MessageBox.Show("Fail");
+                        return;
                     }
+                    MessageBox.Show("Success!");
+                    text_selectInfo.Text = "";
+                    selected.uuid = "";
                 }
             }
         }

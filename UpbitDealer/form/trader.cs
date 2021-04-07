@@ -13,6 +13,7 @@ namespace UpbitDealer.form
     {
         private React react;
         private List<string> coinList;
+        private Main ownerForm;
 
         private bool AllStop = false;
         private bool isInit = false;
@@ -41,9 +42,10 @@ namespace UpbitDealer.form
         private bool isPlace = true;
 
 
-        public Trader(string access_key, string secret_key, List<string> coinList)
+        public Trader(Main ownerForm, string access_key, string secret_key, List<string> coinList)
         {
             InitializeComponent();
+            this.ownerForm = ownerForm;
             this.react = new React(access_key, secret_key);
             this.coinList = coinList;
         }
@@ -801,7 +803,7 @@ namespace UpbitDealer.form
                 return;
             }
 
-            lock (((Main)Owner).lock_tradeHistory)
+            lock (ownerForm.lock_tradeHistory)
             {
                 TradeData tempData = new TradeData();
                 tempData.uuid = ret["uuid"].ToString();
@@ -811,12 +813,12 @@ namespace UpbitDealer.form
                 tempData.unit = units;
                 tempData.price = isPlace ? price : 0;
                 tempData.fee = 0;
-                ((Main)Owner).tradeHistory.addNewPending(tempData);
-                ((Main)Owner).tradeHistory.saveFile();
+                ownerForm.tradeHistory.addNewPending(tempData);
+                ownerForm.tradeHistory.saveFile();
             }
             canTradeSet = false;
             needTradeInit = true;
-            ((Main)Owner).logIn(new output(0, "Trade execution", selectedName + ", " + how + type + ", " + units + ", " + tempPrice));
+            ownerForm.logIn(new output(0, "Trade execution", selectedName + ", " + how + type + ", " + units + ", " + tempPrice));
             MessageBox.Show("Success!");
         }
     }

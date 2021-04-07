@@ -311,6 +311,111 @@ namespace UpbitDealer.form
         }
 
 
+        private void executeUpdate()
+        {
+            while (!AllStop)
+            {
+                int tempType = needShowType;
+                DataView candleData = getDataTable(needShowType);
+                if (candleData == null) continue;
+                DataView bbData = makeBollinger(candleData);
+                DataView mfiData = makeMFI(candleData);
+                DataView stocData = makeStochastic(candleData);
+
+                lock (lock_update)
+                {
+                    Main_Data = candleData;
+                    Bollinger_Data = bbData;
+                    MFI_Data = mfiData;
+                    Stochastic_Data = stocData;
+                }
+                dataShowType = tempType;
+
+                for (int i = 0; i < 20; i++)
+                {
+                    if (AllStop || dataShowType != needShowType) break;
+                    Thread.Sleep(100);
+                }
+            }
+        }
+        private void timer_update_Tick(object sender, EventArgs e)
+        {
+            bindChart();
+            if (beforeShowType != dataShowType)
+            {
+                DateTime datetime;
+                lock (lock_update) datetime = (DateTime)Main_Data[Main_Data.Count - 1]["date"];
+                if (DateTime.Compare(datetime, xRangeMax) < 0)
+                {
+                    switch (dataShowType)
+                    {
+                        case 0:
+                            xRangeMax = datetime.AddMinutes(3);
+                            break;
+                        case 1:
+                            xRangeMax = datetime.AddMinutes(9);
+                            break;
+                        case 2:
+                            xRangeMax = datetime.AddMinutes(15);
+                            break;
+                        case 3:
+                            xRangeMax = datetime.AddMinutes(30);
+                            break;
+                        case 4:
+                            xRangeMax = datetime.AddMinutes(45);
+                            break;
+                        case 5:
+                            xRangeMax = datetime.AddMinutes(90);
+                            break;
+                        case 6:
+                            xRangeMax = datetime.AddHours(3);
+                            break;
+                        case 7:
+                            xRangeMax = datetime.AddHours(12);
+                            break;
+                        case 8:
+                            xRangeMax = datetime.AddDays(3);
+                            break;
+                        case 9:
+                            xRangeMax = datetime.AddDays(21);
+                            break;
+                        case 10:
+                            xRangeMax = datetime.AddMonths(3);
+                            break;
+                    }
+                    chart.ChartAreas["ChartArea1"].AxisX.Maximum = xRangeMax.ToOADate();
+                    chart.ChartAreas["ChartArea2"].AxisX.Maximum = xRangeMax.ToOADate();
+                }
+                beforeShowType = dataShowType;
+                setXaxisRange();
+                setYaxisRange();
+            }
+            bindCurTime = DateTime.Now;
+            if (bindLastTime.Minute != bindCurTime.Minute)
+            {
+                bindLastTime = bindCurTime;
+                xRangeMaxInit = xRangeMaxInit.AddMinutes(1);
+
+                if (beforeShowType == 0) { xRangeMax = xRangeMax.AddMinutes(1); }
+                else if (beforeShowType == 1 && bindCurTime.Minute % 3 == 0) { xRangeMax = xRangeMax.AddMinutes(3); }
+                else if (beforeShowType == 2 && bindCurTime.Minute % 5 == 0) { xRangeMax = xRangeMax.AddMinutes(5); }
+                else if (beforeShowType == 3 && bindCurTime.Minute % 10 == 0) { xRangeMax = xRangeMax.AddMinutes(10); }
+                else if (beforeShowType == 4 && bindCurTime.Minute % 15 == 0) { xRangeMax = xRangeMax.AddMinutes(15); }
+                else if (beforeShowType == 5 && bindCurTime.Minute % 30 == 0) { xRangeMax = xRangeMax.AddMinutes(30); }
+                else if (beforeShowType == 6 && bindCurTime.Minute == 0) { xRangeMax = xRangeMax.AddHours(1); }
+                else if (beforeShowType == 7 && bindCurTime.Hour % 4 == 0) { xRangeMax = xRangeMax.AddHours(4); }
+                else if (beforeShowType == 8 && bindCurTime.Hour == 0) { xRangeMax = xRangeMax.AddDays(1); }
+                else if (beforeShowType == 9 && bindCurTime.DayOfWeek == 0) { xRangeMax = xRangeMax.AddDays(7); }
+                else if (beforeShowType == 10 && bindCurTime.Day == 1) { xRangeMax = xRangeMax.AddMonths(1); }
+
+                chart.ChartAreas["ChartArea1"].AxisX.Maximum = xRangeMax.ToOADate();
+                chart.ChartAreas["ChartArea2"].AxisX.Maximum = xRangeMax.ToOADate();
+                setXaxisRange();
+                setYaxisRange();
+            }
+        }
+
+
         private void trkbar_horizontal_Scroll(object sender, EventArgs e)
         {
             setXaxisRange();
@@ -635,7 +740,7 @@ namespace UpbitDealer.form
             else if (e.Location.X < 0 || e.Location.X > chart.Size.Width) return;
 
             double range = chart.ChartAreas["ChartArea1"].AxisX.Maximum - chart.ChartAreas["ChartArea1"].AxisX.Minimum;
-            double distance = (e.Location.X - mouseDownX) / (double)chart.Size.Width * 2;
+            double distance = (e.Location.X - mouseDownX) / chart.Size.Width * 2;
             chart.ChartAreas["ChartArea1"].AxisX.Maximum -= range * distance;
             chart.ChartAreas["ChartArea1"].AxisX.Minimum = chart.ChartAreas["ChartArea1"].AxisX.Maximum - range;
             chart.ChartAreas["ChartArea2"].AxisX.Maximum = chart.ChartAreas["ChartArea1"].AxisX.Maximum;
@@ -746,110 +851,6 @@ namespace UpbitDealer.form
             needShowType = 10;
             resetRangeBtn();
             btn_month.BackColor = Color.Red;
-        }
-
-        private void timer_update_Tick(object sender, EventArgs e)
-        {
-            bindChart();
-            if (beforeShowType != dataShowType)
-            {
-                DateTime datetime;
-                lock (lock_update) datetime = (DateTime)Main_Data[Main_Data.Count - 1]["date"];
-                if (DateTime.Compare(datetime, xRangeMax) < 0)
-                {
-                    switch (dataShowType)
-                    {
-                        case 0:
-                            xRangeMax = datetime.AddMinutes(3);
-                            break;
-                        case 1:
-                            xRangeMax = datetime.AddMinutes(9);
-                            break;
-                        case 2:
-                            xRangeMax = datetime.AddMinutes(15);
-                            break;
-                        case 3:
-                            xRangeMax = datetime.AddMinutes(30);
-                            break;
-                        case 4:
-                            xRangeMax = datetime.AddMinutes(45);
-                            break;
-                        case 5:
-                            xRangeMax = datetime.AddMinutes(90);
-                            break;
-                        case 6:
-                            xRangeMax = datetime.AddHours(3);
-                            break;
-                        case 7:
-                            xRangeMax = datetime.AddHours(12);
-                            break;
-                        case 8:
-                            xRangeMax = datetime.AddDays(3);
-                            break;
-                        case 9:
-                            xRangeMax = datetime.AddDays(21);
-                            break;
-                        case 10:
-                            xRangeMax = datetime.AddMonths(3);
-                            break;
-                    }
-                    chart.ChartAreas["ChartArea1"].AxisX.Maximum = xRangeMax.ToOADate();
-                    chart.ChartAreas["ChartArea2"].AxisX.Maximum = xRangeMax.ToOADate();
-                }
-                beforeShowType = dataShowType;
-                setXaxisRange();
-                setYaxisRange();
-            }
-            bindCurTime = DateTime.Now;
-            if (bindLastTime.Minute != bindCurTime.Minute)
-            {
-                bindLastTime = bindCurTime;
-                xRangeMaxInit = xRangeMaxInit.AddMinutes(1);
-
-                if (beforeShowType == 0) { xRangeMax = xRangeMax.AddMinutes(1); }
-                else if (beforeShowType == 1 && bindCurTime.Minute % 3 == 0) { xRangeMax = xRangeMax.AddMinutes(3); }
-                else if (beforeShowType == 2 && bindCurTime.Minute % 5 == 0) { xRangeMax = xRangeMax.AddMinutes(5); }
-                else if (beforeShowType == 3 && bindCurTime.Minute % 10 == 0) { xRangeMax = xRangeMax.AddMinutes(10); }
-                else if (beforeShowType == 4 && bindCurTime.Minute % 15 == 0) { xRangeMax = xRangeMax.AddMinutes(15); }
-                else if (beforeShowType == 5 && bindCurTime.Minute % 30 == 0) { xRangeMax = xRangeMax.AddMinutes(30); }
-                else if (beforeShowType == 6 && bindCurTime.Minute == 0) { xRangeMax = xRangeMax.AddHours(1); }
-                else if (beforeShowType == 7 && bindCurTime.Hour % 4 == 0) { xRangeMax = xRangeMax.AddHours(4); }
-                else if (beforeShowType == 8 && bindCurTime.Hour == 0) { xRangeMax = xRangeMax.AddDays(1); }
-                else if (beforeShowType == 9 && bindCurTime.DayOfWeek == 0) { xRangeMax = xRangeMax.AddDays(7); }
-                else if (beforeShowType == 10 && bindCurTime.Day == 1) { xRangeMax = xRangeMax.AddMonths(1); }
-
-                chart.ChartAreas["ChartArea1"].AxisX.Maximum = xRangeMax.ToOADate();
-                chart.ChartAreas["ChartArea2"].AxisX.Maximum = xRangeMax.ToOADate();
-                setXaxisRange();
-                setYaxisRange();
-            }
-        }
-        private void executeUpdate()
-        {
-            while (!AllStop)
-            {
-                int tempType = needShowType;
-                DataView candleData = getDataTable(needShowType);
-                if (candleData == null) continue;
-                DataView bbData = makeBollinger(candleData);
-                DataView mfiData = makeMFI(candleData);
-                DataView stocData = makeStochastic(candleData);
-
-                lock (lock_update)
-                {
-                    Main_Data = candleData;
-                    Bollinger_Data = bbData;
-                    MFI_Data = mfiData;
-                    Stochastic_Data = stocData;
-                }
-                dataShowType = tempType;
-
-                for (int i = 0; i < 20; i++)
-                {
-                    if (AllStop || dataShowType != needShowType) break;
-                    Thread.Sleep(100);
-                }
-            }
         }
     }
 }
