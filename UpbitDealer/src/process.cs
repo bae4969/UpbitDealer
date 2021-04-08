@@ -261,7 +261,6 @@ namespace UpbitDealer.src
 
     public class TradeHistory
     {
-        private CultureInfo provider = CultureInfo.InvariantCulture;
         private ApiData apiData;
 
         public DataTable pendingData = new DataTable();
@@ -304,7 +303,7 @@ namespace UpbitDealer.src
                             TradeData tempData = new TradeData();
                             tempData.uuid = tempLine[0];
                             tempData.coinName = tempLine[1];
-                            tempData.date = DateTime.ParseExact(tempLine[2], "u", provider);
+                            tempData.date = DateTime.ParseExact(tempLine[2], "u", null);
                             tempData.isBid = bool.Parse(tempLine[3]);
                             tempData.unit = double.Parse(tempLine[4]);
                             tempData.price = double.Parse(tempLine[5]);

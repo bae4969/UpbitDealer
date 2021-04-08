@@ -258,13 +258,18 @@ namespace UpbitDealer.form
 
             while (!AllStop)
             {
-                for (int i = 0; !AllStop && i < coinList.Count && i < 70; i++)
+                for (int i = 0; !AllStop && i < coinList.Count && i < 70; )
                 {
                     Stopwatch stopwatch = new Stopwatch();
                     stopwatch.Start();
                     lock (lock_macro)
                     {
                         int ret = 0;
+                        if ((ret = macro.updateQuote()) < 0)
+                        {
+                            logIn(new output(0, "Macro Exection", "Fail to update quote (" + ret + ")"));
+                            continue;
+                        }
                         if ((ret = macro.updateCandleData(i)) < 0)
                         {
                             logIn(new output(0, "Macro Exection", "Fail to update candle (" + ret + ")"));
@@ -289,6 +294,7 @@ namespace UpbitDealer.form
                         macro.executionStr.Clear();
                         if (needSave) macro.saveFile();
                     }
+                    i++;
                     stopwatch.Stop();
 
                     long sleepTime = 1000 - stopwatch.ElapsedMilliseconds;

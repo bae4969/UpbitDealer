@@ -33,19 +33,17 @@ namespace UpbitDealer.src
 
     public class MacroSetting
     {
-        private CultureInfo provider = CultureInfo.InvariantCulture;
         private ApiData apiData;
+        private List<string> coinList = new List<string>();
+        private List<string> errorList = new List<string>();
+        public List<output> executionStr = new List<output>();
 
         public MacroSettingData setting = new MacroSettingData();
         public DataSet state = new DataSet();
         public DataTable order = new DataTable();
 
-        private List<string> coinList = new List<string>();
-        private List<string> errorList = new List<string>();
-        public List<output> executionStr = new List<output>();
-
         private double holdKRW = 0;
-        private DataTable lastCandleUpdate = new DataTable();
+        private Dictionary<string, double> quote = new Dictionary<string, double>();
         private DataSet[] candle = new DataSet[5];
         private DataSet[] bollinger = new DataSet[5];
         public DataTable[] weightBollinger = new DataTable[5];
@@ -56,20 +54,9 @@ namespace UpbitDealer.src
         public MacroSetting(string access_key, string secret_key, List<string> coinList)
         {
             apiData = new ApiData(access_key, secret_key);
+            this.coinList = coinList;
 
             initDefaultSetting();
-
-            order.Columns.Add("coinName", typeof(string));
-            order.Columns.Add("uuid", typeof(string));
-            order.Columns.Add("target_uuid", typeof(string));
-
-            lastCandleUpdate.Columns.Add("min30", typeof(DateTime));
-            lastCandleUpdate.Columns.Add("hour1", typeof(DateTime));
-            lastCandleUpdate.Columns.Add("hour4", typeof(DateTime));
-            lastCandleUpdate.Columns.Add("day", typeof(DateTime));
-            lastCandleUpdate.Columns.Add("week", typeof(DateTime));
-
-            this.coinList = coinList;
             for (int i = 0; i < coinList.Count; i++)
             {
                 DataTable state_table = new DataTable(coinList[i]);
@@ -79,15 +66,14 @@ namespace UpbitDealer.src
                 state_table.Columns.Add("price", typeof(double));
                 state_table.Columns.Add("krw", typeof(double));
                 state.Tables.Add(state_table);
-
-                DataRow dataRow = lastCandleUpdate.NewRow();
-                dataRow["min30"] = DateTime.Now.AddMonths(-1);
-                dataRow["hour1"] = DateTime.Now.AddMonths(-1);
-                dataRow["hour4"] = DateTime.Now.AddMonths(-1);
-                dataRow["day"] = DateTime.Now.AddMonths(-1);
-                dataRow["week"] = DateTime.Now.AddMonths(-1);
-                lastCandleUpdate.Rows.Add(dataRow);
             }
+
+            order.Columns.Add("coinName", typeof(string));
+            order.Columns.Add("uuid", typeof(string));
+            order.Columns.Add("target_uuid", typeof(string));
+
+            for (int i = 0; i < coinList.Count; i++)
+                quote.Add(coinList[i], 0);
 
             for (int i = 0; i < 5; i++)
             {
@@ -178,7 +164,7 @@ namespace UpbitDealer.src
 
                         DataRow tempRow = state.Tables[singleData[0]].NewRow();
                         tempRow["uuid"] = singleData[1];
-                        tempRow["date"] = DateTime.ParseExact(singleData[2], "u", provider);
+                        tempRow["date"] = DateTime.ParseExact(singleData[2], "u", null);
                         tempRow["unit"] = double.Parse(singleData[3]);
                         tempRow["price"] = double.Parse(singleData[4]);
                         tempRow["krw"] = double.Parse(singleData[5]);
@@ -366,7 +352,6 @@ namespace UpbitDealer.src
                     dataRow["volume"] = (double)jArray[j]["candle_acc_trade_volume"];
                     candle[i].Tables[coinName].Rows.Add(dataRow);
                 }
-                lastCandleUpdate.Rows[index][i] = now;
 
                 for (int j = 0; j < 60 && j < candle[i].Tables[coinName].Rows.Count - 28; j++)
                 {
@@ -464,6 +449,22 @@ namespace UpbitDealer.src
 
             return -2;
         }
+        public int updateQuote()
+        {
+            JArray jArray = apiData.getTicker(coinList);
+            if (jArray == null) return -1;
+            if (jArray.Count != coinList.Count) return -2;
+
+            for(int i = 0; i < jArray.Count; i++)
+            {
+                string[] coinName = jArray[i]["market"].ToString().Split('-');
+                if (coinName.Length < 2) return -3;
+                if (!quote.ContainsKey(coinName[1])) return -4;
+                quote[coinName[1]] = (double)jArray[i]["trade_price"];
+            }
+
+            return 0;
+        }
         public int updateCandleData(int index)
         {
             string coinName = coinList[index];
@@ -471,31 +472,30 @@ namespace UpbitDealer.src
             for (int i = 0; i < 5; i++)
             {
                 DateTime now = DateTime.Now.AddSeconds(-10);
-                DateTime last = (DateTime)lastCandleUpdate.Rows[index][i];
+                DateTime last = (DateTime)candle[i].Tables[coinName].Rows[0]["date"];
                 string apiPar = "";
                 bool isAdd = false;
                 switch (i)
                 {
                     case 0:
                         apiPar = ac.CANDLE_MIN30; ;
-                        isAdd = now.Minute % 30 < last.Minute % 30;
+                        isAdd = (now - last).TotalMinutes > 30;
                         break;
                     case 1:
                         apiPar = ac.CANDLE_HOUR1;
-                        isAdd = now.Minute < last.Minute;
+                        isAdd = (now - last).TotalHours > 1;
                         break;
                     case 2:
                         apiPar = ac.CANDLE_HOUR4;
-                        isAdd = now.Hour % 4 < last.Hour % 4;
+                        isAdd = (now - last).TotalHours > 4;
                         break;
                     case 3:
                         apiPar = ac.CANDLE_DAY;
-                        isAdd = now.Hour < last.Hour;
+                        isAdd = (now - last).TotalDays > 1;
                         break;
                     case 4:
                         apiPar = ac.CANDLE_WEEK;
-                        isAdd = ((int)now.DayOfWeek == 6 ? -1 : (int)now.DayOfWeek)
-                            < ((int)last.DayOfWeek == 6 ? -1 : (int)last.DayOfWeek);
+                        isAdd = (now - last).TotalDays > 7;
                         break;
                 }
 
@@ -505,8 +505,6 @@ namespace UpbitDealer.src
 
                 if (isAdd)
                 {
-                    lastCandleUpdate.Rows[index][i] = now;
-
                     DataRow dataRow = candle[i].Tables[coinName].NewRow();
                     dataRow["date"] = Convert.ToDateTime(jArray[0]["candle_date_time_kst"]);
                     dataRow["open"] = (double)jArray[0]["opening_price"];
@@ -825,7 +823,6 @@ namespace UpbitDealer.src
                 double buyPrice = (double)state.Tables[coinName].Rows[i]["price"];
                 buyPrice *= (100d + setting.yield) / 100d;
                 if ((double)sellCandle.Rows[0]["close"] < buyPrice) continue;
-
 
                 if (setting.week_to > -90000d)
                 {
