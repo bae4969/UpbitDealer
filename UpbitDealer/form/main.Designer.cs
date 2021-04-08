@@ -93,7 +93,7 @@ namespace UpbitDealer.form
             // timer_log
             // 
             this.timer_log.Enabled = true;
-            this.timer_log.Interval = 200;
+            this.timer_log.Interval = 500;
             this.timer_log.Tick += new System.EventHandler(this.timer_logOut_Tick);
             // 
             // list_coinName
