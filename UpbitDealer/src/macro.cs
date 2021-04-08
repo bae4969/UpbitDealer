@@ -549,6 +549,7 @@ namespace UpbitDealer.src
                     dataRow["date"] = candle[i].Tables[coinName].Rows[0]["date"];
                     dataRow["value"] = value;
                     bollinger[i].Tables[coinName].Rows.InsertAt(dataRow, 0);
+
                     needWeightAvgAdd[i] = true;
 
                     if (bollinger[i].Tables[coinName].Rows.Count > 60)
@@ -603,7 +604,9 @@ namespace UpbitDealer.src
                 }
                 else
                 {
+                    weightBollinger[i].Rows[0]["date"] = bollinger[i].Tables[0].Rows[0]["date"];
                     weightBollinger[i].Rows[0]["value"] = weight / weightCount;
+                    avgBollinger[i].Rows[0]["value"] = bollinger[i].Tables[0].Rows[0]["date"];
                     avgBollinger[i].Rows[0]["value"] = avg / avgCount;
                 }
             }

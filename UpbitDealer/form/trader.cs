@@ -582,7 +582,7 @@ namespace UpbitDealer.form
             trackBar_total.Value = 0;
             text_priceTrack_value.Text = "[   100%   ]";
             text_totalTrack_value.Text = "[   0%   ]";
-            text_trade_units.Text = "";
+            text_trade_units.Text = "Units";
             text_trade_total.Text = "Total  (5000↑)";
             text_trade_units.ForeColor = Color.DarkGray;
             text_trade_total.ForeColor = Color.DarkGray;
