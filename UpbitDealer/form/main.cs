@@ -24,9 +24,10 @@ namespace UpbitDealer.form
 
         private Thread thread_updater;
         private MainUpdater mainUpdater;
-        private readonly object lock_mainUpdater = new object();
-        private DataTable holdList;
-        private DataTable showHoldList;
+        public readonly object lock_mainUpdater = new object();
+        public List<Account> account;
+        public Dictionary<string, Ticker> ticker;
+        private DataTable showAccount;
 
         private Thread thread_tradeHistory;
         public TradeHistory tradeHistory;
@@ -48,35 +49,39 @@ namespace UpbitDealer.form
             {
                 mainUpdater = new MainUpdater(sAPI_Key, sAPI_Secret);
 
-                coinList = mainUpdater.getUpdateList();
-                if (coinList.Count < 1)
+                coinList = mainUpdater.setCoinList();
+                if (coinList == null)
                 {
                     MessageBox.Show("Init error due to API error, try again.");
                     Close();
                     return;
                 }
                 mainUpdater.update();
-                holdList = mainUpdater.holdList.Copy();
+                account = mainUpdater.account;
+                ticker = mainUpdater.ticker;
 
                 for (int i = 0; i < coinList.Count; i++)
                     list_coinName.Items.Add(coinList[i]);
 
-                showHoldList = new DataTable();
-                showHoldList.Columns.Add("Name", typeof(string));
-                showHoldList.Columns.Add("Units", typeof(double));
-                showHoldList.Columns.Add("Value", typeof(double));
-                showHoldList.Columns.Add("Total", typeof(double));
+                showAccount = new DataTable();
+                showAccount.Columns.Add("Name", typeof(string));
+                showAccount.Columns.Add("Units", typeof(double));
+                showAccount.Columns.Add("Price", typeof(double));
+                showAccount.Columns.Add("Total", typeof(double));
 
-                DataRow dataRow = showHoldList.NewRow();
-                dataRow["Name"] = holdList.Rows[0]["name"];
-                dataRow["Units"] = (double)holdList.Rows[0]["balance"];
-                dataRow["Value"] = (double)holdList.Rows[0]["last"];
-                dataRow["Total"] = (double)holdList.Rows[0]["total"];
-                showHoldList.Rows.Add(dataRow);
+                for (int i = 0; i < account.Count; i++)
+                {
+                    DataRow dataRow = showAccount.NewRow();
+                    dataRow["Name"] = account[i].coinName;
+                    dataRow["Units"] = account[i].locked + account[i].valid;
+                    dataRow["Price"] = account[i].coinName == "KRW" ? 1 : ticker[account[i].coinName].close;
+                    dataRow["Total"] = (double)dataRow["Units"] * (double)dataRow["Price"];
+                    showAccount.Rows.Add(dataRow);
+                }
 
-                dataGridView_holdList.DataSource = showHoldList;
+                dataGridView_holdList.DataSource = showAccount;
                 dataGridView_holdList.Columns["Units"].DefaultCellStyle.Format = "#,0.####";
-                dataGridView_holdList.Columns["Value"].DefaultCellStyle.Format = "#,0.##";
+                dataGridView_holdList.Columns["Price"].DefaultCellStyle.Format = "#,0.##";
                 dataGridView_holdList.Columns["Total"].DefaultCellStyle.Format = "#,0.##";
             }
 
@@ -195,15 +200,19 @@ namespace UpbitDealer.form
         {
             while (!AllStop)
             {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+
                 lock (lock_mainUpdater)
-                {
-                    if (mainUpdater.update() > -1)
-                        holdList = mainUpdater.holdList.Copy();
-                }
-                for (int i = 0; i < 20; i++)
+                    mainUpdater.update();
+
+                stopwatch.Stop();
+                long sleepTime = 1000 - stopwatch.ElapsedMilliseconds;
+                while (sleepTime > 0)
                 {
                     if (AllStop) break;
                     Thread.Sleep(100);
+                    sleepTime -= 100;
                 }
             }
         }
@@ -236,7 +245,7 @@ namespace UpbitDealer.form
         }
         private void executeMacro()
         {
-            logIn(new output(0, "Macro Exection", "Load candle data"));
+            logIn(new Output(0, "Macro Exection", "Load candle data"));
             for (int i = 0; !AllStop && i < 70 && i < coinList.Count; i++)
             {
                 Stopwatch stopwatch = new Stopwatch();
@@ -246,7 +255,7 @@ namespace UpbitDealer.form
                 stopwatch.Stop();
 
                 long sleepTime = 1000 - stopwatch.ElapsedMilliseconds;
-                while(sleepTime > 0)
+                while (sleepTime > 0)
                 {
                     if (AllStop) break;
                     Thread.Sleep(100);
@@ -254,32 +263,29 @@ namespace UpbitDealer.form
                 }
             }
             macro.initBollingerWeightAvg();
-            logIn(new output(0, "Macro Exection", "Finish to load, Start macro"));
+            logIn(new Output(0, "Macro Exection", "Finish to load, Start macro"));
 
             while (!AllStop)
             {
-                for (int i = 0; !AllStop && i < coinList.Count && i < 70; )
+                for (int i = 0; !AllStop && i < coinList.Count && i < 70; i++)
                 {
                     Stopwatch stopwatch = new Stopwatch();
                     stopwatch.Start();
+
                     lock (lock_macro)
                     {
-                        int ret = 0;
-                        if ((ret = macro.updateQuote()) < 0)
+                        int ret;
+                        lock (lock_mainUpdater)
                         {
-                            logIn(new output(0, "Macro Exection", "Fail to update quote (" + ret + ")"));
+                            macro.updateLastKrw(account);
+                            ret = macro.updateQuote(i, ticker);
+                        }
+                        if(ret < 0)
+                        {
+                            logIn(new Output(0, "Macro Execution", "Fail to update quote (" + i + ")"));
                             continue;
                         }
-                        if ((ret = macro.updateCandleData(i)) < 0)
-                        {
-                            logIn(new output(0, "Macro Exection", "Fail to update candle (" + ret + ")"));
-                            continue;
-                        }
-                        if ((ret = macro.updateLastKrw()) < 0)
-                        {
-                            logIn(new output(0, "Macro Exection", "Fail to update hold krw (" + ret + ")"));
-                            continue;
-                        }
+                        macro.updateCandleData(i);
 
                         bool needSave = false;
                         if (macro.executeMacroBuy(i) > 0) needSave = true;
@@ -288,16 +294,16 @@ namespace UpbitDealer.form
                         for (int j = 0; j < macro.order.Rows.Count; j++)
                             if (macro.executeCheckResult(j) > 0)
                                 needSave = true;
+
+                        if (needSave) macro.saveFile();
+
                         for (int j = 0; j < macro.executionStr.Count; j++)
                             logIn(macro.executionStr[j]);
-
                         macro.executionStr.Clear();
-                        if (needSave) macro.saveFile();
                     }
-                    i++;
-                    stopwatch.Stop();
 
-                    long sleepTime = 1000 - stopwatch.ElapsedMilliseconds;
+                    stopwatch.Stop();
+                    long sleepTime = 500 - stopwatch.ElapsedMilliseconds;
                     while (sleepTime > 0)
                     {
                         if (AllStop) break;
@@ -313,24 +319,24 @@ namespace UpbitDealer.form
         private void timer_panel_Tick(object sender, EventArgs e)
         {
             text_curTime.Text = DateTime.Now.ToString("yyyy-MM-dd || HH:mm:ss");
+            int index = dataGridView_holdList.FirstDisplayedCell.RowIndex;
+            double totalKrw = 0;
             lock (lock_mainUpdater)
             {
-                int index = dataGridView_holdList.FirstDisplayedCell.RowIndex;
-                double totalKrw = 0;
-                showHoldList.Clear();
-                for (int i = 0; i < holdList.Rows.Count; i++)
+                showAccount.Clear();
+                for (int i = 0; i < account.Count; i++)
                 {
-                    DataRow dataRow = showHoldList.NewRow();
-                    dataRow["Name"] = holdList.Rows[i]["name"];
-                    dataRow["Units"] = (double)holdList.Rows[i]["balance"];
-                    dataRow["Value"] = (double)holdList.Rows[i]["last"];
-                    dataRow["Total"] = (double)holdList.Rows[i]["total"];
+                    DataRow dataRow = showAccount.NewRow();
+                    dataRow["Name"] = account[i].coinName;
+                    dataRow["Units"] = account[i].locked + account[i].valid;
+                    dataRow["Price"] = account[i].coinName == "KRW" ? 1 : ticker[account[i].coinName].close;
+                    dataRow["Total"] = (double)dataRow["Units"] * (double)dataRow["Price"];
+                    showAccount.Rows.Add(dataRow);
                     totalKrw += (double)dataRow["Total"];
-                    showHoldList.Rows.Add(dataRow);
                 }
-                text_totalKrw.Text = "Total : " + Math.Round(totalKrw).ToString("0,0");
-                dataGridView_holdList.FirstDisplayedScrollingRowIndex = index;
             }
+            text_totalKrw.Text = "Total : " + totalKrw.ToString("0,0");
+            dataGridView_holdList.FirstDisplayedScrollingRowIndex = index;
         }
         private void timer_logOut_Tick(object sender, EventArgs e)
         {
@@ -341,7 +347,7 @@ namespace UpbitDealer.form
                     logList.Remove(logList[0]);
                 }
         }
-        public void logIn(output log)
+        public void logIn(Output log)
         {
             lock (lock_logList)
                 logList.Add(DateTime.Now.ToString(" [yyyy-MM-dd_HH:mm:ss] ") + log.title + " : " + log.str);
@@ -364,7 +370,7 @@ namespace UpbitDealer.form
         private void dataGridView_holdList_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
-                showHoldList.DefaultView.Sort = "";
+                showAccount.DefaultView.Sort = "";
         }
 
 

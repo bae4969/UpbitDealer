@@ -7,117 +7,85 @@ using System.Windows.Forms;
 
 namespace UpbitDealer.src
 {
-    public struct output
-    {
-        public int level;
-        public string title;
-        public string str;
-
-        public output(int level, string title, string str)
-        {
-            this.level = level;
-            this.title = title;
-            this.str = str;
-        }
-    }
-    public struct TradeData
-    {
-        public string uuid;
-        public DateTime date;
-        public string coinName;
-        public bool isBid;
-        public double unit;
-        public double price;
-        public double fee;
-    }
-
-
-
-    // for 'main' form infomation
     public class MainUpdater
     {
         private ApiData apiData;
         private Dictionary<string, string> apiParameter = new Dictionary<string, string>();
 
-        public DataTable holdList = new DataTable();
+        public List<string> coinList = new List<string>();
+        public List<Account> account = new List<Account>();
+        public Dictionary<string, Ticker> ticker = new Dictionary<string, Ticker>();
 
 
         public MainUpdater(string access_key, string secret_key)
         {
             apiData = new ApiData(access_key, secret_key);
             apiParameter.Add("currency", "ALL");
-
-            holdList.Columns.Add("name", typeof(string));
-            holdList.Columns.Add("total", typeof(double));
-            holdList.Columns.Add("locked", typeof(double));
-            holdList.Columns.Add("balance", typeof(double));
-            holdList.Columns.Add("last", typeof(double));
         }
 
 
-        public List<string> getUpdateList()
+        public List<string> setCoinList()
         {
-            List<string> retVal = new List<string>();
+            JArray jArray = apiData.getCoinList();
+            if (jArray == null) return null;
 
-            JArray retData = apiData.getCoinList();
-            if (retData == null) return retVal;
-
-            for (int i = 0; i < retData.Count; i++)
+            ticker.Clear();
+            for (int i = 0; i < jArray.Count; i++)
             {
-                string[] temp = retData[i]["market"].ToString().Split('-');
-                if (temp.Length > 1)
-                    if (temp[0] == "KRW" && !retVal.Contains(temp[1]))
-                        retVal.Add(temp[1]);
+                string[] coinName = jArray[i]["market"].ToString().Split('-');
+                if (coinName.Length > 1)
+                    if (coinName[0] == "KRW" && !coinList.Contains(coinName[1]))
+                    {
+                        coinList.Add(coinName[1]);
+                        ticker.Add(coinName[1], new Ticker());
+                    }
             }
 
-            return retVal;
+            return coinList;
         }
 
 
         public int update()
         {
-            return updateHoldList();
+            if (updateAccount() < 0) return -1;
+            if (updateTicker() < 0) return -2;
+            return 0;
         }
-        private int updateHoldList()
+        private int updateAccount()
         {
-            List<string> tickerList = new List<string>();
-            JArray retData = apiData.getAsset();
-            if (retData == null) return -1;
+            JArray jArray = apiData.getAsset();
+            if (jArray == null) return -1;
 
-            holdList.Rows.Clear();
-            for (int i = 0; i < retData.Count; i++)
+            account.Clear();
+            for (int i = 0; i < jArray.Count; i++)
             {
-                DataRow dataRow = holdList.NewRow();
-                dataRow["name"] = retData[i]["currency"];
-                dataRow["locked"] = retData[i]["locked"];
-                dataRow["balance"] = (double)retData[i]["locked"] + (double)retData[i]["balance"];
-                if (retData[i]["currency"].ToString() == "KRW")
-                {
-                    dataRow["last"] = 1d;
-                    dataRow["total"] = dataRow["balance"];
-                }
-                else
-                    tickerList.Add(retData[i]["currency"].ToString());
-                holdList.Rows.Add(dataRow);
+                account.Add(new Account(
+                    jArray[i]["currency"].ToString(),
+                    (double)jArray[i]["locked"],
+                    (double)jArray[i]["balance"])
+                    );
             }
 
-            if (tickerList.Count < 1) return 0;
-            retData = apiData.getTicker(tickerList);
-            if (retData == null) return -2;
+            return 0;
+        }
+        private int updateTicker()
+        {
+            JArray jArray = apiData.getTicker(coinList);
+            if (jArray == null) return -1;
 
-            for (int i = 0; i < retData.Count; i++)
+            for (int i = 0; i < jArray.Count; i++)
             {
-                string[] temp = retData[i]["market"].ToString().Split('-');
-                if (temp.Length < 2) continue;
-                for (int j = 0; j < holdList.Rows.Count; j++)
-                {
-                    if (holdList.Rows[j]["name"].ToString() == temp[1])
-                    {
-                        holdList.Rows[j]["last"] = retData[i]["trade_price"];
-                        holdList.Rows[j]["total"] = (double)holdList.Rows[j]["last"] * ((double)holdList.Rows[j]["locked"] + (double)holdList.Rows[j]["balance"]);
-                        break;
-                    }
-                }
+                string[] coinName = jArray[i]["market"].ToString().Split('-');
+                ticker[coinName[1]].open = (double)jArray[i]["opening_price"];
+                ticker[coinName[1]].close = (double)jArray[i]["trade_price"];
+                ticker[coinName[1]].max = (double)jArray[i]["high_price"];
+                ticker[coinName[1]].min = (double)jArray[i]["low_price"];
+                ticker[coinName[1]].volume = (double)jArray[i]["trade_volume"];
+                ticker[coinName[1]].prePrice = (double)jArray[i]["prev_closing_price"];
+                ticker[coinName[1]].accTotal = (double)jArray[i]["acc_trade_price"];
+                ticker[coinName[1]].accVolume = (double)jArray[i]["acc_trade_volume"];
+                ticker[coinName[1]].change = (double)jArray[i]["signed_change_price"];
+                ticker[coinName[1]].changeRate = (double)jArray[i]["signed_change_rate"];
             }
 
             return 0;
@@ -126,7 +94,6 @@ namespace UpbitDealer.src
 
 
 
-    // for 'trader' form trade and result
     public class React
     {
         private ApiData apiData;
@@ -146,27 +113,6 @@ namespace UpbitDealer.src
         }
 
 
-        public double[] getTickerData(string coinName)
-        {
-            JArray retData = apiData.getTicker(coinName);
-            if (retData == null) return null;
-            if (retData.Count < 1) return null;
-
-            double[] retTickerData = new double[11];
-            retTickerData[0] = (double)retData[0]["opening_price"];
-            retTickerData[1] = (double)retData[0]["trade_price"];
-            retTickerData[2] = (double)retData[0]["low_price"];
-            retTickerData[3] = (double)retData[0]["high_price"];
-            retTickerData[4] = (double)retData[0]["trade_volume"];
-            retTickerData[5] = (double)retData[0]["acc_trade_price"];
-            retTickerData[6] = (double)retData[0]["prev_closing_price"];
-            retTickerData[7] = (double)retData[0]["acc_trade_volume_24h"];
-            retTickerData[8] = (double)retData[0]["acc_trade_price_24h"];
-            retTickerData[9] = (double)retData[0]["signed_change_price"];
-            retTickerData[10] = (double)retData[0]["signed_change_rate"];
-
-            return retTickerData;
-        }
         public JArray getTransactionData(string coinName)
         {
             JArray retData = apiData.getTrans(coinName, 5);
@@ -194,21 +140,6 @@ namespace UpbitDealer.src
             }
 
             return retVal;
-        }
-        public double[] getBalanceData(string coinName)
-        {
-            JObject retData = apiData.getOrdersChance(coinName);
-            if (retData == null) return null;
-
-            double[] retBalanceData = new double[] { 0d, 0d, 0d, 0d, 0d, 0d, 0d };
-            retBalanceData[1] = (double)retData["bid_account"]["locked"];
-            retBalanceData[2] = (double)retData["bid_account"]["balance"];
-            retBalanceData[0] = retBalanceData[1] + retBalanceData[2];
-            retBalanceData[4] = (double)retData["ask_account"]["locked"];
-            retBalanceData[5] = (double)retData["ask_account"]["balance"];
-            retBalanceData[3] = retBalanceData[4] + retBalanceData[5];
-
-            return retBalanceData;
         }
 
 
@@ -262,11 +193,10 @@ namespace UpbitDealer.src
     public class TradeHistory
     {
         private ApiData apiData;
+        public List<Output> executionStr = new List<Output>();
 
         public DataTable pendingData = new DataTable();
         public DataTable historyData = new DataTable();
-
-        public List<output> executionStr = new List<output>();
 
 
         public TradeHistory(string access_key, string secret_key)
@@ -315,7 +245,7 @@ namespace UpbitDealer.src
             }
             catch (Exception ex)
             {
-                executionStr.Add(new output(2, "Trade Execution", "Fail to load pending data (" + ex.Message + ")"));
+                executionStr.Add(new Output(2, "Trade Execution", "Fail to load pending data (" + ex.Message + ")"));
                 return -1;
             }
 
@@ -348,7 +278,7 @@ namespace UpbitDealer.src
             }
             catch (Exception ex)
             {
-                executionStr.Add(new output(2, "Trade Execution", "Fail to save pending data (" + ex.Message + ")"));
+                executionStr.Add(new Output(2, "Trade Execution", "Fail to save pending data (" + ex.Message + ")"));
                 return -1;
             }
 
@@ -374,12 +304,12 @@ namespace UpbitDealer.src
             JObject jObject = apiData.cancelOrder(uuid);
             if (jObject == null)
             {
-                executionStr.Add(new output(0, "Cancel Execution",
+                executionStr.Add(new Output(0, "Cancel Execution",
                     "Fail to cancel pending (NULL)"));
                 return -1;
             }
 
-            executionStr.Add(new output(0, "Cancel Execution",
+            executionStr.Add(new Output(0, "Cancel Execution",
                 "Success to cancel pending, Remaining volume is " + jObject["remaining_volume"].ToString()));
 
             return 0;
@@ -403,13 +333,13 @@ namespace UpbitDealer.src
             price /= volume;
 
             if ((bool)pendingData.Rows[index]["isBid"])
-                executionStr.Add(new output(1, "Trade Execution",
+                executionStr.Add(new Output(1, "Trade Execution",
                     pendingData.Rows[index]["coinName"]
                     + " buy " + volume.ToString("0.########") + " " + pendingData.Rows[index]["coinName"]
                     + " for " + (volume * price).ToString("0.##") + " KRW (fee : " + fee + ")"));
 
             else
-                executionStr.Add(new output(1, "Trade Execution",
+                executionStr.Add(new Output(1, "Trade Execution",
                     pendingData.Rows[index]["coinName"]
                     + " sell " + volume.ToString("0.####") + " " + pendingData.Rows[index]["coinName"]
                     + " for " + (volume * price).ToString("0.##") + " KRW (fee : " + fee + ")"));

@@ -16,23 +16,15 @@ namespace UpbitDealer.form
         private Main ownerForm;
 
         private bool AllStop = false;
-        private bool isInit = false;
-
-        private string selectedName = "";
-        private double krw = 0d;
-        private double currency = 0d;
-        private double price = 0d;
-        private double units = 0d;
-        private double total = 0d;
 
         private Thread thread_updater;
         private readonly object lock_updater = new object();
         private readonly object lock_select = new object();
-        private double[] tickerData = new double[11];
-        private JArray transactionData = new JArray();
-        private List<double>[] ob = null;
+        private Ticker ticker = new Ticker();
+        private Account[] account = new Account[2] { new Account(), new Account() };
+        private JArray transaction = new JArray();
         private double THMax = double.MinValue;
-        private double[] vbalanceData = new double[7];
+        private List<double>[] ob = null;
 
         private bool selected = true;
         private bool needTradeInit = false;
@@ -40,6 +32,13 @@ namespace UpbitDealer.form
         private bool canTradeSet = false;
         private bool isBuy = true;
         private bool isPlace = true;
+
+        private string selectedName = "";
+        private double krw = 0d;
+        private double currency = 0d;
+        private double price = 0d;
+        private double units = 0d;
+        private double total = 0d;
 
 
         public Trader(Main ownerForm, string access_key, string secret_key, List<string> coinList)
@@ -51,23 +50,14 @@ namespace UpbitDealer.form
         }
         private void Trader_Load(object sender, EventArgs e)
         {
-            if (coinList.Count == 0)
-            {
-                MessageBox.Show("Init fail, try again.");
-                Close();
-            }
-
             for (int i = 0; i < coinList.Count; i++)
                 list_coinName.Items.Add(coinList[i]);
 
             thread_updater = new Thread(() => executeDataUpdate());
             thread_updater.Start();
-            isInit = true;
         }
         private void Trader_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (!isInit) return;
-
             AllStop = true;
             thread_updater.Join();
         }
@@ -84,78 +74,60 @@ namespace UpbitDealer.form
                 lock (lock_select)
                     if (selectedName != "" && selected)
                     {
-                        string name = selectedName;
-                        bool[] isNeedUpdate = { false, false, false, false };
-
-                        double[] tempTickerData = null;
-                        JArray tempTHData = null;
-                        List<double>[] tempOBData = null;
-                        double tempTHMax = double.MinValue;
-                        double[] tempBalacneData = null;
-
-                        if (selected)
+                        string coinName = selectedName;
+                        Ticker tempTicker;
+                        List<Account> tempAccount;
+                        lock (ownerForm.lock_mainUpdater)
                         {
-                            tempTickerData = react.getTickerData(name);
-                            if (tempTickerData != null) isNeedUpdate[0] = true;
-                            else selected = false;
+                            tempTicker = ownerForm.ticker[coinName];
+                            tempAccount = new List<Account>(ownerForm.account);
                         }
+                        JArray tempTH = react.getTransactionData(coinName);
+                        List<double>[] tempOB = react.getOrderBookData(coinName);
 
-                        if (selected)
+                        lock (lock_updater)
                         {
-                            tempTHData = react.getTransactionData(name);
-                            if (tempTHData != null) isNeedUpdate[1] = true;
-                            else selected = false;
-                        }
-
-                        if (selected)
-                        {
-                            tempOBData = react.getOrderBookData(name);
-                            if (tempOBData != null)
+                            bool isHold = false;
+                            ticker = tempTicker;
+                            for (int i = 0; i < tempAccount.Count; i++)
                             {
+                                if (tempAccount[i].coinName == "KRW")
+                                {
+                                    account[0].coinName = tempAccount[i].coinName;
+                                    account[0].locked = tempAccount[i].locked;
+                                    account[0].valid = tempAccount[i].valid;
+                                }
+                                else if (tempAccount[i].coinName == coinName)
+                                {
+                                    isHold = true;
+                                    account[1].coinName = tempAccount[i].coinName;
+                                    account[1].locked = tempAccount[i].locked;
+                                    account[1].valid = tempAccount[i].valid;
+                                    break;
+                                }
+                            }
+                            if (!isHold)
+                            {
+                                account[1].coinName = coinName;
+                                account[1].locked = 0;
+                                account[1].valid = 0;
+                            }
+
+                            transaction = tempTH;
+                            ob = tempOB;
+                            if (ob != null)
+                            {
+                                THMax = double.MinValue;
                                 for (int i = 0; i < 15; i++)
                                 {
-                                    tempTHMax = Math.Max(tempTHMax, tempOBData[2][i]);
-                                    tempTHMax = Math.Max(tempTHMax, tempOBData[3][i]);
+                                    THMax = Math.Max(THMax, tempOB[2][i]);
+                                    THMax = Math.Max(THMax, tempOB[3][i]);
                                 }
-                                isNeedUpdate[2] = true;
                             }
-                            else selected = false;
-                        }
-
-                        if (needTradeInit)
-                        {
-                            tempBalacneData = react.getBalanceData(name);
-                            if (tempBalacneData != null)
+                            if (needTradeInit)
                             {
-                                isNeedUpdate[3] = true;
                                 needTradeInit = false;
-                            }
-                        }
-
-                        if (selected)
-                        {
-                            lock (lock_updater)
-                            {
-                                if (isNeedUpdate[0])
-                                    for (int i = 0; i < 11; i++)
-                                        tickerData[i] = tempTickerData[i];
-
-                                if (isNeedUpdate[1])
-                                    transactionData = tempTHData;
-
-                                if (isNeedUpdate[2])
-                                {
-                                    ob = tempOBData;
-                                    THMax = tempTHMax;
-                                }
-
-                                if (isNeedUpdate[3])
-                                {
-                                    for (int i = 0; i < 7; i++)
-                                        vbalanceData[i] = tempBalacneData[i];
-                                    vbalanceData[6] = tickerData[1];
-                                    needTradeUpdate = true;
-                                }
+                                needTradeUpdate = true;
                             }
                         }
                     }
@@ -181,10 +153,10 @@ namespace UpbitDealer.form
             }
             else
             {
-                text_value.ForeColor = Color.White;
-                text_value.Text = "Delisting";
-                text_fluctate.Text = "";
-                text_fluctate_rate.Text = "";
+                text_price.ForeColor = Color.White;
+                text_price.Text = "Delisting";
+                text_change.Text = "";
+                text_change_rate.Text = "";
                 text_prev_close.Text = "";
                 text_max.Text = "";
                 text_min.Text = "";
@@ -200,39 +172,40 @@ namespace UpbitDealer.form
             if (selectedName != "")
             {
                 text_name.Text = selectedName;
-                if (tickerData[10] >= 0)
+                if (ticker.changeRate >= 0)
                 {
-                    text_value.ForeColor = Color.Red;
-                    text_fluctate.ForeColor = Color.Red;
-                    text_fluctate_rate.ForeColor = Color.Red;
+                    text_price.ForeColor = Color.Red;
+                    text_change.ForeColor = Color.Red;
+                    text_change_rate.ForeColor = Color.Red;
                 }
                 else
                 {
-                    text_value.ForeColor = Color.DodgerBlue;
-                    text_fluctate.ForeColor = Color.DodgerBlue;
-                    text_fluctate_rate.ForeColor = Color.DodgerBlue;
+                    text_price.ForeColor = Color.DodgerBlue;
+                    text_change.ForeColor = Color.DodgerBlue;
+                    text_change_rate.ForeColor = Color.DodgerBlue;
                 }
-                text_fluctate.Text = tickerData[9].ToString(",0.####");
-                text_fluctate_rate.Text = tickerData[10].ToString("0.##") + "%";
-                text_prev_close.Text = tickerData[6].ToString(",0.####");
-                if (tickerData[0] <= tickerData[1])
+                text_price.Text = ticker.close.ToString(",0.##");
+                text_change.Text = ticker.change.ToString(",0.####");
+                text_change_rate.Text = ticker.changeRate.ToString("0.##") + "%";
+                text_prev_close.Text = ticker.prePrice.ToString(",0.####");
+                if (ticker.open <= ticker.close)
                 {
                     text_candle1.BackColor = Color.Red;
                     text_candle2.BackColor = Color.Red;
                     text_candle3.BackColor = Color.Red;
-                    text_open.Text = tickerData[0].ToString(",0.####");
-                    text_close.Text = tickerData[1].ToString(",0.####");
+                    text_open.Text = ticker.open.ToString(",0.####");
+                    text_close.Text = ticker.close.ToString(",0.####");
                 }
                 else
                 {
                     text_candle1.BackColor = Color.DodgerBlue;
                     text_candle2.BackColor = Color.DodgerBlue;
                     text_candle3.BackColor = Color.DodgerBlue;
-                    text_open.Text = tickerData[1].ToString(",0.####");
-                    text_close.Text = tickerData[0].ToString(",0.####");
+                    text_open.Text = ticker.close.ToString(",0.####");
+                    text_close.Text = ticker.open.ToString(",0.####");
                 }
-                text_min.Text = tickerData[2].ToString(",0.####");
-                text_max.Text = tickerData[3].ToString(",0.####");
+                text_min.Text = ticker.min.ToString(",0.####");
+                text_max.Text = ticker.max.ToString(",0.####");
             }
             else
             {
@@ -240,8 +213,8 @@ namespace UpbitDealer.form
                 text_candle2.BackColor = Color.DarkGray;
                 text_candle3.BackColor = Color.DarkGray;
                 text_name.Text = "";
-                text_fluctate.Text = "";
-                text_fluctate_rate.Text = "";
+                text_change.Text = "";
+                text_change_rate.Text = "";
                 text_prev_close.Text = "";
                 text_open.Text = "";
                 text_close.Text = "";
@@ -251,133 +224,51 @@ namespace UpbitDealer.form
         }
         private void refreshTransactionHistory()
         {
-            if (transactionData.Count > 4)
-            {
-                text_value.Text = transactionData[4]["trade_price"].ToString();
+            if (transaction == null) return;
 
+            TextBox[] date = new TextBox[5] {
+                text_TH0_date, text_TH1_date, text_TH2_date, text_TH3_date, text_TH4_date };
+            TextBox[] unit = new TextBox[5] {
+                text_TH0_unit, text_TH1_unit, text_TH2_unit, text_TH3_unit, text_TH4_unit };
+            TextBox[] price = new TextBox[5] {
+                text_TH0_price, text_TH1_price, text_TH2_price, text_TH3_price, text_TH4_price };
+            TextBox[] total = new TextBox[5] {
+                text_TH0_change, text_TH1_change, text_TH2_change, text_TH3_change, text_TH4_change };
+
+            if (transaction.Count > 4)
+            {
+                for (int i = 0; i < 5; i++)
                 {
-                    if (transactionData[0]["ask_bid"].ToString() == "BID")
+                    if (transaction[i]["ask_bid"].ToString() == "BID")
                     {
-                        text_TH0_date.BackColor = Color.LightBlue;
-                        text_TH0_unit.BackColor = Color.LightBlue;
-                        text_TH0_value.BackColor = Color.LightBlue;
-                        text_TH0_total.BackColor = Color.LightBlue;
+                        date[i].BackColor = Color.LightBlue;
+                        unit[i].BackColor = Color.LightBlue;
+                        price[i].BackColor = Color.LightBlue;
+                        total[i].BackColor = Color.LightBlue;
                     }
                     else
                     {
-                        text_TH0_date.BackColor = Color.LightPink;
-                        text_TH0_unit.BackColor = Color.LightPink;
-                        text_TH0_value.BackColor = Color.LightPink;
-                        text_TH0_total.BackColor = Color.LightPink;
+                        date[i].BackColor = Color.LightPink;
+                        unit[i].BackColor = Color.LightPink;
+                        price[i].BackColor = Color.LightPink;
+                        total[i].BackColor = Color.LightPink;
                     }
-                    text_TH0_date.Text = transactionData[0]["trade_date_utc"].ToString() + " " + transactionData[0]["trade_time_utc"].ToString();
-                    text_TH0_unit.Text = ((double)transactionData[0]["trade_volume"]).ToString("0.####");
-                    text_TH0_value.Text = ((double)transactionData[0]["trade_price"]).ToString(",0.##");
-                    text_TH0_total.Text = transactionData[0]["change_price"].ToString();
-                }
-                {
-                    if (transactionData[1]["ask_bid"].ToString() == "BID")
-                    {
-                        text_TH1_date.BackColor = Color.LightBlue;
-                        text_TH1_unit.BackColor = Color.LightBlue;
-                        text_TH1_value.BackColor = Color.LightBlue;
-                        text_TH1_total.BackColor = Color.LightBlue;
-                    }
-                    else
-                    {
-                        text_TH1_date.BackColor = Color.LightPink;
-                        text_TH1_unit.BackColor = Color.LightPink;
-                        text_TH1_value.BackColor = Color.LightPink;
-                        text_TH1_total.BackColor = Color.LightPink;
-                    }
-                    text_TH1_date.Text = transactionData[1]["trade_date_utc"].ToString() + " " + transactionData[1]["trade_time_utc"].ToString();
-                    text_TH1_unit.Text = ((double)transactionData[1]["trade_volume"]).ToString("0.####");
-                    text_TH1_value.Text = ((double)transactionData[1]["trade_price"]).ToString(",0.##");
-                    text_TH1_total.Text = transactionData[1]["change_price"].ToString();
-                }
-                {
-                    if (transactionData[2]["ask_bid"].ToString() == "BID")
-                    {
-                        text_TH2_date.BackColor = Color.LightBlue;
-                        text_TH2_unit.BackColor = Color.LightBlue;
-                        text_TH2_value.BackColor = Color.LightBlue;
-                        text_TH2_total.BackColor = Color.LightBlue;
-                    }
-                    else
-                    {
-                        text_TH2_date.BackColor = Color.LightPink;
-                        text_TH2_unit.BackColor = Color.LightPink;
-                        text_TH2_value.BackColor = Color.LightPink;
-                        text_TH2_total.BackColor = Color.LightPink;
-                    }
-                    text_TH2_date.Text = transactionData[2]["trade_date_utc"].ToString() + " " + transactionData[2]["trade_time_utc"].ToString();
-                    text_TH2_unit.Text = ((double)transactionData[2]["trade_volume"]).ToString("0.####");
-                    text_TH2_value.Text = ((double)transactionData[2]["trade_price"]).ToString(",0.##");
-                    text_TH2_total.Text = transactionData[2]["change_price"].ToString();
-                }
-                {
-                    if (transactionData[3]["ask_bid"].ToString() == "BID")
-                    {
-                        text_TH3_date.BackColor = Color.LightBlue;
-                        text_TH3_unit.BackColor = Color.LightBlue;
-                        text_TH3_value.BackColor = Color.LightBlue;
-                        text_TH3_total.BackColor = Color.LightBlue;
-                    }
-                    else
-                    {
-                        text_TH3_date.BackColor = Color.LightPink;
-                        text_TH3_unit.BackColor = Color.LightPink;
-                        text_TH3_value.BackColor = Color.LightPink;
-                        text_TH3_total.BackColor = Color.LightPink;
-                    }
-                    text_TH3_date.Text = transactionData[3]["trade_date_utc"].ToString() + " " + transactionData[3]["trade_time_utc"].ToString();
-                    text_TH3_unit.Text = ((double)transactionData[3]["trade_volume"]).ToString("0.####");
-                    text_TH3_value.Text = ((double)transactionData[3]["trade_price"]).ToString(",0.##");
-                    text_TH3_total.Text = transactionData[3]["change_price"].ToString();
-                }
-                {
-                    if (transactionData[4]["ask_bid"].ToString() == "BID")
-                    {
-                        text_TH4_date.BackColor = Color.LightBlue;
-                        text_TH4_unit.BackColor = Color.LightBlue;
-                        text_TH4_value.BackColor = Color.LightBlue;
-                        text_TH4_total.BackColor = Color.LightBlue;
-                    }
-                    else
-                    {
-                        text_TH4_date.BackColor = Color.LightPink;
-                        text_TH4_unit.BackColor = Color.LightPink;
-                        text_TH4_value.BackColor = Color.LightPink;
-                        text_TH4_total.BackColor = Color.LightPink;
-                    }
-                    text_TH4_date.Text = transactionData[4]["trade_date_utc"].ToString() + " " + transactionData[4]["trade_time_utc"].ToString();
-                    text_TH4_unit.Text = ((double)transactionData[4]["trade_volume"]).ToString("0.####");
-                    text_TH4_value.Text = ((double)transactionData[4]["trade_price"]).ToString(",0.##");
-                    text_TH4_total.Text = transactionData[4]["change_price"].ToString();
+                    string dateTime = transaction[i]["trade_date_utc"].ToString() + " " + transaction[i]["trade_time_utc"].ToString() + "Z";
+                    date[i].Text = DateTime.ParseExact(dateTime, "u", null).AddHours(9).ToString("yyyy-MM-dd HH:mm:ss");
+                    unit[i].Text = ((double)transaction[i]["trade_volume"]).ToString("0.####");
+                    price[i].Text = ((double)transaction[i]["trade_price"]).ToString(",0.##");
+                    total[i].Text = transaction[i]["change_price"].ToString();
                 }
             }
             else
             {
-                text_TH0_date.BackColor = Color.Black;
-                text_TH0_unit.BackColor = Color.Black;
-                text_TH0_value.BackColor = Color.Black;
-                text_TH0_total.BackColor = Color.Black;
-                text_TH1_date.BackColor = Color.Black;
-                text_TH1_unit.BackColor = Color.Black;
-                text_TH1_value.BackColor = Color.Black;
-                text_TH1_total.BackColor = Color.Black;
-                text_TH2_date.BackColor = Color.Black;
-                text_TH2_unit.BackColor = Color.Black;
-                text_TH2_value.BackColor = Color.Black;
-                text_TH2_total.BackColor = Color.Black;
-                text_TH3_date.BackColor = Color.Black;
-                text_TH3_unit.BackColor = Color.Black;
-                text_TH3_value.BackColor = Color.Black;
-                text_TH3_total.BackColor = Color.Black;
-                text_TH4_date.BackColor = Color.Black;
-                text_TH4_unit.BackColor = Color.Black;
-                text_TH4_value.BackColor = Color.Black;
-                text_TH4_total.BackColor = Color.Black;
+                for (int i = 0; i < 5; i++)
+                {
+                    date[i].BackColor = Color.Black;
+                    unit[i].BackColor = Color.Black;
+                    price[i].BackColor = Color.Black;
+                    total[i].BackColor = Color.Black;
+                }
             }
         }
         private void refreshOrderBook()
@@ -402,37 +293,37 @@ namespace UpbitDealer.form
                     text_askPrice13.Text = ob[0][1].ToString(",0.##");
                     text_askPrice14.Text = ob[0][0].ToString(",0.##");
 
-                    text_askQuantity00.Text = ob[2][14].ToString("F5");
-                    text_askQuantity01.Text = ob[2][13].ToString("F5");
-                    text_askQuantity02.Text = ob[2][12].ToString("F5");
-                    text_askQuantity03.Text = ob[2][11].ToString("F5");
-                    text_askQuantity04.Text = ob[2][10].ToString("F5");
-                    text_askQuantity05.Text = ob[2][9].ToString("F5");
-                    text_askQuantity06.Text = ob[2][8].ToString("F5");
-                    text_askQuantity07.Text = ob[2][7].ToString("F5");
-                    text_askQuantity08.Text = ob[2][6].ToString("F5");
-                    text_askQuantity09.Text = ob[2][5].ToString("F5");
-                    text_askQuantity10.Text = ob[2][4].ToString("F5");
-                    text_askQuantity11.Text = ob[2][3].ToString("F5");
-                    text_askQuantity12.Text = ob[2][2].ToString("F5");
-                    text_askQuantity13.Text = ob[2][1].ToString("F5");
-                    text_askQuantity14.Text = ob[2][0].ToString("F5");
+                    text_askVolume00.Text = ob[2][14].ToString("F5");
+                    text_askVolume01.Text = ob[2][13].ToString("F5");
+                    text_askVolume02.Text = ob[2][12].ToString("F5");
+                    text_askVolume03.Text = ob[2][11].ToString("F5");
+                    text_askVolume04.Text = ob[2][10].ToString("F5");
+                    text_askVolume05.Text = ob[2][9].ToString("F5");
+                    text_askVolume06.Text = ob[2][8].ToString("F5");
+                    text_askVolume07.Text = ob[2][7].ToString("F5");
+                    text_askVolume08.Text = ob[2][6].ToString("F5");
+                    text_askVolume09.Text = ob[2][5].ToString("F5");
+                    text_askVolume10.Text = ob[2][4].ToString("F5");
+                    text_askVolume11.Text = ob[2][3].ToString("F5");
+                    text_askVolume12.Text = ob[2][2].ToString("F5");
+                    text_askVolume13.Text = ob[2][1].ToString("F5");
+                    text_askVolume14.Text = ob[2][0].ToString("F5");
 
-                    text_askQuantity00.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][0] / THMax), 0, 0);
-                    text_askQuantity01.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][1] / THMax), 0, 0);
-                    text_askQuantity02.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][2] / THMax), 0, 0);
-                    text_askQuantity03.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][3] / THMax), 0, 0);
-                    text_askQuantity04.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][4] / THMax), 0, 0);
-                    text_askQuantity05.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][5] / THMax), 0, 0);
-                    text_askQuantity06.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][6] / THMax), 0, 0);
-                    text_askQuantity07.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][7] / THMax), 0, 0);
-                    text_askQuantity08.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][8] / THMax), 0, 0);
-                    text_askQuantity09.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][9] / THMax), 0, 0);
-                    text_askQuantity10.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][10] / THMax), 0, 0);
-                    text_askQuantity11.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][11] / THMax), 0, 0);
-                    text_askQuantity12.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][12] / THMax), 0, 0);
-                    text_askQuantity13.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][13] / THMax), 0, 0);
-                    text_askQuantity14.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][14] / THMax), 0, 0);
+                    text_askVolume00.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][0] / THMax), 0, 0);
+                    text_askVolume01.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][1] / THMax), 0, 0);
+                    text_askVolume02.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][2] / THMax), 0, 0);
+                    text_askVolume03.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][3] / THMax), 0, 0);
+                    text_askVolume04.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][4] / THMax), 0, 0);
+                    text_askVolume05.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][5] / THMax), 0, 0);
+                    text_askVolume06.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][6] / THMax), 0, 0);
+                    text_askVolume07.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][7] / THMax), 0, 0);
+                    text_askVolume08.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][8] / THMax), 0, 0);
+                    text_askVolume09.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][9] / THMax), 0, 0);
+                    text_askVolume10.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][10] / THMax), 0, 0);
+                    text_askVolume11.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][11] / THMax), 0, 0);
+                    text_askVolume12.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][12] / THMax), 0, 0);
+                    text_askVolume13.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][13] / THMax), 0, 0);
+                    text_askVolume14.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][14] / THMax), 0, 0);
 
                     text_bidPrice00.Text = ob[1][0].ToString(",0.##");
                     text_bidPrice01.Text = ob[1][1].ToString(",0.##");
@@ -450,37 +341,37 @@ namespace UpbitDealer.form
                     text_bidPrice13.Text = ob[1][13].ToString(",0.##");
                     text_bidPrice14.Text = ob[1][14].ToString(",0.##");
 
-                    text_bidQuantity00.Text = ob[3][0].ToString("F5");
-                    text_bidQuantity01.Text = ob[3][1].ToString("F5");
-                    text_bidQuantity02.Text = ob[3][2].ToString("F5");
-                    text_bidQuantity03.Text = ob[3][3].ToString("F5");
-                    text_bidQuantity04.Text = ob[3][4].ToString("F5");
-                    text_bidQuantity05.Text = ob[3][5].ToString("F5");
-                    text_bidQuantity06.Text = ob[3][6].ToString("F5");
-                    text_bidQuantity07.Text = ob[3][7].ToString("F5");
-                    text_bidQuantity08.Text = ob[3][8].ToString("F5");
-                    text_bidQuantity09.Text = ob[3][9].ToString("F5");
-                    text_bidQuantity10.Text = ob[3][10].ToString("F5");
-                    text_bidQuantity11.Text = ob[3][11].ToString("F5");
-                    text_bidQuantity12.Text = ob[3][12].ToString("F5");
-                    text_bidQuantity13.Text = ob[3][13].ToString("F5");
-                    text_bidQuantity14.Text = ob[3][14].ToString("F5");
+                    text_bidVolume00.Text = ob[3][0].ToString("F5");
+                    text_bidVolume01.Text = ob[3][1].ToString("F5");
+                    text_bidVolume02.Text = ob[3][2].ToString("F5");
+                    text_bidVolume03.Text = ob[3][3].ToString("F5");
+                    text_bidVolume04.Text = ob[3][4].ToString("F5");
+                    text_bidVolume05.Text = ob[3][5].ToString("F5");
+                    text_bidVolume06.Text = ob[3][6].ToString("F5");
+                    text_bidVolume07.Text = ob[3][7].ToString("F5");
+                    text_bidVolume08.Text = ob[3][8].ToString("F5");
+                    text_bidVolume09.Text = ob[3][9].ToString("F5");
+                    text_bidVolume10.Text = ob[3][10].ToString("F5");
+                    text_bidVolume11.Text = ob[3][11].ToString("F5");
+                    text_bidVolume12.Text = ob[3][12].ToString("F5");
+                    text_bidVolume13.Text = ob[3][13].ToString("F5");
+                    text_bidVolume14.Text = ob[3][14].ToString("F5");
 
-                    text_bidQuantity00.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][0] / THMax));
-                    text_bidQuantity01.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][1] / THMax));
-                    text_bidQuantity02.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][2] / THMax));
-                    text_bidQuantity03.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][3] / THMax));
-                    text_bidQuantity04.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][4] / THMax));
-                    text_bidQuantity05.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][5] / THMax));
-                    text_bidQuantity06.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][6] / THMax));
-                    text_bidQuantity07.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][7] / THMax));
-                    text_bidQuantity08.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][8] / THMax));
-                    text_bidQuantity09.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][9] / THMax));
-                    text_bidQuantity10.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][10] / THMax));
-                    text_bidQuantity11.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][11] / THMax));
-                    text_bidQuantity12.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][12] / THMax));
-                    text_bidQuantity13.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][13] / THMax));
-                    text_bidQuantity14.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][14] / THMax));
+                    text_bidVolume00.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][0] / THMax));
+                    text_bidVolume01.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][1] / THMax));
+                    text_bidVolume02.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][2] / THMax));
+                    text_bidVolume03.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][3] / THMax));
+                    text_bidVolume04.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][4] / THMax));
+                    text_bidVolume05.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][5] / THMax));
+                    text_bidVolume06.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][6] / THMax));
+                    text_bidVolume07.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][7] / THMax));
+                    text_bidVolume08.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][8] / THMax));
+                    text_bidVolume09.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][9] / THMax));
+                    text_bidVolume10.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][10] / THMax));
+                    text_bidVolume11.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][11] / THMax));
+                    text_bidVolume12.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][12] / THMax));
+                    text_bidVolume13.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][13] / THMax));
+                    text_bidVolume14.BackColor = Color.FromArgb(0, 0, 55 + (int)(200 * ob[3][14] / THMax));
                 }
         }
         private void refreshTrade()
@@ -540,9 +431,9 @@ namespace UpbitDealer.form
             this.isBuy = isBuy;
             this.isPlace = isPlace;
 
-            krw = vbalanceData[2];
-            currency = vbalanceData[5];
-            price = vbalanceData[6];
+            krw = account[0].valid;
+            currency = account[1].valid;
+            price = ticker.close;
             units = 0;
             total = 0;
 
@@ -622,7 +513,7 @@ namespace UpbitDealer.form
             else
             {
                 if (e.KeyCode == Keys.Enter) return;
-                price = vbalanceData[6];
+                price = ticker.close;
                 text_trade_price.Text = price.ToString(",0");
                 MessageBox.Show("Only can write NUMBER.");
             }
@@ -637,7 +528,7 @@ namespace UpbitDealer.form
         {
             if (!canTradeSet || !isPlace) return;
 
-            price = tickerData[1] * trackBar_price.Value / 100d;
+            price = ticker.close * trackBar_price.Value / 100d;
             if (price > 2000000) price = Convert.ToInt32(price / 1000) * 1000;
             else if (price > 1000000) price = Convert.ToInt32(price / 500) * 500;
             else if (price > 500000) price = Convert.ToInt32(price / 100) * 100;
@@ -721,16 +612,16 @@ namespace UpbitDealer.form
                 total = (trackBar_total.Value == 100) ? krw : (krw * trackBar_total.Value / 100d);
                 if (isPlace && price > 0)
                     units = total / price;
-                else if (!isPlace && vbalanceData[6] > 0)
-                    units = total / vbalanceData[6];
+                else if (!isPlace && ticker.close > 0)
+                    units = total / ticker.close;
             }
             else
             {
                 units = (trackBar_total.Value == 100) ? currency : (currency * trackBar_total.Value / 100d);
                 if (isPlace && price > 0)
                     total = units * price;
-                else if (!isPlace && vbalanceData[6] > 0)
-                    total = units * vbalanceData[6];
+                else if (!isPlace && ticker.close > 0)
+                    total = units * ticker.close;
             }
             text_trade_units.Text = units.ToString(",0.####");
             text_trade_total.Text = total.ToString(",0");
@@ -818,7 +709,7 @@ namespace UpbitDealer.form
             }
             canTradeSet = false;
             needTradeInit = true;
-            ownerForm.logIn(new output(0, "Trade execution", selectedName + ", " + how + type + ", " + units + ", " + tempPrice));
+            ownerForm.logIn(new Output(0, "Trade execution", selectedName + ", " + how + type + ", " + units + ", " + tempPrice));
             MessageBox.Show("Success!");
         }
     }

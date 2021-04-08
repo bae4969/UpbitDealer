@@ -1,42 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Globalization;
 using Newtonsoft.Json.Linq;
 
 namespace UpbitDealer.src
 {
-    public struct MacroSettingData
-    {
-        public double yield;
-        public double krw;
-        public double time;
-        public double week_from;
-        public double week_to;
-        public double day_from;
-        public double day_to;
-        public double hour4_from;
-        public double hour4_to;
-        public double hour1_from;
-        public double hour1_to;
-        public double min30_from;
-        public double min30_to;
-
-        public bool week_bias;
-        public bool day_bias;
-        public bool hour4_bias;
-        public bool hour1_bias;
-        public bool min30_bias;
-    }
-
-
-
     public class MacroSetting
     {
         private ApiData apiData;
         private List<string> coinList = new List<string>();
         private List<string> errorList = new List<string>();
-        public List<output> executionStr = new List<output>();
+        public List<Output> executionStr = new List<Output>();
 
         public MacroSettingData setting = new MacroSettingData();
         public DataSet state = new DataSet();
@@ -87,7 +61,6 @@ namespace UpbitDealer.src
                     dataTable.Columns.Add("close", typeof(double));
                     dataTable.Columns.Add("max", typeof(double));
                     dataTable.Columns.Add("min", typeof(double));
-                    dataTable.Columns.Add("volume", typeof(double));
                     candle[i].Tables.Add(dataTable);
 
                     dataTable = new DataTable(coinList[j]);
@@ -147,7 +120,7 @@ namespace UpbitDealer.src
             }
             catch (Exception ex)
             {
-                executionStr.Add(new output(2, "Macro Execution", "Fail to load macro setting (" + ex.Message + ")"));
+                executionStr.Add(new Output(2, "Macro Execution", "Fail to load macro setting (" + ex.Message + ")"));
                 return -1;
             }
             try
@@ -174,7 +147,7 @@ namespace UpbitDealer.src
             }
             catch (Exception ex)
             {
-                executionStr.Add(new output(2, "Macro Execution", "Fail to load macro state (" + ex.Message + ")"));
+                executionStr.Add(new Output(2, "Macro Execution", "Fail to load macro state (" + ex.Message + ")"));
                 return -2;
             }
             try
@@ -198,7 +171,7 @@ namespace UpbitDealer.src
             }
             catch (Exception ex)
             {
-                executionStr.Add(new output(2, "Macro Execution", "Fail to load macro order (" + ex.Message + ")"));
+                executionStr.Add(new Output(2, "Macro Execution", "Fail to load macro order (" + ex.Message + ")"));
                 return -3;
             }
 
@@ -239,7 +212,7 @@ namespace UpbitDealer.src
             }
             catch (Exception ex)
             {
-                executionStr.Add(new output(2, "Macro Execution", "Fail to save macro setting (" + ex.Message + ")"));
+                executionStr.Add(new Output(2, "Macro Execution", "Fail to save macro setting (" + ex.Message + ")"));
                 return -1;
             }
             try
@@ -268,7 +241,7 @@ namespace UpbitDealer.src
             }
             catch (Exception ex)
             {
-                executionStr.Add(new output(2, "Macro Execution", "Fail to save macro state (" + ex.Message + ")"));
+                executionStr.Add(new Output(2, "Macro Execution", "Fail to save macro state (" + ex.Message + ")"));
                 return -2;
             }
             try
@@ -291,7 +264,7 @@ namespace UpbitDealer.src
             }
             catch (Exception ex)
             {
-                executionStr.Add(new output(2, "Macro Execution", "Fail to save macro order (" + ex.Message + ")"));
+                executionStr.Add(new Output(2, "Macro Execution", "Fail to save macro order (" + ex.Message + ")"));
                 return -3;
             }
 
@@ -349,7 +322,6 @@ namespace UpbitDealer.src
                     dataRow["close"] = (double)jArray[j]["trade_price"];
                     dataRow["max"] = (double)jArray[j]["high_price"];
                     dataRow["min"] = (double)jArray[j]["low_price"];
-                    dataRow["volume"] = (double)jArray[j]["candle_acc_trade_volume"];
                     candle[i].Tables[coinName].Rows.Add(dataRow);
                 }
 
@@ -433,85 +405,55 @@ namespace UpbitDealer.src
         }
 
 
-        public int updateLastKrw()
+        public void updateLastKrw(List<Account> account)
         {
-            JArray retData = apiData.getAsset();
-            if (retData == null) return -1;
-
-            for (int i = 0; i < retData.Count; i++)
-            {
-                if (retData[i]["currency"].ToString() == "KRW")
+            for (int i = 0; i < account.Count; i++)
+                if (account[i].coinName == "KRW")
                 {
-                    holdKRW = (double)retData[i]["balance"];
-                    return 0;
+                    holdKRW = account[i].valid;
+                    break;
                 }
-            }
-
-            return -2;
         }
-        public int updateQuote()
+        public int updateQuote(int index, Dictionary<string, Ticker> ticker)
         {
-            JArray jArray = apiData.getTicker(coinList);
-            if (jArray == null) return -1;
-            if (jArray.Count != coinList.Count) return -2;
-
-            for(int i = 0; i < jArray.Count; i++)
-            {
-                string[] coinName = jArray[i]["market"].ToString().Split('-');
-                if (coinName.Length < 2) return -3;
-                if (!quote.ContainsKey(coinName[1])) return -4;
-                quote[coinName[1]] = (double)jArray[i]["trade_price"];
-            }
-
+            string coinName = coinList[index];
+            if (!ticker.ContainsKey(coinName)) return -1;
+            quote[coinName] = ticker[coinName].close;
             return 0;
         }
-        public int updateCandleData(int index)
+        public void updateCandleData(int index)
         {
             string coinName = coinList[index];
 
             for (int i = 0; i < 5; i++)
             {
-                DateTime now = DateTime.Now.AddSeconds(-10);
+                DateTime now = DateTime.Now;
                 DateTime last = (DateTime)candle[i].Tables[coinName].Rows[0]["date"];
-                string apiPar = "";
                 bool isAdd = false;
                 switch (i)
                 {
-                    case 0:
-                        apiPar = ac.CANDLE_MIN30; ;
-                        isAdd = (now - last).TotalMinutes > 30;
-                        break;
-                    case 1:
-                        apiPar = ac.CANDLE_HOUR1;
-                        isAdd = (now - last).TotalHours > 1;
-                        break;
-                    case 2:
-                        apiPar = ac.CANDLE_HOUR4;
-                        isAdd = (now - last).TotalHours > 4;
-                        break;
-                    case 3:
-                        apiPar = ac.CANDLE_DAY;
-                        isAdd = (now - last).TotalDays > 1;
-                        break;
-                    case 4:
-                        apiPar = ac.CANDLE_WEEK;
-                        isAdd = (now - last).TotalDays > 7;
-                        break;
+                    case 0: isAdd = (now - last).TotalMinutes > 30; break;
+                    case 1: isAdd = (now - last).TotalHours > 1; break;
+                    case 2: isAdd = (now - last).TotalHours > 4; break;
+                    case 3: isAdd = (now - last).TotalDays > 1; break;
+                    case 4: isAdd = (now - last).TotalDays > 7; break;
                 }
-
-                JArray jArray = apiData.getCandle(coinName, apiPar, 1);
-                if (jArray == null) return -10 * i;
-                if (jArray.Count < 1) return -10 * i - 1;
 
                 if (isAdd)
                 {
                     DataRow dataRow = candle[i].Tables[coinName].NewRow();
-                    dataRow["date"] = Convert.ToDateTime(jArray[0]["candle_date_time_kst"]);
-                    dataRow["open"] = (double)jArray[0]["opening_price"];
-                    dataRow["close"] = (double)jArray[0]["trade_price"];
-                    dataRow["max"] = (double)jArray[0]["high_price"];
-                    dataRow["min"] = (double)jArray[0]["low_price"];
-                    dataRow["volume"] = (double)jArray[0]["candle_acc_trade_volume"];
+                    switch (i)
+                    {
+                        case 0: dataRow["date"] = last.AddMinutes(30); break;
+                        case 1: dataRow["date"] = last.AddHours(1); break;
+                        case 2: dataRow["date"] = last.AddHours(4); break;
+                        case 3: dataRow["date"] = last.AddDays(1); break;
+                        case 4: dataRow["date"] = last.AddDays(7); break;
+                    }
+                    dataRow["open"] = quote[coinName];
+                    dataRow["close"] = quote[coinName];
+                    dataRow["max"] = quote[coinName];
+                    dataRow["min"] = quote[coinName];
                     candle[i].Tables[coinName].Rows.InsertAt(dataRow, 0);
 
                     if (candle[i].Tables[coinName].Rows.Count > 200)
@@ -519,12 +461,11 @@ namespace UpbitDealer.src
                 }
                 else
                 {
-                    candle[i].Tables[coinName].Rows[0]["date"] = Convert.ToDateTime(jArray[0]["candle_date_time_kst"]);
-                    candle[i].Tables[coinName].Rows[0]["open"] = (double)jArray[0]["opening_price"];
-                    candle[i].Tables[coinName].Rows[0]["close"] = (double)jArray[0]["trade_price"];
-                    candle[i].Tables[coinName].Rows[0]["max"] = (double)jArray[0]["high_price"];
-                    candle[i].Tables[coinName].Rows[0]["min"] = (double)jArray[0]["low_price"];
-                    candle[i].Tables[coinName].Rows[0]["volume"] = (double)jArray[0]["candle_acc_trade_volume"];
+                    candle[i].Tables[coinName].Rows[0]["close"] = quote[coinName];
+                    if ((double)candle[i].Tables[coinName].Rows[0]["max"] < quote[coinName])
+                        candle[i].Tables[coinName].Rows[0]["max"] = quote[coinName];
+                    if ((double)candle[i].Tables[coinName].Rows[0]["min"] > quote[coinName])
+                        candle[i].Tables[coinName].Rows[0]["min"] = quote[coinName];
                 }
 
                 double averagePrice = 0;
@@ -559,8 +500,6 @@ namespace UpbitDealer.src
                     bollinger[i].Tables[coinName].Rows[0]["value"] = value;
                 }
             }
-
-            return 0;
         }
         public void updateBollingerWeightAvg()
         {
@@ -660,7 +599,7 @@ namespace UpbitDealer.src
                 row["krw"] = tradeData.unit * tradeData.price;
                 state.Tables[tradeData.coinName].Rows.Add(row);
 
-                executionStr.Add(new output(1, "Macro Execution",
+                executionStr.Add(new Output(1, "Macro Execution",
                     "Buy " + tradeData.unit.ToString("0.########") + " "
                     + tradeData.coinName + " for " + (tradeData.price * tradeData.unit).ToString("0.##") + " KRW"));
             }
@@ -672,7 +611,7 @@ namespace UpbitDealer.src
                     {
                         double temp_price = (double)state.Tables[tradeData.coinName].Rows[i]["price"];
 
-                        executionStr.Add(new output(1, "Macro Execution",
+                        executionStr.Add(new Output(1, "Macro Execution",
                             "Sold " + tradeData.unit.ToString("0.########") + " "
                             + tradeData.coinName + " for " + (tradeData.price * tradeData.unit).ToString("0.##")
                             + " KRW (yield : " + ((tradeData.price - temp_price) * tradeData.unit - (tradeData.fee * 2f)).ToString("0.##") + " KRW)"));
@@ -700,7 +639,7 @@ namespace UpbitDealer.src
             else if (setting.week_from > -90000d) buyCandle = candle[4].Tables[coinName];
             if (buyCandle == null)
             {
-                executionStr.Add(new output(0, "Macro Execution", "Fail to load " + coinName + " buy candle (NULL)"));
+                executionStr.Add(new Output(0, "Macro Execution", "Fail to load " + coinName + " buy candle (NULL)"));
                 return -1;
             }
             if (buyCandle.Rows.Count < 28)
@@ -709,13 +648,13 @@ namespace UpbitDealer.src
                 {
                     coinList.Remove(coinName);
                     errorList.Remove(coinName);
-                    executionStr.Add(new output(0, "Macro Execution",
+                    executionStr.Add(new Output(0, "Macro Execution",
                         "Fail to load " + coinName + " buy candle (Not Enouph) " + coinName + " remove from macro list"));
                 }
                 else
                 {
                     errorList.Add(coinName);
-                    executionStr.Add(new output(0, "Macro Execution",
+                    executionStr.Add(new Output(0, "Macro Execution",
                         "Fail to load " + coinName + " buy candle (Not Enouph) If one more error, " + coinName + " remove from macro list"));
                 }
                 return -1;
@@ -784,7 +723,7 @@ namespace UpbitDealer.src
             JObject jObject = apiData.order(par);
             if (jObject == null)
             {
-                executionStr.Add(new output(0, "Macro Execution", "Fail to buy " + coinName + " (NULL)"));
+                executionStr.Add(new Output(0, "Macro Execution", "Fail to buy " + coinName + " (NULL)"));
                 return -2;
             }
 
@@ -804,12 +743,12 @@ namespace UpbitDealer.src
             DataTable sellCandle = candle[0].Tables[coinName];
             if (sellCandle == null)
             {
-                executionStr.Add(new output(0, "Macro Execution", "Fail to load " + coinName + " sell candle (NULL)"));
+                executionStr.Add(new Output(0, "Macro Execution", "Fail to load " + coinName + " sell candle (NULL)"));
                 return -1;
             }
             if (sellCandle.Rows.Count < 28)
             {
-                executionStr.Add(new output(0, "Macro Execution", "Fail to load " + coinName + " sell candle (Not Enouph)"));
+                executionStr.Add(new Output(0, "Macro Execution", "Fail to load " + coinName + " sell candle (Not Enouph)"));
                 return -1;
             }
             if ((double)sellCandle.Rows[0]["open"] <= (double)sellCandle.Rows[0]["close"]) return 0;
@@ -869,7 +808,7 @@ namespace UpbitDealer.src
                 JObject jObject = apiData.order(par);
                 if (jObject == null)
                 {
-                    executionStr.Add(new output(0, "Macro Execution", "Fail to sell " + coinName + " (NULL)"));
+                    executionStr.Add(new Output(0, "Macro Execution", "Fail to sell " + coinName + " (NULL)"));
                     return -2;
                 }
 

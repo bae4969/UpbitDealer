@@ -33,11 +33,11 @@ namespace UpbitDealer.form
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Trader));
             this.list_coinName = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.text_askQuantity14 = new System.Windows.Forms.TextBox();
-            this.text_askQuantity13 = new System.Windows.Forms.TextBox();
-            this.text_askQuantity12 = new System.Windows.Forms.TextBox();
-            this.text_askQuantity11 = new System.Windows.Forms.TextBox();
-            this.text_askQuantity10 = new System.Windows.Forms.TextBox();
+            this.text_askVolume14 = new System.Windows.Forms.TextBox();
+            this.text_askVolume13 = new System.Windows.Forms.TextBox();
+            this.text_askVolume12 = new System.Windows.Forms.TextBox();
+            this.text_askVolume11 = new System.Windows.Forms.TextBox();
+            this.text_askVolume10 = new System.Windows.Forms.TextBox();
             this.text_askPrice14 = new System.Windows.Forms.TextBox();
             this.text_askPrice13 = new System.Windows.Forms.TextBox();
             this.text_askPrice12 = new System.Windows.Forms.TextBox();
@@ -53,22 +53,22 @@ namespace UpbitDealer.form
             this.text_askPrice02 = new System.Windows.Forms.TextBox();
             this.text_askPrice01 = new System.Windows.Forms.TextBox();
             this.text_askPrice00 = new System.Windows.Forms.TextBox();
-            this.text_askQuantity09 = new System.Windows.Forms.TextBox();
-            this.text_askQuantity08 = new System.Windows.Forms.TextBox();
-            this.text_askQuantity07 = new System.Windows.Forms.TextBox();
-            this.text_askQuantity06 = new System.Windows.Forms.TextBox();
-            this.text_askQuantity05 = new System.Windows.Forms.TextBox();
-            this.text_askQuantity04 = new System.Windows.Forms.TextBox();
-            this.text_askQuantity03 = new System.Windows.Forms.TextBox();
-            this.text_askQuantity02 = new System.Windows.Forms.TextBox();
-            this.text_askQuantity01 = new System.Windows.Forms.TextBox();
-            this.text_askQuantity00 = new System.Windows.Forms.TextBox();
+            this.text_askVolume09 = new System.Windows.Forms.TextBox();
+            this.text_askVolume08 = new System.Windows.Forms.TextBox();
+            this.text_askVolume07 = new System.Windows.Forms.TextBox();
+            this.text_askVolume06 = new System.Windows.Forms.TextBox();
+            this.text_askVolume05 = new System.Windows.Forms.TextBox();
+            this.text_askVolume04 = new System.Windows.Forms.TextBox();
+            this.text_askVolume03 = new System.Windows.Forms.TextBox();
+            this.text_askVolume02 = new System.Windows.Forms.TextBox();
+            this.text_askVolume01 = new System.Windows.Forms.TextBox();
+            this.text_askVolume00 = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.text_bidQuantity04 = new System.Windows.Forms.TextBox();
-            this.text_bidQuantity03 = new System.Windows.Forms.TextBox();
-            this.text_bidQuantity02 = new System.Windows.Forms.TextBox();
-            this.text_bidQuantity01 = new System.Windows.Forms.TextBox();
-            this.text_bidQuantity00 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume04 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume03 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume02 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume01 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume00 = new System.Windows.Forms.TextBox();
             this.text_bidPrice09 = new System.Windows.Forms.TextBox();
             this.text_bidPrice08 = new System.Windows.Forms.TextBox();
             this.text_bidPrice07 = new System.Windows.Forms.TextBox();
@@ -79,21 +79,21 @@ namespace UpbitDealer.form
             this.text_bidPrice02 = new System.Windows.Forms.TextBox();
             this.text_bidPrice01 = new System.Windows.Forms.TextBox();
             this.text_bidPrice00 = new System.Windows.Forms.TextBox();
-            this.text_bidQuantity09 = new System.Windows.Forms.TextBox();
-            this.text_bidQuantity08 = new System.Windows.Forms.TextBox();
-            this.text_bidQuantity07 = new System.Windows.Forms.TextBox();
-            this.text_bidQuantity06 = new System.Windows.Forms.TextBox();
-            this.text_bidQuantity05 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume09 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume08 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume07 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume06 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume05 = new System.Windows.Forms.TextBox();
             this.text_bidPrice14 = new System.Windows.Forms.TextBox();
             this.text_bidPrice13 = new System.Windows.Forms.TextBox();
             this.text_bidPrice12 = new System.Windows.Forms.TextBox();
             this.text_bidPrice11 = new System.Windows.Forms.TextBox();
             this.text_bidPrice10 = new System.Windows.Forms.TextBox();
-            this.text_bidQuantity10 = new System.Windows.Forms.TextBox();
-            this.text_bidQuantity11 = new System.Windows.Forms.TextBox();
-            this.text_bidQuantity12 = new System.Windows.Forms.TextBox();
-            this.text_bidQuantity13 = new System.Windows.Forms.TextBox();
-            this.text_bidQuantity14 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume10 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume11 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume12 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume13 = new System.Windows.Forms.TextBox();
+            this.text_bidVolume14 = new System.Windows.Forms.TextBox();
             this.timer_updater = new System.Windows.Forms.Timer(this.components);
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -111,30 +111,30 @@ namespace UpbitDealer.form
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
-            this.text_TH3_total = new System.Windows.Forms.TextBox();
-            this.text_TH4_total = new System.Windows.Forms.TextBox();
-            this.text_TH0_total = new System.Windows.Forms.TextBox();
-            this.text_TH1_total = new System.Windows.Forms.TextBox();
-            this.text_TH2_total = new System.Windows.Forms.TextBox();
+            this.text_TH3_change = new System.Windows.Forms.TextBox();
+            this.text_TH4_change = new System.Windows.Forms.TextBox();
+            this.text_TH0_change = new System.Windows.Forms.TextBox();
+            this.text_TH1_change = new System.Windows.Forms.TextBox();
+            this.text_TH2_change = new System.Windows.Forms.TextBox();
             this.text_TH3_unit = new System.Windows.Forms.TextBox();
             this.text_TH4_unit = new System.Windows.Forms.TextBox();
             this.text_TH0_unit = new System.Windows.Forms.TextBox();
             this.text_TH1_unit = new System.Windows.Forms.TextBox();
             this.text_TH2_unit = new System.Windows.Forms.TextBox();
-            this.text_TH3_value = new System.Windows.Forms.TextBox();
-            this.text_TH4_value = new System.Windows.Forms.TextBox();
-            this.text_TH0_value = new System.Windows.Forms.TextBox();
-            this.text_TH1_value = new System.Windows.Forms.TextBox();
-            this.text_TH2_value = new System.Windows.Forms.TextBox();
+            this.text_TH3_price = new System.Windows.Forms.TextBox();
+            this.text_TH4_price = new System.Windows.Forms.TextBox();
+            this.text_TH0_price = new System.Windows.Forms.TextBox();
+            this.text_TH1_price = new System.Windows.Forms.TextBox();
+            this.text_TH2_price = new System.Windows.Forms.TextBox();
             this.text_TH3_date = new System.Windows.Forms.TextBox();
             this.text_TH4_date = new System.Windows.Forms.TextBox();
             this.text_TH0_date = new System.Windows.Forms.TextBox();
             this.text_TH1_date = new System.Windows.Forms.TextBox();
             this.text_TH2_date = new System.Windows.Forms.TextBox();
             this.text_prev_close = new System.Windows.Forms.TextBox();
-            this.text_fluctate_rate = new System.Windows.Forms.TextBox();
-            this.text_fluctate = new System.Windows.Forms.TextBox();
-            this.text_value = new System.Windows.Forms.TextBox();
+            this.text_change_rate = new System.Windows.Forms.TextBox();
+            this.text_change = new System.Windows.Forms.TextBox();
+            this.text_price = new System.Windows.Forms.TextBox();
             this.text_name = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.text_totalTrack_value = new System.Windows.Forms.TextBox();
@@ -193,80 +193,80 @@ namespace UpbitDealer.form
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "List";
             // 
-            // text_askQuantity14
+            // text_askVolume14
             // 
-            this.text_askQuantity14.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity14.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity14.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity14.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity14.Location = new System.Drawing.Point(106, 307);
-            this.text_askQuantity14.Name = "text_askQuantity14";
-            this.text_askQuantity14.ReadOnly = true;
-            this.text_askQuantity14.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity14.TabIndex = 87;
-            this.text_askQuantity14.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity14.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume14.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume14.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume14.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume14.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume14.Location = new System.Drawing.Point(106, 307);
+            this.text_askVolume14.Name = "text_askVolume14";
+            this.text_askVolume14.ReadOnly = true;
+            this.text_askVolume14.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume14.TabIndex = 87;
+            this.text_askVolume14.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume14.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_askQuantity13
+            // text_askVolume13
             // 
-            this.text_askQuantity13.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity13.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity13.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity13.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity13.Location = new System.Drawing.Point(106, 287);
-            this.text_askQuantity13.Name = "text_askQuantity13";
-            this.text_askQuantity13.ReadOnly = true;
-            this.text_askQuantity13.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity13.TabIndex = 86;
-            this.text_askQuantity13.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity13.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume13.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume13.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume13.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume13.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume13.Location = new System.Drawing.Point(106, 287);
+            this.text_askVolume13.Name = "text_askVolume13";
+            this.text_askVolume13.ReadOnly = true;
+            this.text_askVolume13.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume13.TabIndex = 86;
+            this.text_askVolume13.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume13.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_askQuantity12
+            // text_askVolume12
             // 
-            this.text_askQuantity12.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity12.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity12.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity12.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity12.Location = new System.Drawing.Point(106, 267);
-            this.text_askQuantity12.Name = "text_askQuantity12";
-            this.text_askQuantity12.ReadOnly = true;
-            this.text_askQuantity12.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity12.TabIndex = 85;
-            this.text_askQuantity12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity12.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume12.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume12.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume12.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume12.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume12.Location = new System.Drawing.Point(106, 267);
+            this.text_askVolume12.Name = "text_askVolume12";
+            this.text_askVolume12.ReadOnly = true;
+            this.text_askVolume12.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume12.TabIndex = 85;
+            this.text_askVolume12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume12.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_askQuantity11
+            // text_askVolume11
             // 
-            this.text_askQuantity11.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity11.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity11.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity11.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity11.Location = new System.Drawing.Point(106, 247);
-            this.text_askQuantity11.Name = "text_askQuantity11";
-            this.text_askQuantity11.ReadOnly = true;
-            this.text_askQuantity11.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity11.TabIndex = 84;
-            this.text_askQuantity11.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity11.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume11.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume11.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume11.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume11.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume11.Location = new System.Drawing.Point(106, 247);
+            this.text_askVolume11.Name = "text_askVolume11";
+            this.text_askVolume11.ReadOnly = true;
+            this.text_askVolume11.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume11.TabIndex = 84;
+            this.text_askVolume11.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume11.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_askQuantity10
+            // text_askVolume10
             // 
-            this.text_askQuantity10.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity10.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity10.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity10.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity10.Location = new System.Drawing.Point(106, 227);
-            this.text_askQuantity10.Name = "text_askQuantity10";
-            this.text_askQuantity10.ReadOnly = true;
-            this.text_askQuantity10.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity10.TabIndex = 83;
-            this.text_askQuantity10.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity10.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume10.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume10.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume10.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume10.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume10.Location = new System.Drawing.Point(106, 227);
+            this.text_askVolume10.Name = "text_askVolume10";
+            this.text_askVolume10.ReadOnly = true;
+            this.text_askVolume10.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume10.TabIndex = 83;
+            this.text_askVolume10.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume10.Enter += new System.EventHandler(this.text_focus_disable);
             // 
             // text_askPrice14
             // 
@@ -478,219 +478,219 @@ namespace UpbitDealer.form
             this.text_askPrice00.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.text_askPrice00.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_askQuantity09
+            // text_askVolume09
             // 
-            this.text_askQuantity09.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity09.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity09.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity09.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity09.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity09.Location = new System.Drawing.Point(106, 207);
-            this.text_askQuantity09.Name = "text_askQuantity09";
-            this.text_askQuantity09.ReadOnly = true;
-            this.text_askQuantity09.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity09.TabIndex = 82;
-            this.text_askQuantity09.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity09.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume09.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume09.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume09.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume09.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume09.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume09.Location = new System.Drawing.Point(106, 207);
+            this.text_askVolume09.Name = "text_askVolume09";
+            this.text_askVolume09.ReadOnly = true;
+            this.text_askVolume09.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume09.TabIndex = 82;
+            this.text_askVolume09.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume09.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_askQuantity08
+            // text_askVolume08
             // 
-            this.text_askQuantity08.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity08.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity08.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity08.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity08.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity08.Location = new System.Drawing.Point(106, 187);
-            this.text_askQuantity08.Name = "text_askQuantity08";
-            this.text_askQuantity08.ReadOnly = true;
-            this.text_askQuantity08.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity08.TabIndex = 81;
-            this.text_askQuantity08.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity08.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume08.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume08.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume08.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume08.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume08.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume08.Location = new System.Drawing.Point(106, 187);
+            this.text_askVolume08.Name = "text_askVolume08";
+            this.text_askVolume08.ReadOnly = true;
+            this.text_askVolume08.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume08.TabIndex = 81;
+            this.text_askVolume08.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume08.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_askQuantity07
+            // text_askVolume07
             // 
-            this.text_askQuantity07.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity07.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity07.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity07.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity07.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity07.Location = new System.Drawing.Point(106, 167);
-            this.text_askQuantity07.Name = "text_askQuantity07";
-            this.text_askQuantity07.ReadOnly = true;
-            this.text_askQuantity07.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity07.TabIndex = 80;
-            this.text_askQuantity07.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity07.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume07.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume07.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume07.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume07.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume07.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume07.Location = new System.Drawing.Point(106, 167);
+            this.text_askVolume07.Name = "text_askVolume07";
+            this.text_askVolume07.ReadOnly = true;
+            this.text_askVolume07.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume07.TabIndex = 80;
+            this.text_askVolume07.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume07.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_askQuantity06
+            // text_askVolume06
             // 
-            this.text_askQuantity06.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity06.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity06.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity06.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity06.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity06.Location = new System.Drawing.Point(106, 147);
-            this.text_askQuantity06.Name = "text_askQuantity06";
-            this.text_askQuantity06.ReadOnly = true;
-            this.text_askQuantity06.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity06.TabIndex = 79;
-            this.text_askQuantity06.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity06.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume06.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume06.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume06.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume06.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume06.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume06.Location = new System.Drawing.Point(106, 147);
+            this.text_askVolume06.Name = "text_askVolume06";
+            this.text_askVolume06.ReadOnly = true;
+            this.text_askVolume06.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume06.TabIndex = 79;
+            this.text_askVolume06.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume06.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_askQuantity05
+            // text_askVolume05
             // 
-            this.text_askQuantity05.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity05.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity05.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity05.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity05.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity05.Location = new System.Drawing.Point(106, 127);
-            this.text_askQuantity05.Name = "text_askQuantity05";
-            this.text_askQuantity05.ReadOnly = true;
-            this.text_askQuantity05.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity05.TabIndex = 78;
-            this.text_askQuantity05.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity05.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume05.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume05.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume05.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume05.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume05.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume05.Location = new System.Drawing.Point(106, 127);
+            this.text_askVolume05.Name = "text_askVolume05";
+            this.text_askVolume05.ReadOnly = true;
+            this.text_askVolume05.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume05.TabIndex = 78;
+            this.text_askVolume05.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume05.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_askQuantity04
+            // text_askVolume04
             // 
-            this.text_askQuantity04.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity04.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity04.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity04.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity04.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity04.Location = new System.Drawing.Point(106, 107);
-            this.text_askQuantity04.Name = "text_askQuantity04";
-            this.text_askQuantity04.ReadOnly = true;
-            this.text_askQuantity04.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity04.TabIndex = 77;
-            this.text_askQuantity04.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity04.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume04.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume04.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume04.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume04.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume04.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume04.Location = new System.Drawing.Point(106, 107);
+            this.text_askVolume04.Name = "text_askVolume04";
+            this.text_askVolume04.ReadOnly = true;
+            this.text_askVolume04.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume04.TabIndex = 77;
+            this.text_askVolume04.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume04.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_askQuantity03
+            // text_askVolume03
             // 
-            this.text_askQuantity03.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity03.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity03.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity03.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity03.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity03.Location = new System.Drawing.Point(106, 87);
-            this.text_askQuantity03.Name = "text_askQuantity03";
-            this.text_askQuantity03.ReadOnly = true;
-            this.text_askQuantity03.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity03.TabIndex = 76;
-            this.text_askQuantity03.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity03.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume03.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume03.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume03.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume03.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume03.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume03.Location = new System.Drawing.Point(106, 87);
+            this.text_askVolume03.Name = "text_askVolume03";
+            this.text_askVolume03.ReadOnly = true;
+            this.text_askVolume03.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume03.TabIndex = 76;
+            this.text_askVolume03.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume03.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_askQuantity02
+            // text_askVolume02
             // 
-            this.text_askQuantity02.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity02.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity02.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity02.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity02.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity02.Location = new System.Drawing.Point(106, 67);
-            this.text_askQuantity02.Name = "text_askQuantity02";
-            this.text_askQuantity02.ReadOnly = true;
-            this.text_askQuantity02.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity02.TabIndex = 75;
-            this.text_askQuantity02.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity02.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume02.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume02.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume02.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume02.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume02.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume02.Location = new System.Drawing.Point(106, 67);
+            this.text_askVolume02.Name = "text_askVolume02";
+            this.text_askVolume02.ReadOnly = true;
+            this.text_askVolume02.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume02.TabIndex = 75;
+            this.text_askVolume02.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume02.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_askQuantity01
+            // text_askVolume01
             // 
-            this.text_askQuantity01.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity01.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity01.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity01.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity01.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity01.Location = new System.Drawing.Point(106, 47);
-            this.text_askQuantity01.Name = "text_askQuantity01";
-            this.text_askQuantity01.ReadOnly = true;
-            this.text_askQuantity01.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity01.TabIndex = 74;
-            this.text_askQuantity01.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity01.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume01.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume01.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume01.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume01.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume01.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume01.Location = new System.Drawing.Point(106, 47);
+            this.text_askVolume01.Name = "text_askVolume01";
+            this.text_askVolume01.ReadOnly = true;
+            this.text_askVolume01.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume01.TabIndex = 74;
+            this.text_askVolume01.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume01.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_askQuantity00
+            // text_askVolume00
             // 
-            this.text_askQuantity00.BackColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity00.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_askQuantity00.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_askQuantity00.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_askQuantity00.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_askQuantity00.Location = new System.Drawing.Point(106, 27);
-            this.text_askQuantity00.Name = "text_askQuantity00";
-            this.text_askQuantity00.ReadOnly = true;
-            this.text_askQuantity00.Size = new System.Drawing.Size(100, 21);
-            this.text_askQuantity00.TabIndex = 73;
-            this.text_askQuantity00.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_askQuantity00.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_askVolume00.BackColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume00.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_askVolume00.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_askVolume00.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_askVolume00.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_askVolume00.Location = new System.Drawing.Point(106, 27);
+            this.text_askVolume00.Name = "text_askVolume00";
+            this.text_askVolume00.ReadOnly = true;
+            this.text_askVolume00.Size = new System.Drawing.Size(100, 21);
+            this.text_askVolume00.TabIndex = 73;
+            this.text_askVolume00.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_askVolume00.Enter += new System.EventHandler(this.text_focus_disable);
             // 
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.Black;
-            this.groupBox2.Controls.Add(this.text_bidQuantity04);
-            this.groupBox2.Controls.Add(this.text_askQuantity01);
-            this.groupBox2.Controls.Add(this.text_bidQuantity03);
-            this.groupBox2.Controls.Add(this.text_askQuantity14);
-            this.groupBox2.Controls.Add(this.text_bidQuantity02);
+            this.groupBox2.Controls.Add(this.text_bidVolume04);
+            this.groupBox2.Controls.Add(this.text_askVolume01);
+            this.groupBox2.Controls.Add(this.text_bidVolume03);
+            this.groupBox2.Controls.Add(this.text_askVolume14);
+            this.groupBox2.Controls.Add(this.text_bidVolume02);
             this.groupBox2.Controls.Add(this.text_askPrice04);
-            this.groupBox2.Controls.Add(this.text_bidQuantity01);
+            this.groupBox2.Controls.Add(this.text_bidVolume01);
             this.groupBox2.Controls.Add(this.text_askPrice03);
-            this.groupBox2.Controls.Add(this.text_bidQuantity00);
-            this.groupBox2.Controls.Add(this.text_askQuantity13);
+            this.groupBox2.Controls.Add(this.text_bidVolume00);
+            this.groupBox2.Controls.Add(this.text_askVolume13);
             this.groupBox2.Controls.Add(this.text_bidPrice09);
             this.groupBox2.Controls.Add(this.text_askPrice05);
             this.groupBox2.Controls.Add(this.text_bidPrice08);
-            this.groupBox2.Controls.Add(this.text_askQuantity00);
+            this.groupBox2.Controls.Add(this.text_askVolume00);
             this.groupBox2.Controls.Add(this.text_bidPrice07);
             this.groupBox2.Controls.Add(this.text_askPrice02);
             this.groupBox2.Controls.Add(this.text_bidPrice06);
-            this.groupBox2.Controls.Add(this.text_askQuantity12);
+            this.groupBox2.Controls.Add(this.text_askVolume12);
             this.groupBox2.Controls.Add(this.text_bidPrice05);
             this.groupBox2.Controls.Add(this.text_askPrice06);
             this.groupBox2.Controls.Add(this.text_bidPrice04);
             this.groupBox2.Controls.Add(this.text_bidPrice03);
             this.groupBox2.Controls.Add(this.text_askPrice01);
             this.groupBox2.Controls.Add(this.text_bidPrice02);
-            this.groupBox2.Controls.Add(this.text_askQuantity11);
+            this.groupBox2.Controls.Add(this.text_askVolume11);
             this.groupBox2.Controls.Add(this.text_bidPrice01);
             this.groupBox2.Controls.Add(this.text_askPrice07);
             this.groupBox2.Controls.Add(this.text_bidPrice00);
-            this.groupBox2.Controls.Add(this.text_askQuantity02);
-            this.groupBox2.Controls.Add(this.text_bidQuantity09);
+            this.groupBox2.Controls.Add(this.text_askVolume02);
+            this.groupBox2.Controls.Add(this.text_bidVolume09);
             this.groupBox2.Controls.Add(this.text_askPrice00);
-            this.groupBox2.Controls.Add(this.text_bidQuantity08);
-            this.groupBox2.Controls.Add(this.text_askQuantity10);
-            this.groupBox2.Controls.Add(this.text_bidQuantity07);
+            this.groupBox2.Controls.Add(this.text_bidVolume08);
+            this.groupBox2.Controls.Add(this.text_askVolume10);
+            this.groupBox2.Controls.Add(this.text_bidVolume07);
             this.groupBox2.Controls.Add(this.text_askPrice08);
-            this.groupBox2.Controls.Add(this.text_bidQuantity06);
-            this.groupBox2.Controls.Add(this.text_askQuantity03);
-            this.groupBox2.Controls.Add(this.text_bidQuantity05);
-            this.groupBox2.Controls.Add(this.text_askQuantity09);
+            this.groupBox2.Controls.Add(this.text_bidVolume06);
+            this.groupBox2.Controls.Add(this.text_askVolume03);
+            this.groupBox2.Controls.Add(this.text_bidVolume05);
+            this.groupBox2.Controls.Add(this.text_askVolume09);
             this.groupBox2.Controls.Add(this.text_bidPrice14);
             this.groupBox2.Controls.Add(this.text_askPrice14);
             this.groupBox2.Controls.Add(this.text_bidPrice13);
             this.groupBox2.Controls.Add(this.text_askPrice09);
             this.groupBox2.Controls.Add(this.text_bidPrice12);
-            this.groupBox2.Controls.Add(this.text_askQuantity04);
+            this.groupBox2.Controls.Add(this.text_askVolume04);
             this.groupBox2.Controls.Add(this.text_bidPrice11);
-            this.groupBox2.Controls.Add(this.text_askQuantity08);
+            this.groupBox2.Controls.Add(this.text_askVolume08);
             this.groupBox2.Controls.Add(this.text_bidPrice10);
             this.groupBox2.Controls.Add(this.text_askPrice13);
-            this.groupBox2.Controls.Add(this.text_bidQuantity10);
+            this.groupBox2.Controls.Add(this.text_bidVolume10);
             this.groupBox2.Controls.Add(this.text_askPrice10);
-            this.groupBox2.Controls.Add(this.text_bidQuantity11);
-            this.groupBox2.Controls.Add(this.text_askQuantity05);
-            this.groupBox2.Controls.Add(this.text_bidQuantity12);
-            this.groupBox2.Controls.Add(this.text_askQuantity07);
-            this.groupBox2.Controls.Add(this.text_bidQuantity13);
+            this.groupBox2.Controls.Add(this.text_bidVolume11);
+            this.groupBox2.Controls.Add(this.text_askVolume05);
+            this.groupBox2.Controls.Add(this.text_bidVolume12);
+            this.groupBox2.Controls.Add(this.text_askVolume07);
+            this.groupBox2.Controls.Add(this.text_bidVolume13);
             this.groupBox2.Controls.Add(this.text_askPrice12);
-            this.groupBox2.Controls.Add(this.text_bidQuantity14);
+            this.groupBox2.Controls.Add(this.text_bidVolume14);
             this.groupBox2.Controls.Add(this.text_askPrice11);
-            this.groupBox2.Controls.Add(this.text_askQuantity06);
+            this.groupBox2.Controls.Add(this.text_askVolume06);
             this.groupBox2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.ForeColor = System.Drawing.Color.White;
             this.groupBox2.Location = new System.Drawing.Point(760, 12);
@@ -700,80 +700,80 @@ namespace UpbitDealer.form
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Order Book";
             // 
-            // text_bidQuantity04
+            // text_bidVolume04
             // 
-            this.text_bidQuantity04.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity04.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity04.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity04.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity04.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity04.Location = new System.Drawing.Point(106, 407);
-            this.text_bidQuantity04.Name = "text_bidQuantity04";
-            this.text_bidQuantity04.ReadOnly = true;
-            this.text_bidQuantity04.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity04.TabIndex = 97;
-            this.text_bidQuantity04.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity04.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume04.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume04.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume04.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume04.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume04.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume04.Location = new System.Drawing.Point(106, 407);
+            this.text_bidVolume04.Name = "text_bidVolume04";
+            this.text_bidVolume04.ReadOnly = true;
+            this.text_bidVolume04.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume04.TabIndex = 97;
+            this.text_bidVolume04.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume04.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_bidQuantity03
+            // text_bidVolume03
             // 
-            this.text_bidQuantity03.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity03.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity03.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity03.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity03.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity03.Location = new System.Drawing.Point(106, 387);
-            this.text_bidQuantity03.Name = "text_bidQuantity03";
-            this.text_bidQuantity03.ReadOnly = true;
-            this.text_bidQuantity03.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity03.TabIndex = 96;
-            this.text_bidQuantity03.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity03.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume03.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume03.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume03.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume03.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume03.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume03.Location = new System.Drawing.Point(106, 387);
+            this.text_bidVolume03.Name = "text_bidVolume03";
+            this.text_bidVolume03.ReadOnly = true;
+            this.text_bidVolume03.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume03.TabIndex = 96;
+            this.text_bidVolume03.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume03.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_bidQuantity02
+            // text_bidVolume02
             // 
-            this.text_bidQuantity02.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity02.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity02.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity02.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity02.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity02.Location = new System.Drawing.Point(106, 367);
-            this.text_bidQuantity02.Name = "text_bidQuantity02";
-            this.text_bidQuantity02.ReadOnly = true;
-            this.text_bidQuantity02.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity02.TabIndex = 95;
-            this.text_bidQuantity02.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity02.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume02.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume02.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume02.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume02.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume02.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume02.Location = new System.Drawing.Point(106, 367);
+            this.text_bidVolume02.Name = "text_bidVolume02";
+            this.text_bidVolume02.ReadOnly = true;
+            this.text_bidVolume02.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume02.TabIndex = 95;
+            this.text_bidVolume02.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume02.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_bidQuantity01
+            // text_bidVolume01
             // 
-            this.text_bidQuantity01.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity01.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity01.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity01.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity01.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity01.Location = new System.Drawing.Point(106, 347);
-            this.text_bidQuantity01.Name = "text_bidQuantity01";
-            this.text_bidQuantity01.ReadOnly = true;
-            this.text_bidQuantity01.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity01.TabIndex = 94;
-            this.text_bidQuantity01.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity01.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume01.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume01.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume01.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume01.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume01.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume01.Location = new System.Drawing.Point(106, 347);
+            this.text_bidVolume01.Name = "text_bidVolume01";
+            this.text_bidVolume01.ReadOnly = true;
+            this.text_bidVolume01.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume01.TabIndex = 94;
+            this.text_bidVolume01.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume01.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_bidQuantity00
+            // text_bidVolume00
             // 
-            this.text_bidQuantity00.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity00.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity00.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity00.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity00.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity00.Location = new System.Drawing.Point(106, 327);
-            this.text_bidQuantity00.Name = "text_bidQuantity00";
-            this.text_bidQuantity00.ReadOnly = true;
-            this.text_bidQuantity00.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity00.TabIndex = 93;
-            this.text_bidQuantity00.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity00.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume00.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume00.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume00.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume00.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume00.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume00.Location = new System.Drawing.Point(106, 327);
+            this.text_bidVolume00.Name = "text_bidVolume00";
+            this.text_bidVolume00.ReadOnly = true;
+            this.text_bidVolume00.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume00.TabIndex = 93;
+            this.text_bidVolume00.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume00.Enter += new System.EventHandler(this.text_focus_disable);
             // 
             // text_bidPrice09
             // 
@@ -915,80 +915,80 @@ namespace UpbitDealer.form
             this.text_bidPrice00.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.text_bidPrice00.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_bidQuantity09
+            // text_bidVolume09
             // 
-            this.text_bidQuantity09.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity09.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity09.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity09.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity09.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity09.Location = new System.Drawing.Point(106, 507);
-            this.text_bidQuantity09.Name = "text_bidQuantity09";
-            this.text_bidQuantity09.ReadOnly = true;
-            this.text_bidQuantity09.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity09.TabIndex = 102;
-            this.text_bidQuantity09.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity09.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume09.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume09.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume09.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume09.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume09.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume09.Location = new System.Drawing.Point(106, 507);
+            this.text_bidVolume09.Name = "text_bidVolume09";
+            this.text_bidVolume09.ReadOnly = true;
+            this.text_bidVolume09.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume09.TabIndex = 102;
+            this.text_bidVolume09.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume09.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_bidQuantity08
+            // text_bidVolume08
             // 
-            this.text_bidQuantity08.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity08.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity08.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity08.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity08.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity08.Location = new System.Drawing.Point(106, 487);
-            this.text_bidQuantity08.Name = "text_bidQuantity08";
-            this.text_bidQuantity08.ReadOnly = true;
-            this.text_bidQuantity08.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity08.TabIndex = 101;
-            this.text_bidQuantity08.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity08.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume08.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume08.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume08.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume08.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume08.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume08.Location = new System.Drawing.Point(106, 487);
+            this.text_bidVolume08.Name = "text_bidVolume08";
+            this.text_bidVolume08.ReadOnly = true;
+            this.text_bidVolume08.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume08.TabIndex = 101;
+            this.text_bidVolume08.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume08.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_bidQuantity07
+            // text_bidVolume07
             // 
-            this.text_bidQuantity07.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity07.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity07.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity07.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity07.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity07.Location = new System.Drawing.Point(106, 467);
-            this.text_bidQuantity07.Name = "text_bidQuantity07";
-            this.text_bidQuantity07.ReadOnly = true;
-            this.text_bidQuantity07.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity07.TabIndex = 100;
-            this.text_bidQuantity07.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity07.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume07.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume07.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume07.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume07.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume07.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume07.Location = new System.Drawing.Point(106, 467);
+            this.text_bidVolume07.Name = "text_bidVolume07";
+            this.text_bidVolume07.ReadOnly = true;
+            this.text_bidVolume07.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume07.TabIndex = 100;
+            this.text_bidVolume07.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume07.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_bidQuantity06
+            // text_bidVolume06
             // 
-            this.text_bidQuantity06.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity06.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity06.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity06.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity06.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity06.Location = new System.Drawing.Point(106, 447);
-            this.text_bidQuantity06.Name = "text_bidQuantity06";
-            this.text_bidQuantity06.ReadOnly = true;
-            this.text_bidQuantity06.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity06.TabIndex = 99;
-            this.text_bidQuantity06.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity06.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume06.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume06.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume06.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume06.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume06.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume06.Location = new System.Drawing.Point(106, 447);
+            this.text_bidVolume06.Name = "text_bidVolume06";
+            this.text_bidVolume06.ReadOnly = true;
+            this.text_bidVolume06.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume06.TabIndex = 99;
+            this.text_bidVolume06.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume06.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_bidQuantity05
+            // text_bidVolume05
             // 
-            this.text_bidQuantity05.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity05.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity05.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity05.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity05.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity05.Location = new System.Drawing.Point(106, 427);
-            this.text_bidQuantity05.Name = "text_bidQuantity05";
-            this.text_bidQuantity05.ReadOnly = true;
-            this.text_bidQuantity05.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity05.TabIndex = 98;
-            this.text_bidQuantity05.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity05.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume05.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume05.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume05.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume05.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume05.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume05.Location = new System.Drawing.Point(106, 427);
+            this.text_bidVolume05.Name = "text_bidVolume05";
+            this.text_bidVolume05.ReadOnly = true;
+            this.text_bidVolume05.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume05.TabIndex = 98;
+            this.text_bidVolume05.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume05.Enter += new System.EventHandler(this.text_focus_disable);
             // 
             // text_bidPrice14
             // 
@@ -1060,80 +1060,80 @@ namespace UpbitDealer.form
             this.text_bidPrice10.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.text_bidPrice10.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_bidQuantity10
+            // text_bidVolume10
             // 
-            this.text_bidQuantity10.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity10.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity10.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity10.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity10.Location = new System.Drawing.Point(106, 527);
-            this.text_bidQuantity10.Name = "text_bidQuantity10";
-            this.text_bidQuantity10.ReadOnly = true;
-            this.text_bidQuantity10.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity10.TabIndex = 103;
-            this.text_bidQuantity10.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity10.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume10.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume10.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume10.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume10.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume10.Location = new System.Drawing.Point(106, 527);
+            this.text_bidVolume10.Name = "text_bidVolume10";
+            this.text_bidVolume10.ReadOnly = true;
+            this.text_bidVolume10.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume10.TabIndex = 103;
+            this.text_bidVolume10.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume10.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_bidQuantity11
+            // text_bidVolume11
             // 
-            this.text_bidQuantity11.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity11.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity11.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity11.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity11.Location = new System.Drawing.Point(106, 547);
-            this.text_bidQuantity11.Name = "text_bidQuantity11";
-            this.text_bidQuantity11.ReadOnly = true;
-            this.text_bidQuantity11.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity11.TabIndex = 104;
-            this.text_bidQuantity11.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity11.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume11.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume11.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume11.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume11.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume11.Location = new System.Drawing.Point(106, 547);
+            this.text_bidVolume11.Name = "text_bidVolume11";
+            this.text_bidVolume11.ReadOnly = true;
+            this.text_bidVolume11.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume11.TabIndex = 104;
+            this.text_bidVolume11.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume11.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_bidQuantity12
+            // text_bidVolume12
             // 
-            this.text_bidQuantity12.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity12.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity12.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity12.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity12.Location = new System.Drawing.Point(106, 567);
-            this.text_bidQuantity12.Name = "text_bidQuantity12";
-            this.text_bidQuantity12.ReadOnly = true;
-            this.text_bidQuantity12.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity12.TabIndex = 105;
-            this.text_bidQuantity12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity12.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume12.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume12.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume12.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume12.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume12.Location = new System.Drawing.Point(106, 567);
+            this.text_bidVolume12.Name = "text_bidVolume12";
+            this.text_bidVolume12.ReadOnly = true;
+            this.text_bidVolume12.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume12.TabIndex = 105;
+            this.text_bidVolume12.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume12.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_bidQuantity13
+            // text_bidVolume13
             // 
-            this.text_bidQuantity13.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity13.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity13.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity13.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity13.Location = new System.Drawing.Point(106, 587);
-            this.text_bidQuantity13.Name = "text_bidQuantity13";
-            this.text_bidQuantity13.ReadOnly = true;
-            this.text_bidQuantity13.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity13.TabIndex = 106;
-            this.text_bidQuantity13.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity13.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume13.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume13.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume13.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume13.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume13.Location = new System.Drawing.Point(106, 587);
+            this.text_bidVolume13.Name = "text_bidVolume13";
+            this.text_bidVolume13.ReadOnly = true;
+            this.text_bidVolume13.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume13.TabIndex = 106;
+            this.text_bidVolume13.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume13.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_bidQuantity14
+            // text_bidVolume14
             // 
-            this.text_bidQuantity14.BackColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_bidQuantity14.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_bidQuantity14.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_bidQuantity14.ForeColor = System.Drawing.SystemColors.Window;
-            this.text_bidQuantity14.Location = new System.Drawing.Point(106, 607);
-            this.text_bidQuantity14.Name = "text_bidQuantity14";
-            this.text_bidQuantity14.ReadOnly = true;
-            this.text_bidQuantity14.Size = new System.Drawing.Size(100, 21);
-            this.text_bidQuantity14.TabIndex = 107;
-            this.text_bidQuantity14.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_bidQuantity14.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_bidVolume14.BackColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_bidVolume14.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_bidVolume14.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_bidVolume14.ForeColor = System.Drawing.SystemColors.Window;
+            this.text_bidVolume14.Location = new System.Drawing.Point(106, 607);
+            this.text_bidVolume14.Name = "text_bidVolume14";
+            this.text_bidVolume14.ReadOnly = true;
+            this.text_bidVolume14.Size = new System.Drawing.Size(100, 21);
+            this.text_bidVolume14.TabIndex = 107;
+            this.text_bidVolume14.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_bidVolume14.Enter += new System.EventHandler(this.text_focus_disable);
             // 
             // timer_updater
             // 
@@ -1155,9 +1155,9 @@ namespace UpbitDealer.form
             this.groupBox3.Controls.Add(this.textBox2);
             this.groupBox3.Controls.Add(this.groupBox5);
             this.groupBox3.Controls.Add(this.text_prev_close);
-            this.groupBox3.Controls.Add(this.text_fluctate_rate);
-            this.groupBox3.Controls.Add(this.text_fluctate);
-            this.groupBox3.Controls.Add(this.text_value);
+            this.groupBox3.Controls.Add(this.text_change_rate);
+            this.groupBox3.Controls.Add(this.text_change);
+            this.groupBox3.Controls.Add(this.text_price);
             this.groupBox3.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.ForeColor = System.Drawing.Color.White;
             this.groupBox3.Location = new System.Drawing.Point(131, 111);
@@ -1311,21 +1311,21 @@ namespace UpbitDealer.form
             this.groupBox5.Controls.Add(this.textBox5);
             this.groupBox5.Controls.Add(this.textBox6);
             this.groupBox5.Controls.Add(this.textBox7);
-            this.groupBox5.Controls.Add(this.text_TH3_total);
-            this.groupBox5.Controls.Add(this.text_TH4_total);
-            this.groupBox5.Controls.Add(this.text_TH0_total);
-            this.groupBox5.Controls.Add(this.text_TH1_total);
-            this.groupBox5.Controls.Add(this.text_TH2_total);
+            this.groupBox5.Controls.Add(this.text_TH3_change);
+            this.groupBox5.Controls.Add(this.text_TH4_change);
+            this.groupBox5.Controls.Add(this.text_TH0_change);
+            this.groupBox5.Controls.Add(this.text_TH1_change);
+            this.groupBox5.Controls.Add(this.text_TH2_change);
             this.groupBox5.Controls.Add(this.text_TH3_unit);
             this.groupBox5.Controls.Add(this.text_TH4_unit);
             this.groupBox5.Controls.Add(this.text_TH0_unit);
             this.groupBox5.Controls.Add(this.text_TH1_unit);
             this.groupBox5.Controls.Add(this.text_TH2_unit);
-            this.groupBox5.Controls.Add(this.text_TH3_value);
-            this.groupBox5.Controls.Add(this.text_TH4_value);
-            this.groupBox5.Controls.Add(this.text_TH0_value);
-            this.groupBox5.Controls.Add(this.text_TH1_value);
-            this.groupBox5.Controls.Add(this.text_TH2_value);
+            this.groupBox5.Controls.Add(this.text_TH3_price);
+            this.groupBox5.Controls.Add(this.text_TH4_price);
+            this.groupBox5.Controls.Add(this.text_TH0_price);
+            this.groupBox5.Controls.Add(this.text_TH1_price);
+            this.groupBox5.Controls.Add(this.text_TH2_price);
             this.groupBox5.Controls.Add(this.text_TH3_date);
             this.groupBox5.Controls.Add(this.text_TH4_date);
             this.groupBox5.Controls.Add(this.text_TH0_date);
@@ -1405,80 +1405,80 @@ namespace UpbitDealer.form
             this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox7.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_TH3_total
+            // text_TH3_change
             // 
-            this.text_TH3_total.BackColor = System.Drawing.Color.Black;
-            this.text_TH3_total.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_TH3_total.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_TH3_total.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_TH3_total.ForeColor = System.Drawing.Color.Black;
-            this.text_TH3_total.Location = new System.Drawing.Point(329, 113);
-            this.text_TH3_total.Name = "text_TH3_total";
-            this.text_TH3_total.ReadOnly = true;
-            this.text_TH3_total.Size = new System.Drawing.Size(80, 25);
-            this.text_TH3_total.TabIndex = 30;
-            this.text_TH3_total.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_TH3_total.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_TH3_change.BackColor = System.Drawing.Color.Black;
+            this.text_TH3_change.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_TH3_change.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_TH3_change.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_TH3_change.ForeColor = System.Drawing.Color.Black;
+            this.text_TH3_change.Location = new System.Drawing.Point(329, 113);
+            this.text_TH3_change.Name = "text_TH3_change";
+            this.text_TH3_change.ReadOnly = true;
+            this.text_TH3_change.Size = new System.Drawing.Size(80, 25);
+            this.text_TH3_change.TabIndex = 30;
+            this.text_TH3_change.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_TH3_change.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_TH4_total
+            // text_TH4_change
             // 
-            this.text_TH4_total.BackColor = System.Drawing.Color.Black;
-            this.text_TH4_total.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_TH4_total.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_TH4_total.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_TH4_total.ForeColor = System.Drawing.Color.Black;
-            this.text_TH4_total.Location = new System.Drawing.Point(329, 136);
-            this.text_TH4_total.Name = "text_TH4_total";
-            this.text_TH4_total.ReadOnly = true;
-            this.text_TH4_total.Size = new System.Drawing.Size(80, 25);
-            this.text_TH4_total.TabIndex = 31;
-            this.text_TH4_total.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_TH4_total.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_TH4_change.BackColor = System.Drawing.Color.Black;
+            this.text_TH4_change.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_TH4_change.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_TH4_change.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_TH4_change.ForeColor = System.Drawing.Color.Black;
+            this.text_TH4_change.Location = new System.Drawing.Point(329, 136);
+            this.text_TH4_change.Name = "text_TH4_change";
+            this.text_TH4_change.ReadOnly = true;
+            this.text_TH4_change.Size = new System.Drawing.Size(80, 25);
+            this.text_TH4_change.TabIndex = 31;
+            this.text_TH4_change.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_TH4_change.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_TH0_total
+            // text_TH0_change
             // 
-            this.text_TH0_total.BackColor = System.Drawing.Color.Black;
-            this.text_TH0_total.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_TH0_total.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_TH0_total.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_TH0_total.ForeColor = System.Drawing.Color.Black;
-            this.text_TH0_total.Location = new System.Drawing.Point(329, 44);
-            this.text_TH0_total.Name = "text_TH0_total";
-            this.text_TH0_total.ReadOnly = true;
-            this.text_TH0_total.Size = new System.Drawing.Size(80, 25);
-            this.text_TH0_total.TabIndex = 27;
-            this.text_TH0_total.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_TH0_total.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_TH0_change.BackColor = System.Drawing.Color.Black;
+            this.text_TH0_change.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_TH0_change.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_TH0_change.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_TH0_change.ForeColor = System.Drawing.Color.Black;
+            this.text_TH0_change.Location = new System.Drawing.Point(329, 44);
+            this.text_TH0_change.Name = "text_TH0_change";
+            this.text_TH0_change.ReadOnly = true;
+            this.text_TH0_change.Size = new System.Drawing.Size(80, 25);
+            this.text_TH0_change.TabIndex = 27;
+            this.text_TH0_change.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_TH0_change.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_TH1_total
+            // text_TH1_change
             // 
-            this.text_TH1_total.BackColor = System.Drawing.Color.Black;
-            this.text_TH1_total.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_TH1_total.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_TH1_total.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_TH1_total.ForeColor = System.Drawing.Color.Black;
-            this.text_TH1_total.Location = new System.Drawing.Point(329, 67);
-            this.text_TH1_total.Name = "text_TH1_total";
-            this.text_TH1_total.ReadOnly = true;
-            this.text_TH1_total.Size = new System.Drawing.Size(80, 25);
-            this.text_TH1_total.TabIndex = 28;
-            this.text_TH1_total.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_TH1_total.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_TH1_change.BackColor = System.Drawing.Color.Black;
+            this.text_TH1_change.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_TH1_change.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_TH1_change.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_TH1_change.ForeColor = System.Drawing.Color.Black;
+            this.text_TH1_change.Location = new System.Drawing.Point(329, 67);
+            this.text_TH1_change.Name = "text_TH1_change";
+            this.text_TH1_change.ReadOnly = true;
+            this.text_TH1_change.Size = new System.Drawing.Size(80, 25);
+            this.text_TH1_change.TabIndex = 28;
+            this.text_TH1_change.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_TH1_change.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_TH2_total
+            // text_TH2_change
             // 
-            this.text_TH2_total.BackColor = System.Drawing.Color.Black;
-            this.text_TH2_total.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_TH2_total.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_TH2_total.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_TH2_total.ForeColor = System.Drawing.Color.Black;
-            this.text_TH2_total.Location = new System.Drawing.Point(329, 90);
-            this.text_TH2_total.Name = "text_TH2_total";
-            this.text_TH2_total.ReadOnly = true;
-            this.text_TH2_total.Size = new System.Drawing.Size(80, 25);
-            this.text_TH2_total.TabIndex = 29;
-            this.text_TH2_total.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_TH2_total.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_TH2_change.BackColor = System.Drawing.Color.Black;
+            this.text_TH2_change.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_TH2_change.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_TH2_change.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_TH2_change.ForeColor = System.Drawing.Color.Black;
+            this.text_TH2_change.Location = new System.Drawing.Point(329, 90);
+            this.text_TH2_change.Name = "text_TH2_change";
+            this.text_TH2_change.ReadOnly = true;
+            this.text_TH2_change.Size = new System.Drawing.Size(80, 25);
+            this.text_TH2_change.TabIndex = 29;
+            this.text_TH2_change.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_TH2_change.Enter += new System.EventHandler(this.text_focus_disable);
             // 
             // text_TH3_unit
             // 
@@ -1555,80 +1555,80 @@ namespace UpbitDealer.form
             this.text_TH2_unit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.text_TH2_unit.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_TH3_value
+            // text_TH3_price
             // 
-            this.text_TH3_value.BackColor = System.Drawing.Color.Black;
-            this.text_TH3_value.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_TH3_value.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_TH3_value.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_TH3_value.ForeColor = System.Drawing.Color.Black;
-            this.text_TH3_value.Location = new System.Drawing.Point(251, 113);
-            this.text_TH3_value.Name = "text_TH3_value";
-            this.text_TH3_value.ReadOnly = true;
-            this.text_TH3_value.Size = new System.Drawing.Size(80, 25);
-            this.text_TH3_value.TabIndex = 20;
-            this.text_TH3_value.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_TH3_value.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_TH3_price.BackColor = System.Drawing.Color.Black;
+            this.text_TH3_price.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_TH3_price.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_TH3_price.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_TH3_price.ForeColor = System.Drawing.Color.Black;
+            this.text_TH3_price.Location = new System.Drawing.Point(251, 113);
+            this.text_TH3_price.Name = "text_TH3_price";
+            this.text_TH3_price.ReadOnly = true;
+            this.text_TH3_price.Size = new System.Drawing.Size(80, 25);
+            this.text_TH3_price.TabIndex = 20;
+            this.text_TH3_price.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_TH3_price.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_TH4_value
+            // text_TH4_price
             // 
-            this.text_TH4_value.BackColor = System.Drawing.Color.Black;
-            this.text_TH4_value.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_TH4_value.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_TH4_value.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_TH4_value.ForeColor = System.Drawing.Color.Black;
-            this.text_TH4_value.Location = new System.Drawing.Point(251, 136);
-            this.text_TH4_value.Name = "text_TH4_value";
-            this.text_TH4_value.ReadOnly = true;
-            this.text_TH4_value.Size = new System.Drawing.Size(80, 25);
-            this.text_TH4_value.TabIndex = 21;
-            this.text_TH4_value.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_TH4_value.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_TH4_price.BackColor = System.Drawing.Color.Black;
+            this.text_TH4_price.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_TH4_price.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_TH4_price.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_TH4_price.ForeColor = System.Drawing.Color.Black;
+            this.text_TH4_price.Location = new System.Drawing.Point(251, 136);
+            this.text_TH4_price.Name = "text_TH4_price";
+            this.text_TH4_price.ReadOnly = true;
+            this.text_TH4_price.Size = new System.Drawing.Size(80, 25);
+            this.text_TH4_price.TabIndex = 21;
+            this.text_TH4_price.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_TH4_price.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_TH0_value
+            // text_TH0_price
             // 
-            this.text_TH0_value.BackColor = System.Drawing.Color.Black;
-            this.text_TH0_value.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_TH0_value.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_TH0_value.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_TH0_value.ForeColor = System.Drawing.Color.Black;
-            this.text_TH0_value.Location = new System.Drawing.Point(251, 44);
-            this.text_TH0_value.Name = "text_TH0_value";
-            this.text_TH0_value.ReadOnly = true;
-            this.text_TH0_value.Size = new System.Drawing.Size(80, 25);
-            this.text_TH0_value.TabIndex = 17;
-            this.text_TH0_value.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_TH0_value.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_TH0_price.BackColor = System.Drawing.Color.Black;
+            this.text_TH0_price.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_TH0_price.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_TH0_price.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_TH0_price.ForeColor = System.Drawing.Color.Black;
+            this.text_TH0_price.Location = new System.Drawing.Point(251, 44);
+            this.text_TH0_price.Name = "text_TH0_price";
+            this.text_TH0_price.ReadOnly = true;
+            this.text_TH0_price.Size = new System.Drawing.Size(80, 25);
+            this.text_TH0_price.TabIndex = 17;
+            this.text_TH0_price.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_TH0_price.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_TH1_value
+            // text_TH1_price
             // 
-            this.text_TH1_value.BackColor = System.Drawing.Color.Black;
-            this.text_TH1_value.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_TH1_value.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_TH1_value.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_TH1_value.ForeColor = System.Drawing.Color.Black;
-            this.text_TH1_value.Location = new System.Drawing.Point(251, 67);
-            this.text_TH1_value.Name = "text_TH1_value";
-            this.text_TH1_value.ReadOnly = true;
-            this.text_TH1_value.Size = new System.Drawing.Size(80, 25);
-            this.text_TH1_value.TabIndex = 18;
-            this.text_TH1_value.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_TH1_value.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_TH1_price.BackColor = System.Drawing.Color.Black;
+            this.text_TH1_price.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_TH1_price.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_TH1_price.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_TH1_price.ForeColor = System.Drawing.Color.Black;
+            this.text_TH1_price.Location = new System.Drawing.Point(251, 67);
+            this.text_TH1_price.Name = "text_TH1_price";
+            this.text_TH1_price.ReadOnly = true;
+            this.text_TH1_price.Size = new System.Drawing.Size(80, 25);
+            this.text_TH1_price.TabIndex = 18;
+            this.text_TH1_price.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_TH1_price.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_TH2_value
+            // text_TH2_price
             // 
-            this.text_TH2_value.BackColor = System.Drawing.Color.Black;
-            this.text_TH2_value.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_TH2_value.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_TH2_value.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_TH2_value.ForeColor = System.Drawing.Color.Black;
-            this.text_TH2_value.Location = new System.Drawing.Point(251, 90);
-            this.text_TH2_value.Name = "text_TH2_value";
-            this.text_TH2_value.ReadOnly = true;
-            this.text_TH2_value.Size = new System.Drawing.Size(80, 25);
-            this.text_TH2_value.TabIndex = 19;
-            this.text_TH2_value.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_TH2_value.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_TH2_price.BackColor = System.Drawing.Color.Black;
+            this.text_TH2_price.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_TH2_price.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_TH2_price.Font = new System.Drawing.Font("Arial", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_TH2_price.ForeColor = System.Drawing.Color.Black;
+            this.text_TH2_price.Location = new System.Drawing.Point(251, 90);
+            this.text_TH2_price.Name = "text_TH2_price";
+            this.text_TH2_price.ReadOnly = true;
+            this.text_TH2_price.Size = new System.Drawing.Size(80, 25);
+            this.text_TH2_price.TabIndex = 19;
+            this.text_TH2_price.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.text_TH2_price.Enter += new System.EventHandler(this.text_focus_disable);
             // 
             // text_TH3_date
             // 
@@ -1720,50 +1720,50 @@ namespace UpbitDealer.form
             this.text_prev_close.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.text_prev_close.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_fluctate_rate
+            // text_change_rate
             // 
-            this.text_fluctate_rate.BackColor = System.Drawing.Color.Black;
-            this.text_fluctate_rate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_fluctate_rate.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_fluctate_rate.Font = new System.Drawing.Font("Arial Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_fluctate_rate.ForeColor = System.Drawing.Color.White;
-            this.text_fluctate_rate.Location = new System.Drawing.Point(386, 35);
-            this.text_fluctate_rate.Name = "text_fluctate_rate";
-            this.text_fluctate_rate.ReadOnly = true;
-            this.text_fluctate_rate.Size = new System.Drawing.Size(103, 37);
-            this.text_fluctate_rate.TabIndex = 3;
-            this.text_fluctate_rate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_fluctate_rate.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_change_rate.BackColor = System.Drawing.Color.Black;
+            this.text_change_rate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_change_rate.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_change_rate.Font = new System.Drawing.Font("Arial Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_change_rate.ForeColor = System.Drawing.Color.White;
+            this.text_change_rate.Location = new System.Drawing.Point(386, 35);
+            this.text_change_rate.Name = "text_change_rate";
+            this.text_change_rate.ReadOnly = true;
+            this.text_change_rate.Size = new System.Drawing.Size(103, 37);
+            this.text_change_rate.TabIndex = 3;
+            this.text_change_rate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.text_change_rate.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_fluctate
+            // text_change
             // 
-            this.text_fluctate.BackColor = System.Drawing.Color.Black;
-            this.text_fluctate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_fluctate.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_fluctate.Font = new System.Drawing.Font("Arial Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_fluctate.ForeColor = System.Drawing.Color.White;
-            this.text_fluctate.Location = new System.Drawing.Point(238, 35);
-            this.text_fluctate.Name = "text_fluctate";
-            this.text_fluctate.ReadOnly = true;
-            this.text_fluctate.Size = new System.Drawing.Size(142, 37);
-            this.text_fluctate.TabIndex = 2;
-            this.text_fluctate.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_fluctate.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_change.BackColor = System.Drawing.Color.Black;
+            this.text_change.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_change.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_change.Font = new System.Drawing.Font("Arial Black", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_change.ForeColor = System.Drawing.Color.White;
+            this.text_change.Location = new System.Drawing.Point(238, 35);
+            this.text_change.Name = "text_change";
+            this.text_change.ReadOnly = true;
+            this.text_change.Size = new System.Drawing.Size(142, 37);
+            this.text_change.TabIndex = 2;
+            this.text_change.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.text_change.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // text_value
+            // text_price
             // 
-            this.text_value.BackColor = System.Drawing.Color.Black;
-            this.text_value.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_value.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.text_value.Font = new System.Drawing.Font("Arial Black", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_value.ForeColor = System.Drawing.Color.White;
-            this.text_value.Location = new System.Drawing.Point(38, 26);
-            this.text_value.Name = "text_value";
-            this.text_value.ReadOnly = true;
-            this.text_value.Size = new System.Drawing.Size(194, 46);
-            this.text_value.TabIndex = 1;
-            this.text_value.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_value.Enter += new System.EventHandler(this.text_focus_disable);
+            this.text_price.BackColor = System.Drawing.Color.Black;
+            this.text_price.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_price.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.text_price.Font = new System.Drawing.Font("Arial Black", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_price.ForeColor = System.Drawing.Color.White;
+            this.text_price.Location = new System.Drawing.Point(38, 26);
+            this.text_price.Name = "text_price";
+            this.text_price.ReadOnly = true;
+            this.text_price.Size = new System.Drawing.Size(194, 46);
+            this.text_price.TabIndex = 1;
+            this.text_price.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.text_price.Enter += new System.EventHandler(this.text_focus_disable);
             // 
             // text_name
             // 
@@ -1990,13 +1990,13 @@ namespace UpbitDealer.form
             this.textBox3.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox3.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(411, 56);
+            this.textBox3.Location = new System.Drawing.Point(415, 56);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
             this.textBox3.Size = new System.Drawing.Size(206, 29);
             this.textBox3.TabIndex = 21;
-            this.textBox3.Text = " 1. Total must exceed 5000 (KRW)";
+            this.textBox3.Text = " 1. Total must exceed 5000 KRW";
             this.textBox3.Enter += new System.EventHandler(this.text_focus_disable);
             // 
             // but_market
@@ -2107,11 +2107,11 @@ namespace UpbitDealer.form
 
         private System.Windows.Forms.ListBox list_coinName;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox text_askQuantity14;
-        private System.Windows.Forms.TextBox text_askQuantity13;
-        private System.Windows.Forms.TextBox text_askQuantity12;
-        private System.Windows.Forms.TextBox text_askQuantity11;
-        private System.Windows.Forms.TextBox text_askQuantity10;
+        private System.Windows.Forms.TextBox text_askVolume14;
+        private System.Windows.Forms.TextBox text_askVolume13;
+        private System.Windows.Forms.TextBox text_askVolume12;
+        private System.Windows.Forms.TextBox text_askVolume11;
+        private System.Windows.Forms.TextBox text_askVolume10;
         private System.Windows.Forms.TextBox text_askPrice14;
         private System.Windows.Forms.TextBox text_askPrice13;
         private System.Windows.Forms.TextBox text_askPrice12;
@@ -2127,22 +2127,22 @@ namespace UpbitDealer.form
         private System.Windows.Forms.TextBox text_askPrice02;
         private System.Windows.Forms.TextBox text_askPrice01;
         private System.Windows.Forms.TextBox text_askPrice00;
-        private System.Windows.Forms.TextBox text_askQuantity09;
-        private System.Windows.Forms.TextBox text_askQuantity08;
-        private System.Windows.Forms.TextBox text_askQuantity07;
-        private System.Windows.Forms.TextBox text_askQuantity06;
-        private System.Windows.Forms.TextBox text_askQuantity05;
-        private System.Windows.Forms.TextBox text_askQuantity04;
-        private System.Windows.Forms.TextBox text_askQuantity03;
-        private System.Windows.Forms.TextBox text_askQuantity02;
-        private System.Windows.Forms.TextBox text_askQuantity01;
-        private System.Windows.Forms.TextBox text_askQuantity00;
+        private System.Windows.Forms.TextBox text_askVolume09;
+        private System.Windows.Forms.TextBox text_askVolume08;
+        private System.Windows.Forms.TextBox text_askVolume07;
+        private System.Windows.Forms.TextBox text_askVolume06;
+        private System.Windows.Forms.TextBox text_askVolume05;
+        private System.Windows.Forms.TextBox text_askVolume04;
+        private System.Windows.Forms.TextBox text_askVolume03;
+        private System.Windows.Forms.TextBox text_askVolume02;
+        private System.Windows.Forms.TextBox text_askVolume01;
+        private System.Windows.Forms.TextBox text_askVolume00;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox text_bidQuantity04;
-        private System.Windows.Forms.TextBox text_bidQuantity03;
-        private System.Windows.Forms.TextBox text_bidQuantity02;
-        private System.Windows.Forms.TextBox text_bidQuantity01;
-        private System.Windows.Forms.TextBox text_bidQuantity00;
+        private System.Windows.Forms.TextBox text_bidVolume04;
+        private System.Windows.Forms.TextBox text_bidVolume03;
+        private System.Windows.Forms.TextBox text_bidVolume02;
+        private System.Windows.Forms.TextBox text_bidVolume01;
+        private System.Windows.Forms.TextBox text_bidVolume00;
         private System.Windows.Forms.TextBox text_bidPrice09;
         private System.Windows.Forms.TextBox text_bidPrice08;
         private System.Windows.Forms.TextBox text_bidPrice07;
@@ -2153,21 +2153,21 @@ namespace UpbitDealer.form
         private System.Windows.Forms.TextBox text_bidPrice02;
         private System.Windows.Forms.TextBox text_bidPrice01;
         private System.Windows.Forms.TextBox text_bidPrice00;
-        private System.Windows.Forms.TextBox text_bidQuantity09;
-        private System.Windows.Forms.TextBox text_bidQuantity08;
-        private System.Windows.Forms.TextBox text_bidQuantity07;
-        private System.Windows.Forms.TextBox text_bidQuantity06;
-        private System.Windows.Forms.TextBox text_bidQuantity05;
+        private System.Windows.Forms.TextBox text_bidVolume09;
+        private System.Windows.Forms.TextBox text_bidVolume08;
+        private System.Windows.Forms.TextBox text_bidVolume07;
+        private System.Windows.Forms.TextBox text_bidVolume06;
+        private System.Windows.Forms.TextBox text_bidVolume05;
         private System.Windows.Forms.TextBox text_bidPrice14;
         private System.Windows.Forms.TextBox text_bidPrice13;
         private System.Windows.Forms.TextBox text_bidPrice12;
         private System.Windows.Forms.TextBox text_bidPrice11;
         private System.Windows.Forms.TextBox text_bidPrice10;
-        private System.Windows.Forms.TextBox text_bidQuantity10;
-        private System.Windows.Forms.TextBox text_bidQuantity11;
-        private System.Windows.Forms.TextBox text_bidQuantity12;
-        private System.Windows.Forms.TextBox text_bidQuantity13;
-        private System.Windows.Forms.TextBox text_bidQuantity14;
+        private System.Windows.Forms.TextBox text_bidVolume10;
+        private System.Windows.Forms.TextBox text_bidVolume11;
+        private System.Windows.Forms.TextBox text_bidVolume12;
+        private System.Windows.Forms.TextBox text_bidVolume13;
+        private System.Windows.Forms.TextBox text_bidVolume14;
         private System.Windows.Forms.Timer timer_updater;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.GroupBox groupBox3;
@@ -2178,9 +2178,9 @@ namespace UpbitDealer.form
         private System.Windows.Forms.TextBox text_open;
         private System.Windows.Forms.TextBox text_close;
         private System.Windows.Forms.TextBox text_max;
-        private System.Windows.Forms.TextBox text_fluctate_rate;
-        private System.Windows.Forms.TextBox text_fluctate;
-        private System.Windows.Forms.TextBox text_value;
+        private System.Windows.Forms.TextBox text_change_rate;
+        private System.Windows.Forms.TextBox text_change;
+        private System.Windows.Forms.TextBox text_price;
         private System.Windows.Forms.TextBox text_candle2;
         private System.Windows.Forms.TextBox text_candle3;
         private System.Windows.Forms.TextBox text_candle1;
@@ -2197,16 +2197,16 @@ namespace UpbitDealer.form
         private System.Windows.Forms.TextBox text_TH0_unit;
         private System.Windows.Forms.TextBox text_TH1_unit;
         private System.Windows.Forms.TextBox text_TH2_unit;
-        private System.Windows.Forms.TextBox text_TH3_value;
-        private System.Windows.Forms.TextBox text_TH4_value;
-        private System.Windows.Forms.TextBox text_TH0_value;
-        private System.Windows.Forms.TextBox text_TH1_value;
-        private System.Windows.Forms.TextBox text_TH2_value;
-        private System.Windows.Forms.TextBox text_TH3_total;
-        private System.Windows.Forms.TextBox text_TH4_total;
-        private System.Windows.Forms.TextBox text_TH0_total;
-        private System.Windows.Forms.TextBox text_TH1_total;
-        private System.Windows.Forms.TextBox text_TH2_total;
+        private System.Windows.Forms.TextBox text_TH3_price;
+        private System.Windows.Forms.TextBox text_TH4_price;
+        private System.Windows.Forms.TextBox text_TH0_price;
+        private System.Windows.Forms.TextBox text_TH1_price;
+        private System.Windows.Forms.TextBox text_TH2_price;
+        private System.Windows.Forms.TextBox text_TH3_change;
+        private System.Windows.Forms.TextBox text_TH4_change;
+        private System.Windows.Forms.TextBox text_TH0_change;
+        private System.Windows.Forms.TextBox text_TH1_change;
+        private System.Windows.Forms.TextBox text_TH2_change;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.TextBox textBox6;

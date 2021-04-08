@@ -1,7 +1,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-						Upbit Dealer ver.1.2.0
+						Upbit Dealer ver.1.2.1
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -25,20 +25,18 @@
 		1. This DOES NOT solve everything. Eventually, the price goes up and then gain profit.
 
 		2. I tring to do not make erros and test several times, but don't trust it entirely as
-		there may be errors. Because I am not a pro.
-
-		3. DO NOT perform strange manipulations, which increases the possibility of errors.
-		That is a useless act and only your damage will occur.
+		there may be errors. So, DO NOT perform strange manipulations, which increases the
+		possibility of errors. That is a useless act and only your damage will occur.
 	
-		4. Characteristic of upbit api is it returns accurate results, but the number of requests
+		3. Characteristic of upbit api is it returns accurate results, but the number of requests
 		per second is very low. Api limit are based on ip address and account. So DO NOT open
 		'trader' and many 'chart' at the same time.
 
-		5. Upbit api always need access ip address and your ip address sometimes change. That
+		4. Upbit api always need access ip address and your ip address sometimes change. That
 		means, if you can not login one day, check your current ip address and change the access
 		ip address in upbit homepage.
 
-		6. Upbit has a large fluctuation range in the short term. So, the short-term yield is
+		5. Upbit has a large fluctuation range in the short term. So, the short-term yield is
 		high. The reason seems that upbit has many beginners.
 
 
@@ -55,14 +53,17 @@
 
 		4. Can use macro with bollinger value for top 70 coin
 
+		5. Can show average weighted and average bollinger value
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	Update
 
-		1. change the macro execution data structure for dynamic bollinger value
+		1. change the algorithm of api load, therefore it can execute macro more faster and open
+		more chart at the same time
 
-		2. 'macro' form shows weighted and average bollinger value 
+		2. reduce gc rate
 
 		
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
