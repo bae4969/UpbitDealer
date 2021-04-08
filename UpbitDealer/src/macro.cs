@@ -557,6 +557,7 @@ namespace UpbitDealer.src
                 }
                 else
                 {
+                    bollinger[i].Tables[coinName].Rows[0]["date"] = candle[i].Tables[coinName].Rows[0]["date"];
                     bollinger[i].Tables[coinName].Rows[0]["value"] = value;
                 }
             }
