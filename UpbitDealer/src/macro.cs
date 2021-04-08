@@ -606,7 +606,7 @@ namespace UpbitDealer.src
                 {
                     weightBollinger[i].Rows[0]["date"] = bollinger[i].Tables[0].Rows[0]["date"];
                     weightBollinger[i].Rows[0]["value"] = weight / weightCount;
-                    avgBollinger[i].Rows[0]["value"] = bollinger[i].Tables[0].Rows[0]["date"];
+                    avgBollinger[i].Rows[0]["date"] = bollinger[i].Tables[0].Rows[0]["date"];
                     avgBollinger[i].Rows[0]["value"] = avg / avgCount;
                 }
             }
@@ -800,6 +800,7 @@ namespace UpbitDealer.src
         {
             string coinName = coinList[index];
             if (state.Tables[coinName].Rows.Count < 1) return 0;
+
 
             DataTable sellCandle = candle[0].Tables[coinName];
             if (sellCandle == null)
