@@ -98,27 +98,28 @@ namespace UpbitDealer.src
                     if (reader.Length > 0)
                     {
                         string[] singleData = reader[0].Split('\t');
-                        if (singleData.Length > 17)
+                        if (singleData.Length > 18)
                         {
                             setting.yield = double.Parse(singleData[0]);
                             setting.krw = double.Parse(singleData[1]);
                             setting.time = double.Parse(singleData[2]);
-                            setting.week_from = double.Parse(singleData[3]);
-                            setting.week_to = double.Parse(singleData[4]);
-                            setting.day_from = double.Parse(singleData[5]);
-                            setting.day_to = double.Parse(singleData[6]);
-                            setting.hour4_from = double.Parse(singleData[7]);
-                            setting.hour4_to = double.Parse(singleData[8]);
-                            setting.hour1_from = double.Parse(singleData[9]);
-                            setting.hour1_to = double.Parse(singleData[10]);
-                            setting.min30_from = double.Parse(singleData[11]);
-                            setting.min30_to = double.Parse(singleData[12]);
+                            setting.limit = double.Parse(singleData[3]);
+                            setting.week_from = double.Parse(singleData[4]);
+                            setting.week_to = double.Parse(singleData[5]);
+                            setting.day_from = double.Parse(singleData[6]);
+                            setting.day_to = double.Parse(singleData[7]);
+                            setting.hour4_from = double.Parse(singleData[8]);
+                            setting.hour4_to = double.Parse(singleData[9]);
+                            setting.hour1_from = double.Parse(singleData[10]);
+                            setting.hour1_to = double.Parse(singleData[11]);
+                            setting.min30_from = double.Parse(singleData[12]);
+                            setting.min30_to = double.Parse(singleData[13]);
 
-                            setting.week_bias = bool.Parse(singleData[13]);
-                            setting.day_bias = bool.Parse(singleData[14]);
-                            setting.hour4_bias = bool.Parse(singleData[15]);
-                            setting.hour1_bias = bool.Parse(singleData[16]);
-                            setting.min30_bias = bool.Parse(singleData[17]);
+                            setting.week_bias = bool.Parse(singleData[14]);
+                            setting.day_bias = bool.Parse(singleData[15]);
+                            setting.hour4_bias = bool.Parse(singleData[16]);
+                            setting.hour1_bias = bool.Parse(singleData[17]);
+                            setting.min30_bias = bool.Parse(singleData[18]);
                         }
                     }
                 }
@@ -197,6 +198,7 @@ namespace UpbitDealer.src
                         = setting.yield.ToString("0.########") + '\t'
                         + setting.krw.ToString("0.########") + '\t'
                         + setting.time.ToString("0.########") + '\t'
+                        + setting.limit.ToString("0.########") + '\t'
                         + setting.week_from.ToString("0.########") + '\t'
                         + setting.week_to.ToString("0.########") + '\t'
                         + setting.day_from.ToString("0.########") + '\t'
@@ -282,6 +284,7 @@ namespace UpbitDealer.src
             setting.yield = 1;
             setting.krw = 5000;
             setting.time = 1;
+            setting.limit = 0;
             setting.week_from = -100;
             setting.week_to = 100;
             setting.day_from = -100;
@@ -361,7 +364,9 @@ namespace UpbitDealer.src
             {
                 for (int j = 0; j < 60 && j < bollinger[i].Tables[0].Rows.Count; j++)
                 {
-                    double btc = (double)bollinger[i].Tables["BTC"].Rows[j]["value"];
+                    double btc
+                        = ((double)bollinger[i].Tables["BTC"].Rows[j]["value"]
+                        + (double)bollinger[i].Tables["ETH"].Rows[j]["value"]) * 0.5;
                     double avg = 0;
                     double count = 0;
 
@@ -510,7 +515,9 @@ namespace UpbitDealer.src
         {
             for (int i = 0; i < 5; i++)
             {
-                double btc = (double)bollinger[i].Tables["BTC"].Rows[0]["value"];
+                double btc
+                    = ((double)bollinger[i].Tables["BTC"].Rows[0]["value"]
+                    + (double)bollinger[i].Tables["ETH"].Rows[0]["value"]) * 0.5;
                 double avg = 0;
                 double count = 0;
 
@@ -633,7 +640,7 @@ namespace UpbitDealer.src
         public int executeMacroBuy(int index)
         {
             string coinName = coinList[index];
-            if (holdKRW < setting.krw * 1.0005d) return 0;
+            if (holdKRW - setting.limit < setting.krw * 1.0005d) return 0;
             if (state.Tables[coinName].Rows.Count >= setting.time && setting.time != 0) return 0;
 
 

@@ -46,6 +46,7 @@ namespace UpbitDealer.form
             text_yield.Text = setting.yield.ToString();
             text_krw.Text = setting.krw.ToString();
             text_time.Text = setting.time.ToString();
+            text_limit.Text = setting.limit.ToString();
             if (setting.week_from > -90000d) text_week_from.Text = setting.week_from.ToString();
             if (setting.week_to > -90000d) text_week_to.Text = setting.week_to.ToString();
             if (setting.day_from > -90000d) text_day_from.Text = setting.day_from.ToString();
@@ -79,12 +80,29 @@ namespace UpbitDealer.form
             {
                 MacroSettingData setting = new MacroSettingData();
 
-                if (!double.TryParse(text_yield.Text, out setting.yield)
-                    || !double.TryParse(text_krw.Text, out setting.krw)
-                    || !double.TryParse(text_time.Text, out setting.time))
+                if (!double.TryParse(text_yield.Text, out setting.yield))
                 {
-                    MessageBox.Show("One of yield, krw and time value is not number.");
+                    MessageBox.Show("Yield value is not number.");
                     return;
+                }
+                if (!double.TryParse(text_krw.Text, out setting.krw))
+                {
+                    MessageBox.Show("KRW value is not number.");
+                    return;
+                }
+                if (!double.TryParse(text_time.Text, out setting.time))
+                {
+                    MessageBox.Show("Time value is not number.");
+                    return;
+                }
+                if (!double.TryParse(text_limit.Text, out setting.limit))
+                {
+                    if (text_limit.Text == "") setting.limit = 0;
+                    else
+                    {
+                        MessageBox.Show("Limit value is not number.");
+                        return;
+                    }
                 }
 
                 if (text_week_from.Text == "" && text_day_from.Text == "" && text_hour4_from.Text == ""

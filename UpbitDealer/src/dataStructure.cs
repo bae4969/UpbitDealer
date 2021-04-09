@@ -66,6 +66,7 @@ namespace UpbitDealer.src
         public double yield;
         public double krw;
         public double time;
+        public double limit;
         public double week_from;
         public double week_to;
         public double day_from;

@@ -269,9 +269,6 @@ namespace UpbitDealer.form
             {
                 for (int i = 0; !AllStop && i < coinList.Count && i < 70; i++)
                 {
-                    Stopwatch stopwatch = new Stopwatch();
-                    stopwatch.Start();
-
                     lock (lock_macro)
                     {
                         int ret;
@@ -301,15 +298,7 @@ namespace UpbitDealer.form
                             logIn(macro.executionStr[j]);
                         macro.executionStr.Clear();
                     }
-
-                    stopwatch.Stop();
-                    long sleepTime = 500 - stopwatch.ElapsedMilliseconds;
-                    while (sleepTime > 0)
-                    {
-                        if (AllStop) break;
-                        Thread.Sleep(100);
-                        sleepTime -= 100;
-                    }
+                    Thread.Sleep(100);
                 }
                 macro.updateBollingerWeightAvg();
             }

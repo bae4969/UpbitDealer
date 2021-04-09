@@ -74,12 +74,16 @@ namespace UpbitDealer.form
             this.btn_hour4 = new System.Windows.Forms.Button();
             this.btn_day = new System.Windows.Forms.Button();
             this.btn_week = new System.Windows.Forms.Button();
+            this.text_limit = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.text_limit);
+            this.groupBox1.Controls.Add(this.textBox6);
             this.groupBox1.Controls.Add(this.textBox41);
             this.groupBox1.Controls.Add(this.check_min30);
             this.groupBox1.Controls.Add(this.check_hour1);
@@ -115,7 +119,7 @@ namespace UpbitDealer.form
             this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(390, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(372, 378);
+            this.groupBox1.Size = new System.Drawing.Size(372, 416);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Setting";
@@ -127,7 +131,7 @@ namespace UpbitDealer.form
             this.textBox41.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox41.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox41.ForeColor = System.Drawing.Color.White;
-            this.textBox41.Location = new System.Drawing.Point(6, 336);
+            this.textBox41.Location = new System.Drawing.Point(6, 374);
             this.textBox41.Name = "textBox41";
             this.textBox41.ReadOnly = true;
             this.textBox41.Size = new System.Drawing.Size(130, 22);
@@ -138,7 +142,7 @@ namespace UpbitDealer.form
             // check_min30
             // 
             this.check_min30.AutoSize = true;
-            this.check_min30.Location = new System.Drawing.Point(220, 348);
+            this.check_min30.Location = new System.Drawing.Point(220, 386);
             this.check_min30.Name = "check_min30";
             this.check_min30.Size = new System.Drawing.Size(66, 20);
             this.check_min30.TabIndex = 35;
@@ -148,7 +152,7 @@ namespace UpbitDealer.form
             // check_hour1
             // 
             this.check_hour1.AutoSize = true;
-            this.check_hour1.Location = new System.Drawing.Point(142, 348);
+            this.check_hour1.Location = new System.Drawing.Point(142, 386);
             this.check_hour1.Name = "check_hour1";
             this.check_hour1.Size = new System.Drawing.Size(65, 20);
             this.check_hour1.TabIndex = 34;
@@ -158,7 +162,7 @@ namespace UpbitDealer.form
             // check_hour4
             // 
             this.check_hour4.AutoSize = true;
-            this.check_hour4.Location = new System.Drawing.Point(298, 325);
+            this.check_hour4.Location = new System.Drawing.Point(298, 363);
             this.check_hour4.Name = "check_hour4";
             this.check_hour4.Size = new System.Drawing.Size(65, 20);
             this.check_hour4.TabIndex = 33;
@@ -168,7 +172,7 @@ namespace UpbitDealer.form
             // check_day
             // 
             this.check_day.AutoSize = true;
-            this.check_day.Location = new System.Drawing.Point(220, 325);
+            this.check_day.Location = new System.Drawing.Point(220, 363);
             this.check_day.Name = "check_day";
             this.check_day.Size = new System.Drawing.Size(50, 20);
             this.check_day.TabIndex = 32;
@@ -178,7 +182,7 @@ namespace UpbitDealer.form
             // check_week
             // 
             this.check_week.AutoSize = true;
-            this.check_week.Location = new System.Drawing.Point(142, 325);
+            this.check_week.Location = new System.Drawing.Point(142, 363);
             this.check_week.Name = "check_week";
             this.check_week.Size = new System.Drawing.Size(61, 20);
             this.check_week.TabIndex = 31;
@@ -192,7 +196,7 @@ namespace UpbitDealer.form
             this.textBox13.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox13.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox13.ForeColor = System.Drawing.Color.White;
-            this.textBox13.Location = new System.Drawing.Point(233, 289);
+            this.textBox13.Location = new System.Drawing.Point(233, 327);
             this.textBox13.Name = "textBox13";
             this.textBox13.ReadOnly = true;
             this.textBox13.Size = new System.Drawing.Size(42, 25);
@@ -208,7 +212,7 @@ namespace UpbitDealer.form
             this.text_min30_to.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.text_min30_to.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.text_min30_to.ForeColor = System.Drawing.Color.Black;
-            this.text_min30_to.Location = new System.Drawing.Point(281, 287);
+            this.text_min30_to.Location = new System.Drawing.Point(281, 325);
             this.text_min30_to.Name = "text_min30_to";
             this.text_min30_to.Size = new System.Drawing.Size(85, 32);
             this.text_min30_to.TabIndex = 22;
@@ -221,7 +225,7 @@ namespace UpbitDealer.form
             this.textBox11.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox11.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox11.ForeColor = System.Drawing.Color.White;
-            this.textBox11.Location = new System.Drawing.Point(233, 251);
+            this.textBox11.Location = new System.Drawing.Point(233, 289);
             this.textBox11.Name = "textBox11";
             this.textBox11.ReadOnly = true;
             this.textBox11.Size = new System.Drawing.Size(42, 25);
@@ -237,7 +241,7 @@ namespace UpbitDealer.form
             this.text_hour1_to.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.text_hour1_to.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.text_hour1_to.ForeColor = System.Drawing.Color.Black;
-            this.text_hour1_to.Location = new System.Drawing.Point(281, 249);
+            this.text_hour1_to.Location = new System.Drawing.Point(281, 287);
             this.text_hour1_to.Name = "text_hour1_to";
             this.text_hour1_to.Size = new System.Drawing.Size(85, 32);
             this.text_hour1_to.TabIndex = 21;
@@ -250,7 +254,7 @@ namespace UpbitDealer.form
             this.textBox8.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox8.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox8.ForeColor = System.Drawing.Color.White;
-            this.textBox8.Location = new System.Drawing.Point(233, 213);
+            this.textBox8.Location = new System.Drawing.Point(233, 251);
             this.textBox8.Name = "textBox8";
             this.textBox8.ReadOnly = true;
             this.textBox8.Size = new System.Drawing.Size(42, 25);
@@ -266,7 +270,7 @@ namespace UpbitDealer.form
             this.text_hour4_to.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.text_hour4_to.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.text_hour4_to.ForeColor = System.Drawing.Color.Black;
-            this.text_hour4_to.Location = new System.Drawing.Point(281, 211);
+            this.text_hour4_to.Location = new System.Drawing.Point(281, 249);
             this.text_hour4_to.Name = "text_hour4_to";
             this.text_hour4_to.Size = new System.Drawing.Size(85, 32);
             this.text_hour4_to.TabIndex = 20;
@@ -279,7 +283,7 @@ namespace UpbitDealer.form
             this.textBox4.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox4.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox4.ForeColor = System.Drawing.Color.White;
-            this.textBox4.Location = new System.Drawing.Point(233, 175);
+            this.textBox4.Location = new System.Drawing.Point(233, 213);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
             this.textBox4.Size = new System.Drawing.Size(42, 25);
@@ -295,7 +299,7 @@ namespace UpbitDealer.form
             this.text_day_to.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.text_day_to.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.text_day_to.ForeColor = System.Drawing.Color.Black;
-            this.text_day_to.Location = new System.Drawing.Point(281, 173);
+            this.text_day_to.Location = new System.Drawing.Point(281, 211);
             this.text_day_to.Name = "text_day_to";
             this.text_day_to.Size = new System.Drawing.Size(85, 32);
             this.text_day_to.TabIndex = 19;
@@ -308,7 +312,7 @@ namespace UpbitDealer.form
             this.textBox2.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox2.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(233, 137);
+            this.textBox2.Location = new System.Drawing.Point(233, 175);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
             this.textBox2.Size = new System.Drawing.Size(42, 25);
@@ -324,7 +328,7 @@ namespace UpbitDealer.form
             this.text_week_to.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.text_week_to.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.text_week_to.ForeColor = System.Drawing.Color.Black;
-            this.text_week_to.Location = new System.Drawing.Point(281, 135);
+            this.text_week_to.Location = new System.Drawing.Point(281, 173);
             this.text_week_to.Name = "text_week_to";
             this.text_week_to.Size = new System.Drawing.Size(85, 32);
             this.text_week_to.TabIndex = 18;
@@ -337,7 +341,7 @@ namespace UpbitDealer.form
             this.text_min30_from.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.text_min30_from.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.text_min30_from.ForeColor = System.Drawing.Color.Black;
-            this.text_min30_from.Location = new System.Drawing.Point(142, 287);
+            this.text_min30_from.Location = new System.Drawing.Point(142, 325);
             this.text_min30_from.Name = "text_min30_from";
             this.text_min30_from.Size = new System.Drawing.Size(85, 32);
             this.text_min30_from.TabIndex = 17;
@@ -350,7 +354,7 @@ namespace UpbitDealer.form
             this.textBox9.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox9.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox9.ForeColor = System.Drawing.Color.White;
-            this.textBox9.Location = new System.Drawing.Point(6, 290);
+            this.textBox9.Location = new System.Drawing.Point(6, 328);
             this.textBox9.Name = "textBox9";
             this.textBox9.ReadOnly = true;
             this.textBox9.Size = new System.Drawing.Size(130, 22);
@@ -366,7 +370,7 @@ namespace UpbitDealer.form
             this.text_hour1_from.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.text_hour1_from.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.text_hour1_from.ForeColor = System.Drawing.Color.Black;
-            this.text_hour1_from.Location = new System.Drawing.Point(142, 249);
+            this.text_hour1_from.Location = new System.Drawing.Point(142, 287);
             this.text_hour1_from.Name = "text_hour1_from";
             this.text_hour1_from.Size = new System.Drawing.Size(85, 32);
             this.text_hour1_from.TabIndex = 16;
@@ -379,7 +383,7 @@ namespace UpbitDealer.form
             this.textBox7.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox7.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox7.ForeColor = System.Drawing.Color.White;
-            this.textBox7.Location = new System.Drawing.Point(6, 252);
+            this.textBox7.Location = new System.Drawing.Point(6, 290);
             this.textBox7.Name = "textBox7";
             this.textBox7.ReadOnly = true;
             this.textBox7.Size = new System.Drawing.Size(130, 22);
@@ -395,7 +399,7 @@ namespace UpbitDealer.form
             this.text_hour4_from.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.text_hour4_from.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.text_hour4_from.ForeColor = System.Drawing.Color.Black;
-            this.text_hour4_from.Location = new System.Drawing.Point(142, 211);
+            this.text_hour4_from.Location = new System.Drawing.Point(142, 249);
             this.text_hour4_from.Name = "text_hour4_from";
             this.text_hour4_from.Size = new System.Drawing.Size(85, 32);
             this.text_hour4_from.TabIndex = 15;
@@ -408,7 +412,7 @@ namespace UpbitDealer.form
             this.textBox5.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox5.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox5.ForeColor = System.Drawing.Color.White;
-            this.textBox5.Location = new System.Drawing.Point(6, 214);
+            this.textBox5.Location = new System.Drawing.Point(6, 252);
             this.textBox5.Name = "textBox5";
             this.textBox5.ReadOnly = true;
             this.textBox5.Size = new System.Drawing.Size(130, 22);
@@ -424,7 +428,7 @@ namespace UpbitDealer.form
             this.text_day_from.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.text_day_from.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.text_day_from.ForeColor = System.Drawing.Color.Black;
-            this.text_day_from.Location = new System.Drawing.Point(142, 173);
+            this.text_day_from.Location = new System.Drawing.Point(142, 211);
             this.text_day_from.Name = "text_day_from";
             this.text_day_from.Size = new System.Drawing.Size(85, 32);
             this.text_day_from.TabIndex = 14;
@@ -437,7 +441,7 @@ namespace UpbitDealer.form
             this.textBox3.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox3.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(6, 176);
+            this.textBox3.Location = new System.Drawing.Point(6, 214);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
             this.textBox3.Size = new System.Drawing.Size(130, 22);
@@ -453,7 +457,7 @@ namespace UpbitDealer.form
             this.text_week_from.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.text_week_from.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.text_week_from.ForeColor = System.Drawing.Color.Black;
-            this.text_week_from.Location = new System.Drawing.Point(142, 135);
+            this.text_week_from.Location = new System.Drawing.Point(142, 173);
             this.text_week_from.Name = "text_week_from";
             this.text_week_from.Size = new System.Drawing.Size(85, 32);
             this.text_week_from.TabIndex = 13;
@@ -469,7 +473,7 @@ namespace UpbitDealer.form
             this.text_time.Location = new System.Drawing.Point(142, 97);
             this.text_time.Name = "text_time";
             this.text_time.Size = new System.Drawing.Size(224, 32);
-            this.text_time.TabIndex = 12;
+            this.text_time.TabIndex = 11;
             this.text_time.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // text_krw
@@ -482,7 +486,7 @@ namespace UpbitDealer.form
             this.text_krw.Location = new System.Drawing.Point(142, 59);
             this.text_krw.Name = "text_krw";
             this.text_krw.Size = new System.Drawing.Size(224, 32);
-            this.text_krw.TabIndex = 11;
+            this.text_krw.TabIndex = 10;
             this.text_krw.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // text_yield
@@ -495,7 +499,7 @@ namespace UpbitDealer.form
             this.text_yield.Location = new System.Drawing.Point(142, 21);
             this.text_yield.Name = "text_yield";
             this.text_yield.Size = new System.Drawing.Size(224, 32);
-            this.text_yield.TabIndex = 10;
+            this.text_yield.TabIndex = 9;
             this.text_yield.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // text_parName3
@@ -505,7 +509,7 @@ namespace UpbitDealer.form
             this.text_parName3.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.text_parName3.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.text_parName3.ForeColor = System.Drawing.Color.White;
-            this.text_parName3.Location = new System.Drawing.Point(6, 138);
+            this.text_parName3.Location = new System.Drawing.Point(6, 176);
             this.text_parName3.Name = "text_parName3";
             this.text_parName3.ReadOnly = true;
             this.text_parName3.Size = new System.Drawing.Size(130, 22);
@@ -567,7 +571,7 @@ namespace UpbitDealer.form
             this.btn_save.BackColor = System.Drawing.Color.DarkGray;
             this.btn_save.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_save.ForeColor = System.Drawing.Color.Black;
-            this.btn_save.Location = new System.Drawing.Point(390, 396);
+            this.btn_save.Location = new System.Drawing.Point(390, 434);
             this.btn_save.Name = "btn_save";
             this.btn_save.Size = new System.Drawing.Size(184, 34);
             this.btn_save.TabIndex = 19;
@@ -580,7 +584,7 @@ namespace UpbitDealer.form
             this.btn_cancel.BackColor = System.Drawing.Color.DarkGray;
             this.btn_cancel.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_cancel.ForeColor = System.Drawing.Color.Black;
-            this.btn_cancel.Location = new System.Drawing.Point(578, 396);
+            this.btn_cancel.Location = new System.Drawing.Point(578, 434);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(184, 34);
             this.btn_cancel.TabIndex = 4;
@@ -623,7 +627,7 @@ namespace UpbitDealer.form
             series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             this.chart1.Series.Add(series1);
             this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(400, 425);
+            this.chart1.Size = new System.Drawing.Size(400, 463);
             this.chart1.TabIndex = 21;
             this.chart1.Text = "chart1";
             // 
@@ -632,7 +636,7 @@ namespace UpbitDealer.form
             this.btn_min30.BackColor = System.Drawing.Color.DarkGray;
             this.btn_min30.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_min30.ForeColor = System.Drawing.Color.Black;
-            this.btn_min30.Location = new System.Drawing.Point(10, 400);
+            this.btn_min30.Location = new System.Drawing.Point(10, 438);
             this.btn_min30.Name = "btn_min30";
             this.btn_min30.Size = new System.Drawing.Size(70, 30);
             this.btn_min30.TabIndex = 22;
@@ -645,7 +649,7 @@ namespace UpbitDealer.form
             this.btn_hour1.BackColor = System.Drawing.Color.DarkGray;
             this.btn_hour1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_hour1.ForeColor = System.Drawing.Color.Black;
-            this.btn_hour1.Location = new System.Drawing.Point(86, 400);
+            this.btn_hour1.Location = new System.Drawing.Point(86, 438);
             this.btn_hour1.Name = "btn_hour1";
             this.btn_hour1.Size = new System.Drawing.Size(70, 30);
             this.btn_hour1.TabIndex = 23;
@@ -658,7 +662,7 @@ namespace UpbitDealer.form
             this.btn_hour4.BackColor = System.Drawing.Color.DarkGray;
             this.btn_hour4.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_hour4.ForeColor = System.Drawing.Color.Black;
-            this.btn_hour4.Location = new System.Drawing.Point(162, 400);
+            this.btn_hour4.Location = new System.Drawing.Point(162, 438);
             this.btn_hour4.Name = "btn_hour4";
             this.btn_hour4.Size = new System.Drawing.Size(70, 30);
             this.btn_hour4.TabIndex = 24;
@@ -671,7 +675,7 @@ namespace UpbitDealer.form
             this.btn_day.BackColor = System.Drawing.Color.DarkGray;
             this.btn_day.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_day.ForeColor = System.Drawing.Color.Black;
-            this.btn_day.Location = new System.Drawing.Point(238, 400);
+            this.btn_day.Location = new System.Drawing.Point(238, 438);
             this.btn_day.Name = "btn_day";
             this.btn_day.Size = new System.Drawing.Size(70, 30);
             this.btn_day.TabIndex = 25;
@@ -684,7 +688,7 @@ namespace UpbitDealer.form
             this.btn_week.BackColor = System.Drawing.Color.DarkGray;
             this.btn_week.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_week.ForeColor = System.Drawing.Color.Black;
-            this.btn_week.Location = new System.Drawing.Point(314, 400);
+            this.btn_week.Location = new System.Drawing.Point(314, 438);
             this.btn_week.Name = "btn_week";
             this.btn_week.Size = new System.Drawing.Size(70, 30);
             this.btn_week.TabIndex = 26;
@@ -692,12 +696,41 @@ namespace UpbitDealer.form
             this.btn_week.UseVisualStyleBackColor = false;
             this.btn_week.Click += new System.EventHandler(this.btn_week_Click);
             // 
+            // text_limit
+            // 
+            this.text_limit.BackColor = System.Drawing.Color.LightGray;
+            this.text_limit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_limit.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.text_limit.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_limit.ForeColor = System.Drawing.Color.Black;
+            this.text_limit.Location = new System.Drawing.Point(142, 135);
+            this.text_limit.Name = "text_limit";
+            this.text_limit.Size = new System.Drawing.Size(224, 32);
+            this.text_limit.TabIndex = 12;
+            this.text_limit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox6
+            // 
+            this.textBox6.BackColor = System.Drawing.Color.Black;
+            this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox6.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.textBox6.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox6.ForeColor = System.Drawing.Color.White;
+            this.textBox6.Location = new System.Drawing.Point(6, 138);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.ReadOnly = true;
+            this.textBox6.Size = new System.Drawing.Size(130, 22);
+            this.textBox6.TabIndex = 37;
+            this.textBox6.Text = "Limit";
+            this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox6.Enter += new System.EventHandler(this.text_focus_disable);
+            // 
             // Macro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(774, 442);
+            this.ClientSize = new System.Drawing.Size(774, 480);
             this.Controls.Add(this.btn_week);
             this.Controls.Add(this.btn_day);
             this.Controls.Add(this.btn_hour4);
@@ -711,8 +744,8 @@ namespace UpbitDealer.form
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.MaximumSize = new System.Drawing.Size(790, 481);
-            this.MinimumSize = new System.Drawing.Size(790, 481);
+            this.MaximumSize = new System.Drawing.Size(790, 519);
+            this.MinimumSize = new System.Drawing.Size(790, 519);
             this.Name = "Macro";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Macro";
@@ -767,5 +800,7 @@ namespace UpbitDealer.form
         private System.Windows.Forms.Button btn_hour4;
         private System.Windows.Forms.Button btn_day;
         private System.Windows.Forms.Button btn_week;
+        private System.Windows.Forms.TextBox text_limit;
+        private System.Windows.Forms.TextBox textBox6;
     }
 }
