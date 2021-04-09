@@ -68,14 +68,14 @@ namespace UpbitDealer.form
             this.text_parName0 = new System.Windows.Forms.TextBox();
             this.btn_save = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
-            this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.btn_min30 = new System.Windows.Forms.Button();
             this.btn_hour1 = new System.Windows.Forms.Button();
             this.btn_hour4 = new System.Windows.Forms.Button();
             this.btn_day = new System.Windows.Forms.Button();
             this.btn_week = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -588,10 +588,10 @@ namespace UpbitDealer.form
             this.btn_cancel.UseVisualStyleBackColor = false;
             this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
-            // chart
+            // chart1
             // 
-            this.chart.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
-            this.chart.BackColor = System.Drawing.Color.Black;
+            this.chart1.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.chart1.BackColor = System.Drawing.Color.Black;
             chartArea1.AxisX.IsLabelAutoFit = false;
             chartArea1.AxisX.LineColor = System.Drawing.Color.LightGray;
             chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
@@ -604,14 +604,14 @@ namespace UpbitDealer.form
             chartArea1.AxisY2.MajorGrid.LineColor = System.Drawing.Color.DimGray;
             chartArea1.BackColor = System.Drawing.Color.Black;
             chartArea1.Name = "ChartArea";
-            this.chart.ChartAreas.Add(chartArea1);
-            this.chart.Location = new System.Drawing.Point(-12, 9);
-            this.chart.Name = "chart";
+            this.chart1.ChartAreas.Add(chartArea1);
+            this.chart1.Location = new System.Drawing.Point(-12, 9);
+            this.chart1.Name = "chart1";
             series1.BorderWidth = 3;
             series1.ChartArea = "ChartArea";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series1.Color = System.Drawing.Color.Red;
-            series1.Name = "weight";
+            series1.Name = "btc";
             series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             series2.BorderWidth = 3;
@@ -621,11 +621,11 @@ namespace UpbitDealer.form
             series2.Name = "avg";
             series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            this.chart.Series.Add(series1);
-            this.chart.Series.Add(series2);
-            this.chart.Size = new System.Drawing.Size(400, 425);
-            this.chart.TabIndex = 21;
-            this.chart.Text = "chart1";
+            this.chart1.Series.Add(series1);
+            this.chart1.Series.Add(series2);
+            this.chart1.Size = new System.Drawing.Size(400, 425);
+            this.chart1.TabIndex = 21;
+            this.chart1.Text = "chart1";
             // 
             // btn_min30
             // 
@@ -706,7 +706,7 @@ namespace UpbitDealer.form
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_save);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.chart);
+            this.Controls.Add(this.chart1);
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -719,7 +719,7 @@ namespace UpbitDealer.form
             this.Load += new System.EventHandler(this.Macro_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -761,7 +761,7 @@ namespace UpbitDealer.form
         private System.Windows.Forms.CheckBox check_day;
         private System.Windows.Forms.CheckBox check_week;
         private System.Windows.Forms.TextBox textBox41;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Button btn_min30;
         private System.Windows.Forms.Button btn_hour1;
         private System.Windows.Forms.Button btn_hour4;

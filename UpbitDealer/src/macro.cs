@@ -20,8 +20,7 @@ namespace UpbitDealer.src
         private Dictionary<string, double> quote = new Dictionary<string, double>();
         private DataSet[] candle = new DataSet[5];
         private DataSet[] bollinger = new DataSet[5];
-        public DataTable[] weightBollinger = new DataTable[5];
-        public DataTable[] avgBollinger = new DataTable[5];
+        public DataSet[] indexBollinger = new DataSet[5];
         private bool[] needWeightAvgAdd = new bool[5] { false, false, false, false, false };
 
 
@@ -69,13 +68,19 @@ namespace UpbitDealer.src
                     bollinger[i].Tables.Add(dataTable);
                 }
 
-                weightBollinger[i] = new DataTable();
-                avgBollinger[i] = new DataTable();
-
-                weightBollinger[i].Columns.Add("date", typeof(DateTime));
-                weightBollinger[i].Columns.Add("value", typeof(double));
-                avgBollinger[i].Columns.Add("date", typeof(DateTime));
-                avgBollinger[i].Columns.Add("value", typeof(double));
+                indexBollinger[i] = new DataSet();
+                for (int j = 0; j < 2; j++)
+                {
+                    DataTable dataTable = null;
+                    switch (j)
+                    {
+                        case 0: dataTable = new DataTable("btc"); break;
+                        case 1: dataTable = new DataTable("avg"); break;
+                    }
+                    dataTable.Columns.Add("date", typeof(DateTime));
+                    dataTable.Columns.Add("value", typeof(double));
+                    indexBollinger[i].Tables.Add(dataTable);
+                }
             }
         }
         public int loadFile()
@@ -356,30 +361,30 @@ namespace UpbitDealer.src
             {
                 for (int j = 0; j < 60 && j < bollinger[i].Tables[0].Rows.Count; j++)
                 {
-                    double weight = 0;
+                    double btc = (double)bollinger[i].Tables["BTC"].Rows[j]["value"];
                     double avg = 0;
-                    double weightCount = 0;
-                    double avgCount = 0;
+                    double count = 0;
 
                     for (int k = 0; k < coinList.Count; k++)
                     {
                         if (j < bollinger[i].Tables[k].Rows.Count)
                         {
-                            weight += (double)bollinger[i].Tables[k].Rows[j]["value"] / Math.Pow(k + 1, 2);
                             avg += (double)bollinger[i].Tables[k].Rows[j]["value"];
-                            weightCount += 1 / Math.Pow(k + 1, 2);
-                            avgCount += 1;
+                            count += 1;
                         }
                     }
-                    DataRow dataRow = weightBollinger[i].NewRow();
-                    dataRow["date"] = bollinger[i].Tables[0].Rows[j]["date"];
-                    dataRow["value"] = weight / weightCount;
-                    weightBollinger[i].Rows.Add(dataRow);
 
-                    dataRow = avgBollinger[i].NewRow();
-                    dataRow["date"] = bollinger[i].Tables[0].Rows[j]["date"];
-                    dataRow["value"] = avg / avgCount;
-                    avgBollinger[i].Rows.Add(dataRow);
+                    for (int k = 0; k < 2; k++)
+                    {
+                        DataRow dataRow = indexBollinger[i].Tables[k].NewRow();
+                        dataRow["date"] = bollinger[i].Tables[0].Rows[j]["date"];
+                        switch(k)
+                        {
+                            case 0: dataRow["value"] = btc; break;
+                            case 1: dataRow["value"] = avg / count; break;
+                        }
+                        indexBollinger[i].Tables[k].Rows.Add(dataRow);
+                    }
                 }
             }
         }
@@ -505,19 +510,16 @@ namespace UpbitDealer.src
         {
             for (int i = 0; i < 5; i++)
             {
-                double weight = 0;
+                double btc = (double)bollinger[i].Tables["BTC"].Rows[0]["value"];
                 double avg = 0;
-                double weightCount = 0;
-                double avgCount = 0;
+                double count = 0;
 
                 for (int j = 0; j < coinList.Count; j++)
                 {
                     if (bollinger[i].Tables[j].Rows.Count > 0)
                     {
-                        weight += (double)bollinger[i].Tables[j].Rows[0]["value"] / Math.Pow(j + 1, 2);
                         avg += (double)bollinger[i].Tables[j].Rows[0]["value"];
-                        weightCount += 1 / Math.Pow(j + 1, 2);
-                        avgCount += 1;
+                        count += 1;
                     }
                 }
 
@@ -525,27 +527,31 @@ namespace UpbitDealer.src
                 {
                     needWeightAvgAdd[i] = false;
 
-                    DataRow dataRow = weightBollinger[i].NewRow();
-                    dataRow["date"] = bollinger[i].Tables[0].Rows[0]["date"];
-                    dataRow["value"] = weight / weightCount;
-                    weightBollinger[i].Rows.InsertAt(dataRow, 0);
-
-                    dataRow = avgBollinger[i].NewRow();
-                    dataRow["date"] = bollinger[i].Tables[0].Rows[0]["date"];
-                    dataRow["value"] = avg / avgCount;
-                    avgBollinger[i].Rows.InsertAt(dataRow, 0);
-
-                    if (weightBollinger[i].Rows.Count > 60)
-                        weightBollinger[i].Rows.RemoveAt(weightBollinger[i].Rows.Count - 1);
-                    if (avgBollinger[i].Rows.Count > 60)
-                        avgBollinger[i].Rows.RemoveAt(avgBollinger[i].Rows.Count - 1);
+                    for (int j = 0; j < 2; j++)
+                    {
+                        DataRow dataRow = indexBollinger[i].Tables[j].NewRow();
+                        dataRow["date"] = bollinger[i].Tables[0].Rows[0]["date"];
+                        switch (j)
+                        {
+                            case 0: dataRow["value"] = btc; break;
+                            case 1: dataRow["value"] = avg / count; break;
+                        }
+                        indexBollinger[i].Tables[j].Rows.InsertAt(dataRow, 0);
+                        if (indexBollinger[i].Tables[j].Rows.Count > 60)
+                            indexBollinger[i].Tables[j].Rows.RemoveAt(indexBollinger[i].Tables[j].Rows.Count - 1);
+                    }
                 }
                 else
                 {
-                    weightBollinger[i].Rows[0]["date"] = bollinger[i].Tables[0].Rows[0]["date"];
-                    weightBollinger[i].Rows[0]["value"] = weight / weightCount;
-                    avgBollinger[i].Rows[0]["date"] = bollinger[i].Tables[0].Rows[0]["date"];
-                    avgBollinger[i].Rows[0]["value"] = avg / avgCount;
+                    for(int j = 0; j < 2; j++)
+                    {
+                        indexBollinger[i].Tables[j].Rows[0]["date"] = bollinger[i].Tables[0].Rows[0]["date"];
+                        switch (j)
+                        {
+                            case 0: indexBollinger[i].Tables[j].Rows[0]["value"] = btc; break;
+                            case 1: indexBollinger[i].Tables[j].Rows[0]["value"] = avg / count; break;
+                        }
+                    }
                 }
             }
         }
@@ -680,35 +686,35 @@ namespace UpbitDealer.src
             if (setting.week_from > -90000d)
             {
                 if (setting.week_bias)
-                { if (getBollingerResult(coinName, 4, 0, setting.week_from + (double)avgBollinger[4].Rows[0]["value"]) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 4, 0, setting.week_from + (double)indexBollinger[4].Tables[1].Rows[0]["value"]) >= 0) return 0; }
                 else
                 { if (getBollingerResult(coinName, 4, 0, setting.week_from) >= 0) return 0; }
             }
             if (setting.day_from > -90000d)
             {
                 if (setting.day_bias)
-                { if (getBollingerResult(coinName, 3, 0, setting.day_from + (double)avgBollinger[3].Rows[0]["value"]) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 3, 0, setting.day_from + (double)indexBollinger[3].Tables[1].Rows[0]["value"]) >= 0) return 0; }
                 else
                 { if (getBollingerResult(coinName, 3, 0, setting.day_from) >= 0) return 0; }
             }
             if (setting.hour4_from > -90000d)
             {
                 if (setting.hour4_bias)
-                { if (getBollingerResult(coinName, 2, 0, setting.hour4_from + (double)avgBollinger[2].Rows[0]["value"]) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 2, 0, setting.hour4_from + (double)indexBollinger[2].Tables[1].Rows[0]["value"]) >= 0) return 0; }
                 else
                 { if (getBollingerResult(coinName, 2, 0, setting.hour4_from) >= 0) return 0; }
             }
             if (setting.hour1_from > -90000d)
             {
                 if (setting.hour1_bias)
-                { if (getBollingerResult(coinName, 1, 0, setting.hour1_from + (double)avgBollinger[1].Rows[0]["value"]) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 1, 0, setting.hour1_from + (double)indexBollinger[1].Tables[1].Rows[0]["value"]) >= 0) return 0; }
                 else
                 { if (getBollingerResult(coinName, 1, 0, setting.hour1_from) >= 0) return 0; }
             }
             if (setting.min30_from > -90000d)
             {
                 if (setting.min30_bias)
-                { if (getBollingerResult(coinName, 0, 0, setting.min30_from + (double)avgBollinger[0].Rows[0]["value"]) >= 0) return 0; }
+                { if (getBollingerResult(coinName, 0, 0, setting.min30_from + (double)indexBollinger[0].Tables[1].Rows[0]["value"]) >= 0) return 0; }
                 else
                 { if (getBollingerResult(coinName, 0, 0, setting.min30_from) >= 0) return 0; }
             }
@@ -766,35 +772,35 @@ namespace UpbitDealer.src
                 if (setting.week_to > -90000d)
                 {
                     if (setting.week_bias)
-                    { if (getBollingerResult(coinName, 4, 0, setting.week_to + (double)avgBollinger[4].Rows[0]["value"]) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 4, 0, setting.week_to + (double)indexBollinger[4].Tables[1].Rows[0]["value"]) <= 0) return 0; }
                     else
                     { if (getBollingerResult(coinName, 4, 0, setting.week_to) <= 0) return 0; }
                 }
                 if (setting.day_to > -90000d)
                 {
                     if (setting.day_bias)
-                    { if (getBollingerResult(coinName, 3, 0, setting.day_to + (double)avgBollinger[3].Rows[0]["value"]) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 3, 0, setting.day_to + (double)indexBollinger[3].Tables[1].Rows[0]["value"]) <= 0) return 0; }
                     else
                     { if (getBollingerResult(coinName, 3, 0, setting.day_to) <= 0) return 0; }
                 }
                 if (setting.hour4_to > -90000d)
                 {
                     if (setting.hour4_bias)
-                    { if (getBollingerResult(coinName, 2, 0, setting.hour4_to + (double)avgBollinger[2].Rows[0]["value"]) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 2, 0, setting.hour4_to + (double)indexBollinger[2].Tables[1].Rows[0]["value"]) <= 0) return 0; }
                     else
                     { if (getBollingerResult(coinName, 2, 0, setting.hour4_to) <= 0) return 0; }
                 }
                 if (setting.hour1_to > -90000d)
                 {
                     if (setting.hour1_bias)
-                    { if (getBollingerResult(coinName, 1, 0, setting.hour1_to + (double)avgBollinger[1].Rows[0]["value"]) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 1, 0, setting.hour1_to + (double)indexBollinger[1].Tables[1].Rows[0]["value"]) <= 0) return 0; }
                     else
                     { if (getBollingerResult(coinName, 1, 0, setting.hour1_to) <= 0) return 0; }
                 }
                 if (setting.min30_to > -90000d)
                 {
                     if (setting.min30_bias)
-                    { if (getBollingerResult(coinName, 0, 0, setting.min30_to + (double)avgBollinger[0].Rows[0]["value"]) <= 0) return 0; }
+                    { if (getBollingerResult(coinName, 0, 0, setting.min30_to + (double)indexBollinger[0].Tables[1].Rows[0]["value"]) <= 0) return 0; }
                     else
                     { if (getBollingerResult(coinName, 0, 0, setting.min30_to) <= 0) return 0; }
                 }
