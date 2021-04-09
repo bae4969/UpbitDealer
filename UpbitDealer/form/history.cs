@@ -315,10 +315,10 @@ namespace UpbitDealer.form
                     selected.price = (double)dataGridView1.SelectedCells[5].Value;
 
                     text_selectInfo.Text
-                        = selected.coinName + " ll "
-                        + selected.date.ToString("yy-MM-dd HH:mm:ss") + " ll "
-                        + (selected.isBid ? "Bid" : "Ask") + " ll "
-                        + selected.unit.ToString(",0.####") + " ll "
+                        = selected.coinName + "    "
+                        + selected.date.ToString("yy-MM-dd HH:mm:ss") + "    "
+                        + (selected.isBid ? "Bid" : "Ask") + "    "
+                        + selected.unit.ToString(",0.####") + "    "
                         + selected.price.ToString(",0.##");
                 }
                 else if (type == 2)
@@ -330,9 +330,9 @@ namespace UpbitDealer.form
                     selected.price = (double)dataGridView1.SelectedCells[4].Value;
 
                     text_selectInfo.Text
-                        = selected.coinName + " ll "
-                        + selected.date.ToString("yy-MM-dd HH:mm:ss") + " ll "
-                        + selected.unit.ToString(",0.####") + " ll "
+                        = selected.coinName + "    "
+                        + selected.date.ToString("yy-MM-dd HH:mm:ss") + "    "
+                        + selected.unit.ToString(",0.####") + "    "
                         + selected.price.ToString(",0.##");
                 }
             }
