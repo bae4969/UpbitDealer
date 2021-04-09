@@ -431,7 +431,7 @@ namespace UpbitDealer.src
             quote[coinName] = ticker[coinName].close;
             return 0;
         }
-        public void updateCandleData(int index)
+        public void updateCandle(int index)
         {
             string coinName = coinList[index];
 
@@ -448,7 +448,6 @@ namespace UpbitDealer.src
                     case 3: isAdd = (now - last).TotalDays > 1; break;
                     case 4: isAdd = (now - last).TotalDays > 7; break;
                 }
-
                 if (isAdd)
                 {
                     DataRow dataRow = candle[i].Tables[coinName].NewRow();
@@ -478,6 +477,7 @@ namespace UpbitDealer.src
                         candle[i].Tables[coinName].Rows[0]["min"] = quote[coinName];
                 }
 
+
                 double averagePrice = 0;
                 double dispersion = 0;
                 double value;
@@ -491,7 +491,6 @@ namespace UpbitDealer.src
                 value = (double)candle[i].Tables[coinName].Rows[0]["close"] - averagePrice;
                 value /= 2 * dispersion;
                 value *= 100;
-
                 if (isAdd)
                 {
                     DataRow dataRow = bollinger[i].Tables[coinName].NewRow();
@@ -509,18 +508,13 @@ namespace UpbitDealer.src
                     bollinger[i].Tables[coinName].Rows[0]["date"] = candle[i].Tables[coinName].Rows[0]["date"];
                     bollinger[i].Tables[coinName].Rows[0]["value"] = value;
                 }
-            }
-        }
-        public void updateBollingerWeightAvg()
-        {
-            for (int i = 0; i < 5; i++)
-            {
+
+
                 double btc
                     = ((double)bollinger[i].Tables["BTC"].Rows[0]["value"]
                     + (double)bollinger[i].Tables["ETH"].Rows[0]["value"]) * 0.5;
                 double avg = 0;
                 double count = 0;
-
                 for (int j = 0; j < coinList.Count; j++)
                 {
                     if (bollinger[i].Tables[j].Rows.Count > 0)
@@ -529,11 +523,8 @@ namespace UpbitDealer.src
                         count += 1;
                     }
                 }
-
-                if (needWeightAvgAdd[i])
+                if (isAdd)
                 {
-                    needWeightAvgAdd[i] = false;
-
                     for (int j = 0; j < 2; j++)
                     {
                         DataRow dataRow = indexBollinger[i].Tables[j].NewRow();
@@ -550,7 +541,7 @@ namespace UpbitDealer.src
                 }
                 else
                 {
-                    for(int j = 0; j < 2; j++)
+                    for (int j = 0; j < 2; j++)
                     {
                         indexBollinger[i].Tables[j].Rows[0]["date"] = bollinger[i].Tables[0].Rows[0]["date"];
                         switch (j)
@@ -749,6 +740,7 @@ namespace UpbitDealer.src
         }
         public int executeMacroSell(int index)
         {
+            int ret = 0;
             string coinName = coinList[index];
             if (state.Tables[coinName].Rows.Count < 1) return 0;
 
@@ -830,9 +822,10 @@ namespace UpbitDealer.src
                 row["uuid"] = jObject["uuid"];
                 row["target_uuid"] = state.Tables[coinName].Rows[i]["uuid"];
                 order.Rows.Add(row);
+                ret = 1;
             }
 
-            return 1;
+            return ret;
         }
     }
 }

@@ -282,7 +282,7 @@ namespace UpbitDealer.form
                             logIn(new Output(0, "Macro Execution", "Fail to update quote (" + i + ")"));
                             continue;
                         }
-                        macro.updateCandleData(i);
+                        macro.updateCandle(i);
 
                         bool needSave = false;
                         if (macro.executeMacroBuy(i) > 0) needSave = true;
@@ -300,7 +300,6 @@ namespace UpbitDealer.form
                     }
                     Thread.Sleep(100);
                 }
-                macro.updateBollingerWeightAvg();
             }
         }
 
