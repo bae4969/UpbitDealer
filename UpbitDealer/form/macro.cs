@@ -320,7 +320,6 @@ namespace UpbitDealer.form
             chart1.Series["avg"].Points.DataBind(avgBollinger[2], "date", "value", "");
             chart1.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Days;
             chart1.ChartAreas["ChartArea"].AxisX.Interval = 1;
-            chart1.ChartAreas["ChartArea"].AxisX.Interval = 6;
             if (btcBollinger[2].Count > 0)
             {
                 chart1.ChartAreas["ChartArea"].AxisX.Maximum = ((DateTime)btcBollinger[2][0][0]).AddHours(8).ToOADate();
@@ -337,7 +336,6 @@ namespace UpbitDealer.form
             chart1.Series["btc"].Points.DataBind(btcBollinger[3], "date", "value", "");
             chart1.Series["avg"].Points.DataBind(avgBollinger[3], "date", "value", "");
             chart1.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Days;
-            chart1.ChartAreas["ChartArea"].AxisX.Interval = 6;
             chart1.ChartAreas["ChartArea"].AxisX.Interval = 6;
             if (btcBollinger[3].Count > 0)
             {
