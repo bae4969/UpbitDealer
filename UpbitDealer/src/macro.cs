@@ -21,7 +21,7 @@ namespace UpbitDealer.src
         private DataSet[] candle = new DataSet[5];
         private DataSet[] bollinger = new DataSet[5];
         public DataSet[] indexBollinger = new DataSet[5];
-        private bool[] needWeightAvgAdd = new bool[5] { false, false, false, false, false };
+        private bool[] needAvgAdd = new bool[5] { false, false, false, false, false };
 
 
         public MacroSetting(string access_key, string secret_key, List<string> coinList)
@@ -498,7 +498,6 @@ namespace UpbitDealer.src
                     dataRow["value"] = value;
                     bollinger[i].Tables[coinName].Rows.InsertAt(dataRow, 0);
 
-                    needWeightAvgAdd[i] = true;
 
                     if (bollinger[i].Tables[coinName].Rows.Count > 60)
                         bollinger[i].Tables[coinName].Rows.RemoveAt(bollinger[i].Tables[coinName].Rows.Count - 1);
@@ -509,7 +508,13 @@ namespace UpbitDealer.src
                     bollinger[i].Tables[coinName].Rows[0]["value"] = value;
                 }
 
-
+                if (index == 0) needAvgAdd[i] = isAdd;
+            }
+        }
+        public void updateBollingerAvg()
+        {
+            for(int i = 0; i < 5; i++)
+            {
                 double btc
                     = ((double)bollinger[i].Tables["BTC"].Rows[0]["value"]
                     + (double)bollinger[i].Tables["ETH"].Rows[0]["value"]) * 0.5;
@@ -523,7 +528,8 @@ namespace UpbitDealer.src
                         count += 1;
                     }
                 }
-                if (isAdd)
+
+                if (needAvgAdd[i])
                 {
                     for (int j = 0; j < 2; j++)
                     {

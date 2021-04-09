@@ -182,12 +182,14 @@ namespace UpbitDealer.form
         {
             Visible = true;
             ShowIcon = true;
+            Show();
             WindowState = FormWindowState.Normal;
         }
         private void toolStripTextBox_show_Click(object sender, EventArgs e)
         {
             Visible = true;
             ShowIcon = true;
+            Show();
             WindowState = FormWindowState.Normal;
         }
         private void toolStripTextBox_exit_Click(object sender, EventArgs e)
@@ -300,6 +302,7 @@ namespace UpbitDealer.form
                     }
                     Thread.Sleep(100);
                 }
+                macro.updateBollingerAvg();
             }
         }
 
