@@ -111,7 +111,7 @@ namespace UpbitDealer.form
                             if (isNeedUpdateHistory)
                             {
                                 isNeedUpdateHistory = false;
-                                int ret = ownerForm.tradeHistory.updateHistoryData(text_historyCoinName.Text.ToUpper(), page);
+                                int ret = ownerForm.tradeHistory.getHistoryData(text_historyCoinName.Text.ToUpper(), page);
                                 if (ret < 0)
                                 {
                                     MessageBox.Show("Invalid coin name.");

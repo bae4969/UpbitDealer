@@ -314,7 +314,7 @@ namespace UpbitDealer.src
 
             return 0;
         }
-        public int updateSinglePendingData(int index)
+        public int updatePendingData(int index)
         {
             JObject retData = apiData.checkOrder(pendingData.Rows[index]["uuid"].ToString());
             if (retData == null) return -1;
@@ -336,20 +336,20 @@ namespace UpbitDealer.src
                 executionStr.Add(new Output(1, "Trade Execution",
                     pendingData.Rows[index]["coinName"]
                     + " buy " + volume.ToString("0.########") + " " + pendingData.Rows[index]["coinName"]
-                    + " for " + (volume * price).ToString("0.##") + " KRW (fee : " + fee + ")"));
+                    + " for " + (volume * price).ToString("0.##") + " KRW (fee : " + fee.ToString("0.##") + ")"));
 
             else
                 executionStr.Add(new Output(1, "Trade Execution",
                     pendingData.Rows[index]["coinName"]
                     + " sell " + volume.ToString("0.####") + " " + pendingData.Rows[index]["coinName"]
-                    + " for " + (volume * price).ToString("0.##") + " KRW (fee : " + fee + ")"));
+                    + " for " + (volume * price).ToString("0.##") + " KRW (fee : " + fee.ToString("0.##") + ")"));
 
             pendingData.Rows.RemoveAt(index);
             return 1;
         }
 
 
-        public int updateHistoryData(string coinName, int page = 1)
+        public int getHistoryData(string coinName, int page = 1)
         {
             JArray jArray = apiData.getDoneCancelOrder(coinName, page);
             if (jArray == null) return -1;

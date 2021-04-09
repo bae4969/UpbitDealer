@@ -668,7 +668,7 @@ namespace UpbitDealer.src
             if (errorList.Contains(coinName)) errorList.Remove(coinName);
             if ((double)buyCandle.Rows[0]["open"] >= (double)buyCandle.Rows[0]["close"]) return 0;
             if (((double)buyCandle.Rows[0]["open"] + (double)buyCandle.Rows[0]["close"]) / 2d <
-                ((double)buyCandle.Rows[1]["open"] + (double)buyCandle.Rows[1]["close"] * 4d) / 5d) return 0;
+                ((double)buyCandle.Rows[1]["open"] + (double)buyCandle.Rows[1]["close"] * 3d) / 4d) return 0;
 
 
             DateTime lastBuyDate = DateTime.Now.AddYears(-1);
@@ -759,7 +759,7 @@ namespace UpbitDealer.src
             }
             if ((double)sellCandle.Rows[0]["open"] <= (double)sellCandle.Rows[0]["close"]) return 0;
             if (((double)sellCandle.Rows[0]["open"] + (double)sellCandle.Rows[0]["close"]) / 2d >
-                ((double)sellCandle.Rows[1]["open"] + (double)sellCandle.Rows[1]["close"] * 4d) / 5d) return 0;
+                ((double)sellCandle.Rows[1]["open"] + (double)sellCandle.Rows[1]["close"] * 3d) / 4d) return 0;
 
 
             for (int i = 0; i < state.Tables[coinName].Rows.Count; i++)

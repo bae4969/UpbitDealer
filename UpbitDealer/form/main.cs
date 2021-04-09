@@ -225,7 +225,7 @@ namespace UpbitDealer.form
                     lock (lock_tradeHistory)
                     {
                         bool needSave = false;
-                        if (tradeHistory.updateSinglePendingData(i) > 0) needSave = true;
+                        if (tradeHistory.updatePendingData(i) > 0) needSave = true;
 
                         for (int j = 0; j < tradeHistory.executionStr.Count; j++)
                             logIn(tradeHistory.executionStr[j]);
