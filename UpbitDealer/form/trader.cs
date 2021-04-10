@@ -598,11 +598,6 @@ namespace UpbitDealer.form
                 MessageBox.Show("Only can write NUMBER.");
             }
         }
-        private void text_trade_input_Leave(object sender, EventArgs e)
-        {
-            if (canTradeSet)
-                checkUnitTotal();
-        }
         private void trackBar_total_Scroll(object sender, EventArgs e)
         {
             if (!canTradeSet) return;
@@ -628,30 +623,6 @@ namespace UpbitDealer.form
             text_trade_units.ForeColor = Color.White;
             text_trade_total.ForeColor = Color.White;
             text_totalTrack_value.Text = "[   " + trackBar_total.Value + "%   ]";
-        }
-        private void trackBar_total_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (canTradeSet)
-                if (!checkUnitTotal())
-                    trackBar_total.Value = 0;
-        }
-        private bool checkUnitTotal()
-        {
-            double tempkrw = isBuy ? krw : currency;
-            double tempTotal = isBuy ? total : units;
-            if (text_trade_total.Text == "" || total == 0) return true;
-            if (total < 5000 || tempTotal > tempkrw)
-            {
-                units = 0;
-                total = 0;
-                text_trade_units.Text = "";
-                text_trade_total.Text = "";
-                MessageBox.Show("Range error.");
-
-                return false;
-            }
-
-            return true;
         }
 
 
@@ -690,7 +661,7 @@ namespace UpbitDealer.form
             JObject ret = react.executeDeal(isBuy, isPlace, selectedName, units, price, total);
             if (ret == null)
             {
-                MessageBox.Show("API error, try again.");
+                MessageBox.Show("API error, Check value and try again.");
                 return;
             }
 
