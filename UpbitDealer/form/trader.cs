@@ -241,17 +241,17 @@ namespace UpbitDealer.form
                 {
                     if (transaction[i]["ask_bid"].ToString() == "BID")
                     {
-                        date[i].BackColor = Color.LightBlue;
-                        unit[i].BackColor = Color.LightBlue;
-                        price[i].BackColor = Color.LightBlue;
-                        total[i].BackColor = Color.LightBlue;
-                    }
-                    else
-                    {
                         date[i].BackColor = Color.LightPink;
                         unit[i].BackColor = Color.LightPink;
                         price[i].BackColor = Color.LightPink;
                         total[i].BackColor = Color.LightPink;
+                    }
+                    else
+                    {
+                        date[i].BackColor = Color.LightBlue;
+                        unit[i].BackColor = Color.LightBlue;
+                        price[i].BackColor = Color.LightBlue;
+                        total[i].BackColor = Color.LightBlue;
                     }
                     string dateTime = transaction[i]["trade_date_utc"].ToString() + " " + transaction[i]["trade_time_utc"].ToString() + "Z";
                     date[i].Text = DateTime.ParseExact(dateTime, "u", null).AddHours(9).ToString("yyyy-MM-dd HH:mm:ss");
@@ -309,21 +309,21 @@ namespace UpbitDealer.form
                     text_askVolume13.Text = ob[2][1].ToString("F5");
                     text_askVolume14.Text = ob[2][0].ToString("F5");
 
-                    text_askVolume00.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][0] / THMax), 0, 0);
-                    text_askVolume01.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][1] / THMax), 0, 0);
-                    text_askVolume02.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][2] / THMax), 0, 0);
-                    text_askVolume03.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][3] / THMax), 0, 0);
-                    text_askVolume04.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][4] / THMax), 0, 0);
-                    text_askVolume05.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][5] / THMax), 0, 0);
-                    text_askVolume06.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][6] / THMax), 0, 0);
+                    text_askVolume00.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][14] / THMax), 0, 0);
+                    text_askVolume01.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][13] / THMax), 0, 0);
+                    text_askVolume02.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][12] / THMax), 0, 0);
+                    text_askVolume03.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][11] / THMax), 0, 0);
+                    text_askVolume04.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][10] / THMax), 0, 0);
+                    text_askVolume05.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][9] / THMax), 0, 0);
+                    text_askVolume06.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][8] / THMax), 0, 0);
                     text_askVolume07.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][7] / THMax), 0, 0);
-                    text_askVolume08.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][8] / THMax), 0, 0);
-                    text_askVolume09.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][9] / THMax), 0, 0);
-                    text_askVolume10.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][10] / THMax), 0, 0);
-                    text_askVolume11.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][11] / THMax), 0, 0);
-                    text_askVolume12.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][12] / THMax), 0, 0);
-                    text_askVolume13.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][13] / THMax), 0, 0);
-                    text_askVolume14.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][14] / THMax), 0, 0);
+                    text_askVolume08.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][6] / THMax), 0, 0);
+                    text_askVolume09.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][5] / THMax), 0, 0);
+                    text_askVolume10.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][4] / THMax), 0, 0);
+                    text_askVolume11.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][3] / THMax), 0, 0);
+                    text_askVolume12.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][2] / THMax), 0, 0);
+                    text_askVolume13.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][1] / THMax), 0, 0);
+                    text_askVolume14.BackColor = Color.FromArgb(55 + (int)(200 * ob[2][0] / THMax), 0, 0);
 
                     text_bidPrice00.Text = ob[1][0].ToString(",0.##");
                     text_bidPrice01.Text = ob[1][1].ToString(",0.##");
