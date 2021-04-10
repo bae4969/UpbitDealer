@@ -1892,7 +1892,6 @@ namespace UpbitDealer.form
             this.text_trade_price.Size = new System.Drawing.Size(294, 35);
             this.text_trade_price.TabIndex = 27;
             this.text_trade_price.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.text_trade_price.KeyUp += new System.Windows.Forms.KeyEventHandler(this.text_trade_price_KeyUp);
             this.text_trade_price.Leave += new System.EventHandler(this.text_trade_price_Leave);
             // 
             // text_trade_krw
@@ -1922,7 +1921,7 @@ namespace UpbitDealer.form
             this.text_trade_total.Size = new System.Drawing.Size(197, 32);
             this.text_trade_total.TabIndex = 25;
             this.text_trade_total.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_trade_total.KeyUp += new System.Windows.Forms.KeyEventHandler(this.text_trade_input_KeyUp);
+            this.text_trade_total.Leave += new System.EventHandler(this.text_trade_input_Leave);
             this.text_trade_total.MouseUp += new System.Windows.Forms.MouseEventHandler(this.text_trade_input_MouseUp);
             // 
             // text_trade_units
@@ -1937,7 +1936,7 @@ namespace UpbitDealer.form
             this.text_trade_units.Size = new System.Drawing.Size(197, 32);
             this.text_trade_units.TabIndex = 24;
             this.text_trade_units.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.text_trade_units.KeyUp += new System.Windows.Forms.KeyEventHandler(this.text_trade_input_KeyUp);
+            this.text_trade_units.Leave += new System.EventHandler(this.text_trade_input_Leave);
             this.text_trade_units.MouseUp += new System.Windows.Forms.MouseEventHandler(this.text_trade_input_MouseUp);
             // 
             // textBox9
