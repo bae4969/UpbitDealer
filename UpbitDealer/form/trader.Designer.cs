@@ -1923,7 +1923,6 @@ namespace UpbitDealer.form
             this.text_trade_total.TabIndex = 25;
             this.text_trade_total.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.text_trade_total.KeyUp += new System.Windows.Forms.KeyEventHandler(this.text_trade_input_KeyUp);
-            this.text_trade_total.Leave += new System.EventHandler(this.text_trade_input_Leave);
             this.text_trade_total.MouseUp += new System.Windows.Forms.MouseEventHandler(this.text_trade_input_MouseUp);
             // 
             // text_trade_units
@@ -1939,7 +1938,6 @@ namespace UpbitDealer.form
             this.text_trade_units.TabIndex = 24;
             this.text_trade_units.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.text_trade_units.KeyUp += new System.Windows.Forms.KeyEventHandler(this.text_trade_input_KeyUp);
-            this.text_trade_units.Leave += new System.EventHandler(this.text_trade_input_Leave);
             this.text_trade_units.MouseUp += new System.Windows.Forms.MouseEventHandler(this.text_trade_input_MouseUp);
             // 
             // textBox9
@@ -1981,7 +1979,6 @@ namespace UpbitDealer.form
             this.trackBar_total.Size = new System.Drawing.Size(399, 45);
             this.trackBar_total.TabIndex = 22;
             this.trackBar_total.Scroll += new System.EventHandler(this.trackBar_total_Scroll);
-            this.trackBar_total.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBar_total_MouseUp);
             // 
             // textBox3
             // 

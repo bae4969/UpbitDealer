@@ -34,6 +34,8 @@ namespace UpbitDealer.form
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Macro));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.text_limit = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
             this.textBox41 = new System.Windows.Forms.TextBox();
             this.check_min30 = new System.Windows.Forms.CheckBox();
             this.check_hour1 = new System.Windows.Forms.CheckBox();
@@ -74,8 +76,6 @@ namespace UpbitDealer.form
             this.btn_hour4 = new System.Windows.Forms.Button();
             this.btn_day = new System.Windows.Forms.Button();
             this.btn_week = new System.Windows.Forms.Button();
-            this.text_limit = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
@@ -124,6 +124,35 @@ namespace UpbitDealer.form
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Setting";
             // 
+            // text_limit
+            // 
+            this.text_limit.BackColor = System.Drawing.Color.LightGray;
+            this.text_limit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_limit.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.text_limit.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_limit.ForeColor = System.Drawing.Color.Black;
+            this.text_limit.Location = new System.Drawing.Point(142, 135);
+            this.text_limit.Name = "text_limit";
+            this.text_limit.Size = new System.Drawing.Size(224, 32);
+            this.text_limit.TabIndex = 12;
+            this.text_limit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox6
+            // 
+            this.textBox6.BackColor = System.Drawing.Color.Black;
+            this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox6.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.textBox6.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox6.ForeColor = System.Drawing.Color.White;
+            this.textBox6.Location = new System.Drawing.Point(6, 138);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.ReadOnly = true;
+            this.textBox6.Size = new System.Drawing.Size(130, 22);
+            this.textBox6.TabIndex = 37;
+            this.textBox6.Text = "Limit";
+            this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox6.Enter += new System.EventHandler(this.text_focus_disable);
+            // 
             // textBox41
             // 
             this.textBox41.BackColor = System.Drawing.Color.Black;
@@ -136,7 +165,7 @@ namespace UpbitDealer.form
             this.textBox41.ReadOnly = true;
             this.textBox41.Size = new System.Drawing.Size(130, 22);
             this.textBox41.TabIndex = 36;
-            this.textBox41.Text = "Set Bias";
+            this.textBox41.Text = "BB Avg Bias";
             this.textBox41.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // check_min30
@@ -695,35 +724,6 @@ namespace UpbitDealer.form
             this.btn_week.Text = "Week";
             this.btn_week.UseVisualStyleBackColor = false;
             this.btn_week.Click += new System.EventHandler(this.btn_week_Click);
-            // 
-            // text_limit
-            // 
-            this.text_limit.BackColor = System.Drawing.Color.LightGray;
-            this.text_limit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_limit.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.text_limit.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_limit.ForeColor = System.Drawing.Color.Black;
-            this.text_limit.Location = new System.Drawing.Point(142, 135);
-            this.text_limit.Name = "text_limit";
-            this.text_limit.Size = new System.Drawing.Size(224, 32);
-            this.text_limit.TabIndex = 12;
-            this.text_limit.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // textBox6
-            // 
-            this.textBox6.BackColor = System.Drawing.Color.Black;
-            this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox6.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox6.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox6.ForeColor = System.Drawing.Color.White;
-            this.textBox6.Location = new System.Drawing.Point(6, 138);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.ReadOnly = true;
-            this.textBox6.Size = new System.Drawing.Size(130, 22);
-            this.textBox6.TabIndex = 37;
-            this.textBox6.Text = "Limit";
-            this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox6.Enter += new System.EventHandler(this.text_focus_disable);
             // 
             // Macro
             // 
