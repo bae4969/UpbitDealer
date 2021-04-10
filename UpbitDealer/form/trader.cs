@@ -480,13 +480,12 @@ namespace UpbitDealer.form
         }
 
 
-        private void text_trade_price_KeyUp(object sender, KeyEventArgs e)
+        private void text_trade_price_Leave(object sender, EventArgs e)
         {
             if (!canTradeSet || !isPlace) return;
-            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Oemcomma || e.KeyCode == Keys.Tab) return;
 
-            int tempPrice;
-            if (int.TryParse(text_trade_price.Text, out tempPrice))
+            double tempPrice;
+            if (double.TryParse(text_trade_price.Text, out tempPrice))
             {
                 price = tempPrice;
                 if (price > 2000000) price = Convert.ToInt32(price / 1000) * 1000;
@@ -512,16 +511,10 @@ namespace UpbitDealer.form
             }
             else
             {
-                if (e.KeyCode == Keys.Enter) return;
+                if(text_trade_price.Text != "")
+                    MessageBox.Show("Only can write NUMBER.");
                 price = ticker.close;
-                text_trade_price.Text = price.ToString(",0");
-                MessageBox.Show("Only can write NUMBER.");
             }
-        }
-        private void text_trade_price_Leave(object sender, EventArgs e)
-        {
-            if (!canTradeSet) return;
-
             text_trade_price.Text = price.ToString(",0.##");
         }
         private void trackBar_price_Scroll(object sender, EventArgs e)
@@ -564,7 +557,7 @@ namespace UpbitDealer.form
                 ((TextBox)sender).Text = "";
             ((TextBox)sender).ForeColor = Color.White;
         }
-        private void text_trade_input_KeyUp(object sender, KeyEventArgs e)
+        private void text_trade_input_Leave(object sender, EventArgs e)
         {
             if (!canTradeSet) return;
 
@@ -588,9 +581,8 @@ namespace UpbitDealer.form
                     text_trade_units.Text = (total / price).ToString(",0.####");
                 }
             }
-            else
+            else if(((TextBox)sender).Text != "")
             {
-                if (e.KeyCode == Keys.Enter) return;
                 units = 0;
                 total = 0;
                 text_trade_units.Text = "";
