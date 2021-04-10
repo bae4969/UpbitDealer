@@ -637,6 +637,11 @@ namespace UpbitDealer.form
         private void but_execute_Click(object sender, EventArgs e)
         {
             if (!canTradeSet) return;
+            if (total < 5000d)
+            {
+                MessageBox.Show("Total value is less than 5000 KRW.");
+                return;
+            }
 
             string type = isBuy ? "Buy" : "Sell";
             string how = isPlace ? "Place " : "Market ";
@@ -653,7 +658,7 @@ namespace UpbitDealer.form
             JObject ret = react.executeDeal(isBuy, isPlace, selectedName, units, price, total);
             if (ret == null)
             {
-                MessageBox.Show("API error, Check value and try again.");
+                MessageBox.Show("API error, try again.");
                 return;
             }
 
