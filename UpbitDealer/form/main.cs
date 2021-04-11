@@ -247,8 +247,10 @@ namespace UpbitDealer.form
         }
         private void executeMacro()
         {
+            int top = 70;
+
             logIn(new Output(0, "Macro Exection", "Load candle data"));
-            for (int i = 0; !AllStop && i < 70 && i < coinList.Count; i++)
+            for (int i = 0; !AllStop && i < top && i < coinList.Count; i++)
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
@@ -267,9 +269,24 @@ namespace UpbitDealer.form
             macro.initBollingerWeightAvg();
             logIn(new Output(0, "Macro Exection", "Finish to load, Start macro"));
 
+            DateTime last = DateTime.Now.AddHours(-1);
             while (!AllStop)
             {
-                for (int i = 0; !AllStop && i < coinList.Count && i < 70; i++)
+                macro.updateBollingerAvg();
+                if (last.Hour != DateTime.Now.Hour)
+                {
+                    last = DateTime.Now;
+                    string[] bollingerLowest = macro.getLowestBollinger(top);
+                    logIn(new Output(1, "Macro Execution",
+                        "\r\nLowest Bollinger Value\r\n" +
+                        "30 Min\t" + bollingerLowest[0] + Environment.NewLine +
+                        "1 Hour\t" + bollingerLowest[1] + Environment.NewLine +
+                        "4 Hour\t" + bollingerLowest[2] + Environment.NewLine +
+                        "Day\t" + bollingerLowest[3] + Environment.NewLine +
+                        "Week\t" + bollingerLowest[4]));
+                }
+
+                for (int i = 0; !AllStop && i < coinList.Count && i < top; i++)
                 {
                     lock (lock_macro)
                     {
@@ -279,7 +296,7 @@ namespace UpbitDealer.form
                             macro.updateLastKrw(account);
                             ret = macro.updateQuote(i, ticker);
                         }
-                        if(ret < 0)
+                        if (ret < 0)
                         {
                             logIn(new Output(0, "Macro Execution", "Fail to update quote (" + i + ")"));
                             continue;
@@ -302,7 +319,6 @@ namespace UpbitDealer.form
                     }
                     Thread.Sleep(100);
                 }
-                macro.updateBollingerAvg();
             }
         }
 
@@ -340,16 +356,17 @@ namespace UpbitDealer.form
         }
         public void logIn(Output log)
         {
-            lock (lock_logList)
-                logList.Add(DateTime.Now.ToString(" [yyyy-MM-dd_HH:mm:ss] ") + log.title + " : " + log.str);
+            if (log.level >= 0)
+                lock (lock_logList)
+                    logList.Add(DateTime.Now.ToString(" [yyyy-MM-dd_HH:mm:ss] ") + log.title + " : " + log.str);
 
-            if (log.level == 1)
+            if (Math.Abs(log.level) == 1)
             {
                 notifyIcon.BalloonTipTitle = log.title;
                 notifyIcon.BalloonTipText = log.str;
                 notifyIcon.ShowBalloonTip(1000);
             }
-            else if (log.level == 2)
+            else if (Math.Abs(log.level) == 2)
             {
                 notifyIcon.BalloonTipTitle = log.title;
                 notifyIcon.BalloonTipText = log.str;

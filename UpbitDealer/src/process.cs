@@ -76,6 +76,7 @@ namespace UpbitDealer.src
             for (int i = 0; i < jArray.Count; i++)
             {
                 string[] coinName = jArray[i]["market"].ToString().Split('-');
+                ticker[coinName[1]].coinName = coinName[1];
                 ticker[coinName[1]].open = (double)jArray[i]["opening_price"];
                 ticker[coinName[1]].close = (double)jArray[i]["trade_price"];
                 ticker[coinName[1]].max = (double)jArray[i]["high_price"];

@@ -18,6 +18,7 @@ namespace UpbitDealer.src
 
     public class Ticker
     {
+        public string coinName;
         public double open;
         public double close;
         public double max;

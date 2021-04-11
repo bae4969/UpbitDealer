@@ -383,7 +383,7 @@ namespace UpbitDealer.src
                     {
                         DataRow dataRow = indexBollinger[i].Tables[k].NewRow();
                         dataRow["date"] = bollinger[i].Tables[0].Rows[j]["date"];
-                        switch(k)
+                        switch (k)
                         {
                             case 0: dataRow["value"] = btc; break;
                             case 1: dataRow["value"] = avg / count; break;
@@ -513,7 +513,7 @@ namespace UpbitDealer.src
         }
         public void updateBollingerAvg()
         {
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 double btc
                     = ((double)bollinger[i].Tables["BTC"].Rows[0]["value"]
@@ -561,6 +561,28 @@ namespace UpbitDealer.src
         }
 
 
+        public string[] getLowestBollinger(int top)
+        {
+            string[] retStr = new string[5];
+            for (int i = 0; i < 5; i++)
+            {
+                double lowest = double.MaxValue;
+                int lowestIndex = -1;
+                for (int j = 0; j < top; j++)
+                {
+                    if (bollinger[i].Tables[j].Rows.Count > 0)
+                    {
+                        if (lowest > (double)bollinger[i].Tables[j].Rows[0]["value"])
+                        {
+                            lowest = (double)bollinger[i].Tables[j].Rows[0]["value"];
+                            lowestIndex = i;
+                        }
+                    }
+                }
+                retStr[i] = coinList[lowestIndex] + "\t" + lowest.ToString("0.##");
+            }
+            return retStr;
+        }
         private int getBollingerResult(string coinName, int dataType, int index, double targetPercent)
         {
             if (bollinger[dataType].Tables[coinName].Rows.Count < index) return 0;
