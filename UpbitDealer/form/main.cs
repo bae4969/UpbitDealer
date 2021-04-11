@@ -49,7 +49,7 @@ namespace UpbitDealer.form
             {
                 mainUpdater = new MainUpdater(sAPI_Key, sAPI_Secret);
 
-                coinList = mainUpdater.setCoinList();
+                coinList = new List<string>(mainUpdater.setCoinList());
                 if (coinList == null)
                 {
                     MessageBox.Show("Init error due to API error, try again.");
@@ -95,7 +95,7 @@ namespace UpbitDealer.form
             }
 
             {
-                macro = new MacroSetting(sAPI_Key, sAPI_Secret, coinList);
+                macro = new MacroSetting(sAPI_Key, sAPI_Secret, mainUpdater.sortedCoinList);
                 if (macro.loadFile() < 0)
                 {
                     Close();
@@ -247,10 +247,9 @@ namespace UpbitDealer.form
         }
         private void executeMacro()
         {
-            int top = 70;
-
             logIn(new Output(0, "Macro Exection", "Load candle data"));
-            for (int i = 0; !AllStop && i < top && i < coinList.Count; i++)
+            lock (lock_mainUpdater) macro.updateSortedCoinList(mainUpdater.sortedCoinList);
+            for (int i = 0; !AllStop && i < macro.coinList.Count; i++)
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
@@ -269,24 +268,12 @@ namespace UpbitDealer.form
             macro.initBollingerAvg();
             logIn(new Output(0, "Macro Exection", "Finish to load, Start macro"));
 
-            DateTime last = DateTime.Now.AddHours(-1);
             while (!AllStop)
             {
-                macro.updateBollingerAvg();
-                if (last.Hour != DateTime.Now.Hour)
-                {
-                    last = DateTime.Now;
-                    string[] bollingerLowest = macro.getLowestBollinger(top);
-                    logIn(new Output(0, "Macro Execution",
-                        "\r\n    Lowest Bollinger Value" +
-                        "\r\n        30 Min\t" + bollingerLowest[0] +
-                        "\r\n        1 Hour\t" + bollingerLowest[1] +
-                        "\r\n        4 Hour\t" + bollingerLowest[2] +
-                        "\r\n          Day\t" + bollingerLowest[3] +
-                        "\r\n         Week\t" + bollingerLowest[4]));
-                }
+                lock (lock_macro) lock (lock_mainUpdater)
+                        macro.updateSortedCoinList(mainUpdater.sortedCoinList);
 
-                for (int i = 0; !AllStop && i < coinList.Count && i < top; i++)
+                for (int i = 0; !AllStop && i < macro.coinList.Count; i++)
                 {
                     lock (lock_macro)
                     {
@@ -319,6 +306,26 @@ namespace UpbitDealer.form
                     }
                     Thread.Sleep(100);
                 }
+                macro.updateBollingerAvg();
+            }
+        }
+        public void logIn(Output log)
+        {
+            if (log.level >= 0)
+                lock (lock_logList)
+                    logList.Add(DateTime.Now.ToString(" [yyyy-MM-dd_HH:mm:ss] ") + log.title + " : " + log.str);
+
+            if (Math.Abs(log.level) == 1)
+            {
+                notifyIcon.BalloonTipTitle = log.title;
+                notifyIcon.BalloonTipText = log.str;
+                notifyIcon.ShowBalloonTip(1000);
+            }
+            else if (Math.Abs(log.level) == 2)
+            {
+                notifyIcon.BalloonTipTitle = log.title;
+                notifyIcon.BalloonTipText = log.str;
+                notifyIcon.ShowBalloonTip(100000);
             }
         }
 
@@ -353,25 +360,6 @@ namespace UpbitDealer.form
                     text_log.AppendText(logList[0] + Environment.NewLine);
                     logList.Remove(logList[0]);
                 }
-        }
-        public void logIn(Output log)
-        {
-            if (log.level >= 0)
-                lock (lock_logList)
-                    logList.Add(DateTime.Now.ToString(" [yyyy-MM-dd_HH:mm:ss] ") + log.title + " : " + log.str);
-
-            if (Math.Abs(log.level) == 1)
-            {
-                notifyIcon.BalloonTipTitle = log.title;
-                notifyIcon.BalloonTipText = log.str;
-                notifyIcon.ShowBalloonTip(1000);
-            }
-            else if (Math.Abs(log.level) == 2)
-            {
-                notifyIcon.BalloonTipTitle = log.title;
-                notifyIcon.BalloonTipText = log.str;
-                notifyIcon.ShowBalloonTip(100000);
-            }
         }
 
 
@@ -436,6 +424,19 @@ namespace UpbitDealer.form
                 historyForm = new History(this);
             historyForm.Show();
             openFormList.Add(historyForm);
+        }
+        private void btn_indicator_Click(object sender, EventArgs e)
+        {
+            foreach (Form fm in Application.OpenForms)
+                if (fm.Name == "Indicator")
+                {
+                    MessageBox.Show("Fail to show 'Macro' window, already opened.");
+                    return;
+                }
+
+            Indicator indicatorForm = new Indicator(this);
+            indicatorForm.Show();
+            openFormList.Add(indicatorForm);
         }
         private void btn_macro_Click(object sender, EventArgs e)
         {

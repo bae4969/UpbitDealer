@@ -80,6 +80,12 @@
     <Compile Include="form\history.Designer.cs">
       <DependentUpon>history.cs</DependentUpon>
     </Compile>
+    <Compile Include="form\indicator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="form\indicator.Designer.cs">
+      <DependentUpon>indicator.cs</DependentUpon>
+    </Compile>
     <Compile Include="form\login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +127,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="form\history.resx">
       <DependentUpon>history.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="form\indicator.resx">
+      <DependentUpon>indicator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="form\login.resx">
       <DependentUpon>login.cs</DependentUpon>

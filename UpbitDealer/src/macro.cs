@@ -8,7 +8,8 @@ namespace UpbitDealer.src
     public class MacroSetting
     {
         private ApiData apiData;
-        private List<string> coinList = new List<string>();
+
+        public List<string> coinList = new List<string>();
         private List<string> errorList = new List<string>();
         public List<Output> executionStr = new List<Output>();
 
@@ -27,7 +28,7 @@ namespace UpbitDealer.src
         public MacroSetting(string access_key, string secret_key, List<string> coinList)
         {
             apiData = new ApiData(access_key, secret_key);
-            this.coinList = coinList;
+            this.coinList = new List<string>(coinList);
 
             initDefaultSetting();
             for (int i = 0; i < coinList.Count; i++)
@@ -99,28 +100,31 @@ namespace UpbitDealer.src
                     if (reader.Length > 0)
                     {
                         string[] singleData = reader[0].Split('\t');
-                        if (singleData.Length > 18)
+                        if (singleData.Length > 20)
                         {
-                            setting.yield = double.Parse(singleData[0]);
-                            setting.krw = double.Parse(singleData[1]);
-                            setting.time = double.Parse(singleData[2]);
-                            setting.limit = double.Parse(singleData[3]);
-                            setting.week_from = double.Parse(singleData[4]);
-                            setting.week_to = double.Parse(singleData[5]);
-                            setting.day_from = double.Parse(singleData[6]);
-                            setting.day_to = double.Parse(singleData[7]);
-                            setting.hour4_from = double.Parse(singleData[8]);
-                            setting.hour4_to = double.Parse(singleData[9]);
-                            setting.hour1_from = double.Parse(singleData[10]);
-                            setting.hour1_to = double.Parse(singleData[11]);
-                            setting.min30_from = double.Parse(singleData[12]);
-                            setting.min30_to = double.Parse(singleData[13]);
+                            setting.pause = bool.Parse(singleData[0]);
 
-                            setting.week_bias = bool.Parse(singleData[14]);
-                            setting.day_bias = bool.Parse(singleData[15]);
-                            setting.hour4_bias = bool.Parse(singleData[16]);
-                            setting.hour1_bias = bool.Parse(singleData[17]);
-                            setting.min30_bias = bool.Parse(singleData[18]);
+                            setting.top = int.Parse(singleData[1]);
+                            setting.yield = double.Parse(singleData[2]);
+                            setting.krw = double.Parse(singleData[3]);
+                            setting.time = double.Parse(singleData[4]);
+                            setting.limit = double.Parse(singleData[5]);
+                            setting.week_from = double.Parse(singleData[6]);
+                            setting.week_to = double.Parse(singleData[7]);
+                            setting.day_from = double.Parse(singleData[8]);
+                            setting.day_to = double.Parse(singleData[9]);
+                            setting.hour4_from = double.Parse(singleData[10]);
+                            setting.hour4_to = double.Parse(singleData[11]);
+                            setting.hour1_from = double.Parse(singleData[12]);
+                            setting.hour1_to = double.Parse(singleData[13]);
+                            setting.min30_from = double.Parse(singleData[14]);
+                            setting.min30_to = double.Parse(singleData[15]);
+
+                            setting.week_bias = bool.Parse(singleData[16]);
+                            setting.day_bias = bool.Parse(singleData[17]);
+                            setting.hour4_bias = bool.Parse(singleData[18]);
+                            setting.hour1_bias = bool.Parse(singleData[19]);
+                            setting.min30_bias = bool.Parse(singleData[20]);
                         }
                     }
                 }
@@ -196,7 +200,9 @@ namespace UpbitDealer.src
                 else
                 {
                     string tempStr
-                        = setting.yield.ToString("0.########") + '\t'
+                        = setting.pause.ToString() + '\t'
+                        + setting.top.ToString() + '\t'
+                        + setting.yield.ToString("0.########") + '\t'
                         + setting.krw.ToString("0.########") + '\t'
                         + setting.time.ToString("0.########") + '\t'
                         + setting.limit.ToString("0.########") + '\t'
@@ -282,6 +288,8 @@ namespace UpbitDealer.src
 
         private void initDefaultSetting()
         {
+            setting.pause = true;
+
             setting.yield = 1;
             setting.krw = 5000;
             setting.time = 1;
@@ -334,7 +342,7 @@ namespace UpbitDealer.src
                     candle[i].Tables[coinName].Rows.Add(dataRow);
                 }
 
-                for (int j = 0; j < 60 && j < candle[i].Tables[coinName].Rows.Count - 28; j++)
+                for (int j = 0; j < 60 && j < candle[i].Tables[coinName].Rows.Count - 27; j++)
                 {
                     double averagePrice = 0;
                     double dispersion = 0;
@@ -429,6 +437,10 @@ namespace UpbitDealer.src
         }
 
 
+        public void updateSortedCoinList(List<string> coinList)
+        {
+            this.coinList = new List<string>(coinList);
+        }
         public void updateLastKrw(List<Account> account)
         {
             for (int i = 0; i < account.Count; i++)
@@ -491,6 +503,7 @@ namespace UpbitDealer.src
                         candle[i].Tables[coinName].Rows[0]["min"] = quote[coinName];
                 }
 
+                if (candle[i].Tables[coinName].Rows.Count < 28) continue;
 
                 double averagePrice = 0;
                 double dispersion = 0;
@@ -592,31 +605,27 @@ namespace UpbitDealer.src
         }
 
 
-        public string[] getLowestBollinger(int top)
+        public MacroResult getLowestBollinger(int index)
         {
-            string[] retStr = new string[5];
-            for (int i = 0; i < 5; i++)
+            double lowest = double.MaxValue;
+            int lowestIndex = -1;
+            for (int i = 0; i < setting.top; i++)
             {
-                double lowest = double.MaxValue;
-                int lowestIndex = -1;
-                for (int j = 0; j < top; j++)
+                if (bollinger[index].Tables[i].Rows.Count > 0)
                 {
-                    if (bollinger[i].Tables[j].Rows.Count > 0)
+                    if (lowest > (double)bollinger[index].Tables[i].Rows[0]["value"])
                     {
-                        if (lowest > (double)bollinger[i].Tables[j].Rows[0]["value"])
-                        {
-                            lowest = (double)bollinger[i].Tables[j].Rows[0]["value"];
-                            lowestIndex = j;
-                        }
+                        lowest = (double)bollinger[index].Tables[i].Rows[0]["value"];
+                        lowestIndex = i;
                     }
                 }
-                retStr[i] = bollinger[i].Tables[lowestIndex].TableName + "\t" + lowest.ToString("0.##");
             }
-            return retStr;
+            if (lowestIndex < 0) return null;
+            return new MacroResult(bollinger[index].Tables[lowestIndex].TableName, lowest);
         }
         private int getBollingerResult(string coinName, int dataType, int index, double targetPercent)
         {
-            if (bollinger[dataType].Tables[coinName].Rows.Count < index) return 0;
+            if (bollinger[dataType].Tables[coinName].Rows.Count <= index) return 0;
 
             double curPercent = (double)bollinger[dataType].Tables[coinName].Rows[index]["value"];
             if (curPercent < targetPercent) return -1;
@@ -689,6 +698,9 @@ namespace UpbitDealer.src
         }
         public int executeMacroBuy(int index)
         {
+            if (setting.pause) return 0;
+            if (setting.top <= index) return 0;
+
             string coinName = coinList[index];
             if (holdKRW - setting.limit < setting.krw * 1.0005d) return 0;
             if (state.Tables[coinName].Rows.Count >= setting.time && setting.time != 0) return 0;
@@ -723,7 +735,8 @@ namespace UpbitDealer.src
                 return -1;
             }
             if (errorList.Contains(coinName)) errorList.Remove(coinName);
-            if ((double)buyCandle.Rows[0]["open"] >= (double)buyCandle.Rows[0]["close"]) return 0;
+            if ((double)buyCandle.Rows[0]["open"] >= (double)buyCandle.Rows[0]["close"] ||
+                (double)buyCandle.Rows[1]["open"] <= (double)buyCandle.Rows[1]["close"]) return 0;
             if (((double)buyCandle.Rows[0]["open"] + (double)buyCandle.Rows[0]["close"]) / 2d <
                 ((double)buyCandle.Rows[1]["open"] + (double)buyCandle.Rows[1]["close"] * 3d) / 4d) return 0;
 
@@ -799,6 +812,8 @@ namespace UpbitDealer.src
         }
         public int executeMacroSell(int index)
         {
+            if (setting.pause) return 0;
+
             int ret = 0;
             string coinName = coinList[index];
             if (state.Tables[coinName].Rows.Count < 1) return 0;

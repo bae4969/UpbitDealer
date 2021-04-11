@@ -46,7 +46,7 @@ namespace UpbitDealer.form
             InitializeComponent();
             this.ownerForm = ownerForm;
             this.react = new React(access_key, secret_key);
-            this.coinList = coinList;
+            this.coinList = new List<string>(coinList);
         }
         private void Trader_Load(object sender, EventArgs e)
         {

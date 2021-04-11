@@ -11,9 +11,8 @@ namespace UpbitDealer.form
     public partial class Macro : Form
     {
         private Main ownerForm;
+
         private MacroSettingData setting;
-        private DataView[] btcBollinger = new DataView[5];
-        private DataView[] avgBollinger = new DataView[5];
 
 
         public Macro(Main ownerForm)
@@ -24,7 +23,6 @@ namespace UpbitDealer.form
         private void Macro_Load(object sender, EventArgs e)
         {
             setDefaultSetting();
-            btn_min30.PerformClick();
         }
         private void text_focus_disable(object sender, EventArgs e)
         {
@@ -35,15 +33,11 @@ namespace UpbitDealer.form
         private void setDefaultSetting()
         {
             lock (ownerForm.lock_macro)
-            {
                 setting = ownerForm.macro.setting;
-                for (int i = 0; i < 5; i++)
-                {
-                    btcBollinger[i] = new DataView(ownerForm.macro.indexBollinger[i].Tables[0]);
-                    avgBollinger[i] = new DataView(ownerForm.macro.indexBollinger[i].Tables[1]);
-                }
-            }
 
+            btn_pause.BackColor = setting.pause ? Color.Red : Color.DarkGray;
+
+            text_top.Text = setting.top.ToString();
             text_yield.Text = setting.yield.ToString();
             text_krw.Text = setting.krw.ToString();
             text_time.Text = setting.time.ToString();
@@ -65,14 +59,6 @@ namespace UpbitDealer.form
             check_hour1.Checked = setting.hour1_bias;
             check_min30.Checked = setting.min30_bias;
         }
-        private void setDefaultButton()
-        {
-            btn_min30.BackColor = Color.DarkGray;
-            btn_hour1.BackColor = Color.DarkGray;
-            btn_hour4.BackColor = Color.DarkGray;
-            btn_day.BackColor = Color.DarkGray;
-            btn_week.BackColor = Color.DarkGray;
-        }
 
 
         private void btn_save_Click(object sender, EventArgs e)
@@ -81,6 +67,17 @@ namespace UpbitDealer.form
             {
                 MacroSettingData setting = new MacroSettingData();
 
+                setting.pause = this.setting.pause;
+
+                if (!int.TryParse(text_top.Text, out setting.top))
+                {
+                    if (text_top.Text == "") setting.top = 70;
+                    else
+                    {
+                        MessageBox.Show("Top value is not number.");
+                        return;
+                    }
+                }
                 if (!double.TryParse(text_yield.Text, out setting.yield))
                 {
                     MessageBox.Show("Yield value is not number.");
@@ -277,82 +274,17 @@ namespace UpbitDealer.form
         {
             setDefaultSetting();
         }
+        private void btn_pause_Click(object sender, EventArgs e)
+        {
+            setting.pause = setting.pause ? false : true;
+            lock (ownerForm.lock_macro)
+                ownerForm.macro.saveMacroSetting(setting);
+            setDefaultSetting();
 
-
-        private void btn_min30_Click(object sender, EventArgs e)
-        {
-            setDefaultButton();
-            btn_min30.BackColor = Color.Red;
-            chart1.Series["btc"].Points.DataBind(btcBollinger[0], "date", "value", "");
-            chart1.Series["avg"].Points.DataBind(avgBollinger[0], "date", "value", "");
-            chart1.Series["dis"].Points.DataBind(avgBollinger[0], "date", "dis", "");
-            chart1.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Hours;
-            chart1.ChartAreas["ChartArea"].AxisX.Interval = 3;
-            if (btcBollinger[0].Count > 0)
-            {
-                chart1.ChartAreas["ChartArea"].AxisX.Maximum = ((DateTime)btcBollinger[0][0][0]).AddHours(1).ToOADate();
-                chart1.ChartAreas["ChartArea"].AxisX.Minimum = ((DateTime)btcBollinger[0][btcBollinger[0].Count - 1][0]).ToOADate();
-            }
-        }
-        private void btn_hour1_Click(object sender, EventArgs e)
-        {
-            setDefaultButton();
-            btn_hour1.BackColor = Color.Red;
-            chart1.Series["btc"].Points.DataBind(btcBollinger[1], "date", "value", "");
-            chart1.Series["avg"].Points.DataBind(avgBollinger[1], "date", "value", "");
-            chart1.Series["dis"].Points.DataBind(avgBollinger[1], "date", "dis", "");
-            chart1.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Hours;
-            chart1.ChartAreas["ChartArea"].AxisX.Interval = 6;
-            if (btcBollinger[1].Count > 0)
-            {
-                chart1.ChartAreas["ChartArea"].AxisX.Maximum = ((DateTime)btcBollinger[1][0][0]).AddHours(2).ToOADate();
-                chart1.ChartAreas["ChartArea"].AxisX.Minimum = ((DateTime)btcBollinger[1][btcBollinger[1].Count - 1][0]).ToOADate();
-            }
-        }
-        private void btn_hour4_Click(object sender, EventArgs e)
-        {
-            setDefaultButton();
-            btn_hour4.BackColor = Color.Red;
-            chart1.Series["btc"].Points.DataBind(btcBollinger[2], "date", "value", "");
-            chart1.Series["avg"].Points.DataBind(avgBollinger[2], "date", "value", "");
-            chart1.Series["dis"].Points.DataBind(avgBollinger[2], "date", "dis", "");
-            chart1.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Days;
-            chart1.ChartAreas["ChartArea"].AxisX.Interval = 1;
-            if (btcBollinger[2].Count > 0)
-            {
-                chart1.ChartAreas["ChartArea"].AxisX.Maximum = ((DateTime)btcBollinger[2][0][0]).AddHours(8).ToOADate();
-                chart1.ChartAreas["ChartArea"].AxisX.Minimum = ((DateTime)btcBollinger[2][btcBollinger[2].Count - 1][0]).ToOADate();
-            }
-        }
-        private void btn_day_Click(object sender, EventArgs e)
-        {
-            setDefaultButton();
-            btn_day.BackColor = Color.Red;
-            chart1.Series["btc"].Points.DataBind(btcBollinger[3], "date", "value", "");
-            chart1.Series["avg"].Points.DataBind(avgBollinger[3], "date", "value", "");
-            chart1.Series["dis"].Points.DataBind(avgBollinger[3], "date", "dis", "");
-            chart1.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Days;
-            chart1.ChartAreas["ChartArea"].AxisX.Interval = 6;
-            if (btcBollinger[3].Count > 0)
-            {
-                chart1.ChartAreas["ChartArea"].AxisX.Maximum = ((DateTime)btcBollinger[3][0][0]).AddDays(2).ToOADate();
-                chart1.ChartAreas["ChartArea"].AxisX.Minimum = ((DateTime)btcBollinger[3][btcBollinger[3].Count - 1][0]).ToOADate();
-            }
-        }
-        private void btn_week_Click(object sender, EventArgs e)
-        {
-            setDefaultButton();
-            btn_week.BackColor = Color.Red;
-            chart1.Series["btc"].Points.DataBind(btcBollinger[4], "date", "value", "");
-            chart1.Series["avg"].Points.DataBind(avgBollinger[4], "date", "value", "");
-            chart1.Series["dis"].Points.DataBind(avgBollinger[4], "date", "dis", "");
-            chart1.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Weeks;
-            chart1.ChartAreas["ChartArea"].AxisX.Interval = 6;
-            if (btcBollinger[4].Count > 0)
-            {
-                chart1.ChartAreas["ChartArea"].AxisX.Maximum = ((DateTime)btcBollinger[4][0][0]).AddDays(14).ToOADate();
-                chart1.ChartAreas["ChartArea"].AxisX.Minimum = ((DateTime)btcBollinger[4][btcBollinger[4].Count - 1][0]).ToOADate();
-            }
+            if(setting.pause)
+                MessageBox.Show("Pause Macro.");
+            else
+                MessageBox.Show("Continue Macro.");
         }
     }
 }

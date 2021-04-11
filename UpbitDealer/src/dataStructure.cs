@@ -64,6 +64,9 @@ namespace UpbitDealer.src
 
     public struct MacroSettingData
     {
+        public bool pause;
+
+        public int top;
         public double yield;
         public double krw;
         public double time;
@@ -84,5 +87,17 @@ namespace UpbitDealer.src
         public bool hour4_bias;
         public bool hour1_bias;
         public bool min30_bias;
+    }
+
+    public class MacroResult
+    {
+        public string coinName;
+        public double value;
+
+        public MacroResult(string coinName, double value)
+        {
+            this.coinName = coinName;
+            this.value = value;
+        }
     }
 }
