@@ -812,8 +812,6 @@ namespace UpbitDealer.src
         }
         public int executeMacroSell(int index)
         {
-            if (setting.pause) return 0;
-
             int ret = 0;
             string coinName = coinList[index];
             if (state.Tables[coinName].Rows.Count < 1) return 0;

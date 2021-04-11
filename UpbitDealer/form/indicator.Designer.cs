@@ -373,7 +373,8 @@ namespace UpbitDealer.form
             this.MaximumSize = new System.Drawing.Size(554, 633);
             this.MinimumSize = new System.Drawing.Size(554, 633);
             this.Name = "Indicator";
-            this.Text = "indicator";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Indicator";
             this.Load += new System.EventHandler(this.Indicator_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
