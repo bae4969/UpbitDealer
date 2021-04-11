@@ -266,24 +266,24 @@ namespace UpbitDealer.form
                     sleepTime -= 100;
                 }
             }
-            macro.initBollingerWeightAvg();
+            macro.initBollingerAvg();
             logIn(new Output(0, "Macro Exection", "Finish to load, Start macro"));
 
-            DateTime last = DateTime.Now.AddMinutes(-10);
+            DateTime last = DateTime.Now.AddHours(-1);
             while (!AllStop)
             {
                 macro.updateBollingerAvg();
-                if (last.Minute % 10 != DateTime.Now.Minute % 10)
+                if (last.Hour != DateTime.Now.Hour)
                 {
                     last = DateTime.Now;
                     string[] bollingerLowest = macro.getLowestBollinger(top);
                     logIn(new Output(0, "Macro Execution",
-                        "\r\nLowest Bollinger Value\r\n" +
-                        "\t30 Min\t" + bollingerLowest[0] + Environment.NewLine +
-                        "\t1 Hour\t" + bollingerLowest[1] + Environment.NewLine +
-                        "\t4 Hour\t" + bollingerLowest[2] + Environment.NewLine +
-                        "\tDay\t" + bollingerLowest[3] + Environment.NewLine +
-                        "\tWeek\t" + bollingerLowest[4]));
+                        "\r\n    Lowest Bollinger Value" +
+                        "\r\n        30 Min\t" + bollingerLowest[0] +
+                        "\r\n        1 Hour\t" + bollingerLowest[1] +
+                        "\r\n        4 Hour\t" + bollingerLowest[2] +
+                        "\r\n          Day\t" + bollingerLowest[3] +
+                        "\r\n         Week\t" + bollingerLowest[4]));
                 }
 
                 for (int i = 0; !AllStop && i < coinList.Count && i < top; i++)
