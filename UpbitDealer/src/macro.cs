@@ -79,6 +79,7 @@ namespace UpbitDealer.src
                     }
                     dataTable.Columns.Add("date", typeof(DateTime));
                     dataTable.Columns.Add("value", typeof(double));
+                    dataTable.Columns.Add("dis", typeof(double));
                     indexBollinger[i].Tables.Add(dataTable);
                 }
             }
@@ -358,16 +359,17 @@ namespace UpbitDealer.src
 
             return 0;
         }
-        public void initBollingerWeightAvg()
+        public void initBollingerAvg()
         {
             for (int i = 0; i < 5; i++)
             {
-                for (int j = 0; j < 60 && j < bollinger[i].Tables[0].Rows.Count; j++)
+                for (int j = 0; j < 60 && j < bollinger[i].Tables["BTC"].Rows.Count; j++)
                 {
                     double btc
                         = ((double)bollinger[i].Tables["BTC"].Rows[j]["value"]
                         + (double)bollinger[i].Tables["ETH"].Rows[j]["value"]) * 0.5;
                     double avg = 0;
+                    double dis = 0;
                     double count = 0;
 
                     for (int k = 0; k < coinList.Count; k++)
@@ -378,15 +380,27 @@ namespace UpbitDealer.src
                             count += 1;
                         }
                     }
+                    avg /= count;
+                    for (int k = 0; k < coinList.Count; k++)
+                        if (j < bollinger[i].Tables[k].Rows.Count)
+                            dis += Math.Pow(avg - (double)bollinger[i].Tables[k].Rows[j]["value"], 2);
+                    dis /= count;
+                    dis = Math.Sqrt(dis);
 
                     for (int k = 0; k < 2; k++)
                     {
                         DataRow dataRow = indexBollinger[i].Tables[k].NewRow();
-                        dataRow["date"] = bollinger[i].Tables[0].Rows[j]["date"];
+                        dataRow["date"] = bollinger[i].Tables["BTC"].Rows[j]["date"];
                         switch (k)
                         {
-                            case 0: dataRow["value"] = btc; break;
-                            case 1: dataRow["value"] = avg / count; break;
+                            case 0:
+                                dataRow["value"] = btc;
+                                dataRow["dis"] = 0;
+                                break;
+                            case 1:
+                                dataRow["value"] = avg;
+                                dataRow["dis"] = dis;
+                                break;
                         }
                         indexBollinger[i].Tables[k].Rows.Add(dataRow);
                     }
@@ -519,26 +533,37 @@ namespace UpbitDealer.src
                     = ((double)bollinger[i].Tables["BTC"].Rows[0]["value"]
                     + (double)bollinger[i].Tables["ETH"].Rows[0]["value"]) * 0.5;
                 double avg = 0;
+                double dis = 0;
                 double count = 0;
                 for (int j = 0; j < coinList.Count; j++)
-                {
                     if (bollinger[i].Tables[j].Rows.Count > 0)
                     {
                         avg += (double)bollinger[i].Tables[j].Rows[0]["value"];
                         count += 1;
                     }
-                }
+                avg /= count;
+                for (int j = 0; j < coinList.Count; j++)
+                    if (bollinger[i].Tables[j].Rows.Count > 0)
+                        dis += Math.Pow(avg - (double)bollinger[i].Tables[j].Rows[0]["value"], 2);
+                dis /= count;
+                dis = Math.Sqrt(dis);
 
                 if (needAvgAdd[i])
                 {
                     for (int j = 0; j < 2; j++)
                     {
                         DataRow dataRow = indexBollinger[i].Tables[j].NewRow();
-                        dataRow["date"] = bollinger[i].Tables[0].Rows[0]["date"];
+                        dataRow["date"] = bollinger[i].Tables["BTC"].Rows[0]["date"];
                         switch (j)
                         {
-                            case 0: dataRow["value"] = btc; break;
-                            case 1: dataRow["value"] = avg / count; break;
+                            case 0:
+                                dataRow["value"] = btc;
+                                dataRow["dis"] = 0;
+                                break;
+                            case 1:
+                                dataRow["value"] = avg;
+                                dataRow["dis"] = dis;
+                                break;
                         }
                         indexBollinger[i].Tables[j].Rows.InsertAt(dataRow, 0);
                         if (indexBollinger[i].Tables[j].Rows.Count > 60)
@@ -549,11 +574,17 @@ namespace UpbitDealer.src
                 {
                     for (int j = 0; j < 2; j++)
                     {
-                        indexBollinger[i].Tables[j].Rows[0]["date"] = bollinger[i].Tables[0].Rows[0]["date"];
+                        indexBollinger[i].Tables[j].Rows[0]["date"] = bollinger[i].Tables["BTC"].Rows[0]["date"];
                         switch (j)
                         {
-                            case 0: indexBollinger[i].Tables[j].Rows[0]["value"] = btc; break;
-                            case 1: indexBollinger[i].Tables[j].Rows[0]["value"] = avg / count; break;
+                            case 0:
+                                indexBollinger[i].Tables[j].Rows[0]["value"] = btc;
+                                indexBollinger[i].Tables[j].Rows[0]["dis"] = 0;
+                                break;
+                            case 1:
+                                indexBollinger[i].Tables[j].Rows[0]["value"] = avg;
+                                indexBollinger[i].Tables[j].Rows[0]["dis"] = dis;
+                                break;
                         }
                     }
                 }
