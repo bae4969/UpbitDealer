@@ -575,11 +575,11 @@ namespace UpbitDealer.src
                         if (lowest > (double)bollinger[i].Tables[j].Rows[0]["value"])
                         {
                             lowest = (double)bollinger[i].Tables[j].Rows[0]["value"];
-                            lowestIndex = i;
+                            lowestIndex = j;
                         }
                     }
                 }
-                retStr[i] = coinList[lowestIndex] + "\t" + lowest.ToString("0.##");
+                retStr[i] = bollinger[i].Tables[lowestIndex].TableName + "\t" + lowest.ToString("0.##");
             }
             return retStr;
         }
