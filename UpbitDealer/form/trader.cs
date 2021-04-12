@@ -46,7 +46,7 @@ namespace UpbitDealer.form
             InitializeComponent();
             this.ownerForm = ownerForm;
             this.react = new React(access_key, secret_key);
-            this.coinList = coinList;
+            this.coinList = new List<string>(coinList);
         }
         private void Trader_Load(object sender, EventArgs e)
         {
@@ -132,11 +132,8 @@ namespace UpbitDealer.form
                         }
                     }
 
-                for (int i = 0; i < 10; i++)
-                {
-                    if (AllStop || needTradeInit) break;
+                for (int i = 0; !AllStop && !needTradeInit && i < 10; i++)
                     Thread.Sleep(100);
-                }
             }
         }
         private void timer_updater_Tick(object sender, EventArgs e)

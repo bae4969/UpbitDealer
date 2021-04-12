@@ -299,6 +299,8 @@ namespace UpbitDealer.form
             {
                 chart.Series["candle"].Points.DataBind(Main_Data, "date", "max,min,open,close", "");
 
+                chart.Series["volume"].Points.DataBind(Main_Data, "date", "volume", "");
+
                 chart.Series["top"].Points.DataBind(Bollinger_Data, "date", "top", "");
                 chart.Series["mid"].Points.DataBind(Bollinger_Data, "date", "mid", "");
                 chart.Series["bot"].Points.DataBind(Bollinger_Data, "date", "bot", "");
@@ -331,11 +333,8 @@ namespace UpbitDealer.form
                 }
                 dataShowType = tempType;
 
-                for (int i = 0; i < 20; i++)
-                {
-                    if (AllStop || dataShowType != needShowType) break;
+                for (int i = 0; !AllStop && dataShowType == needShowType && i < 20; i++)
                     Thread.Sleep(100);
-                }
             }
         }
         private void timer_update_Tick(object sender, EventArgs e)
@@ -699,8 +698,9 @@ namespace UpbitDealer.form
         }
         private void setYaxisRange()
         {
-            double max = Double.MinValue;
-            double min = Double.MaxValue;
+            double max = double.MinValue;
+            double min = double.MaxValue;
+            double volumeMax = double.MinValue;
             double leftLimit = chart.ChartAreas[0].AxisX.Minimum;
             double rightLimit = chart.ChartAreas[0].AxisX.Maximum;
 
@@ -712,12 +712,18 @@ namespace UpbitDealer.form
                     max = Math.Max(max, dp.YValues[0]);
                 }
             }
+            foreach (DataPoint dp in chart.Series["volume"].Points)
+                if (dp.XValue >= leftLimit && dp.XValue <= rightLimit)
+                    volumeMax = Math.Max(volumeMax, dp.YValues[0]);
 
             double gap = (max - min) * (trkbar_vertical.Value + 10) / 50;
             if (gap > 0)
             {
                 chart.ChartAreas["ChartArea1"].AxisY.Maximum = max + gap;
-                chart.ChartAreas["ChartArea1"].AxisY.Minimum = min - gap;
+                if (min - gap < 0)
+                    chart.ChartAreas["ChartArea1"].AxisY.Minimum = 0;
+                else
+                    chart.ChartAreas["ChartArea1"].AxisY.Minimum = min - gap;
 
                 if (chart.ChartAreas["ChartArea1"].AxisY.Maximum > 10000000000)
                     chart.ChartAreas["ChartArea1"].AxisY.LabelStyle.Format = "{0:#,0,,, G}";
@@ -727,6 +733,11 @@ namespace UpbitDealer.form
                     chart.ChartAreas["ChartArea1"].AxisY.LabelStyle.Format = "{0:#,0,K}";
                 else
                     chart.ChartAreas["ChartArea1"].AxisY.LabelStyle.Format = "{0:,0.###}";
+            }
+            if (volumeMax > 0)
+            {
+                chart.ChartAreas["ChartArea1"].AxisY2.Maximum = volumeMax * 8;
+                chart.ChartAreas["ChartArea1"].AxisY2.Minimum = 0;
             }
         }
         private void chart_MouseDown(object sender, MouseEventArgs e)

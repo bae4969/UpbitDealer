@@ -22,13 +22,10 @@ namespace UpbitDealer.form
         TradeData selected = new TradeData();
 
         private DataTable historyData = new DataTable();
-        private bool isNeedUpdateHistory = false;
         private bool isNeedBindHistory = false;
-        private int page = 1;
 
         private DataTable macroPrint = new DataTable();
         private DataTable macroPrintSwap = new DataTable();
-        private MacroSettingData macroSetting;
         private DataSet macroState;
 
 
@@ -107,25 +104,11 @@ namespace UpbitDealer.form
                             lock (ownerForm.lock_tradeHistory)
                                 pendingData = ownerForm.tradeHistory.pendingData.Copy();
                             break;
-                        case 1:
-                            if (isNeedUpdateHistory)
-                            {
-                                isNeedUpdateHistory = false;
-                                int ret = ownerForm.tradeHistory.getHistoryData(text_historyCoinName.Text.ToUpper(), page);
-                                if (ret < 0)
-                                {
-                                    MessageBox.Show("Invalid coin name.");
-                                    return;
-                                }
-                                lock (ownerForm.lock_tradeHistory)
-                                    historyData = ownerForm.tradeHistory.historyData.Copy();
-                                isNeedBindHistory = true;
-                            }
-                            break;
                         case 2:
+                            double yield;
                             lock (ownerForm.lock_macro)
                             {
-                                macroSetting = ownerForm.macro.setting;
+                                yield = ownerForm.macro.setting.yield;
                                 macroState = ownerForm.macro.state.Copy();
                             }
                             macroPrintSwap.Rows.Clear();
@@ -141,7 +124,7 @@ namespace UpbitDealer.form
                                     dataRow["unit"] = macroState.Tables[tempCoinName].Rows[j]["unit"];
                                     dataRow["price"] = macroState.Tables[tempCoinName].Rows[j]["price"];
                                     dataRow["target"] = (double)macroState.Tables[tempCoinName].Rows[j]["price"]
-                                        * (100d + macroSetting.yield) / 100d;
+                                        * (100d + yield) / 100d;
                                     macroPrintSwap.Rows.Add(dataRow);
                                 }
                             }
@@ -149,11 +132,8 @@ namespace UpbitDealer.form
                     }
                 }
 
-                for (int i = 0; i < 10; i++)
-                {
-                    if (AllStop) break;
+                for (int i = 0; !AllStop && i < 10; i++)
                     Thread.Sleep(100);
-                }
             }
         }
         private void timer_binding_Tick(object sender, EventArgs e)
@@ -404,16 +384,26 @@ namespace UpbitDealer.form
         }
         private void btn_history_get_Click(object sender, EventArgs e)
         {
+            string coinName;
+            int page;
+            if (text_historyCoinName.Text == "Name")
+                coinName = "";
+            else
+                coinName = text_historyCoinName.Text.ToUpper();
             if (text_page.Text == "" || text_page.Text == "Page")
-                text_page.Text = "1";
-            if (!int.TryParse(text_page.Text, out page))
-                MessageBox.Show("Page must be positive intger type value.");
-            else if (page < 1)
+                page = 1;
+            else if (!int.TryParse(text_page.Text, out page) || page < 1)
                 MessageBox.Show("Page must be positive intger type value.");
             else
             {
-                isNeedUpdateHistory = true;
-                text_historyCoinName.Text = text_historyCoinName.Text.ToUpper();
+                if (ownerForm.tradeHistory.getHistoryData(coinName, page) < 0)
+                {
+                    MessageBox.Show("Invalid coin name.");
+                    return;
+                }
+                lock (ownerForm.lock_tradeHistory)
+                    historyData = ownerForm.tradeHistory.historyData.Copy();
+                isNeedBindHistory = true;
             }
         }
     }
