@@ -717,7 +717,7 @@ namespace UpbitDealer.src
             }
             if ((double)buyCandle.Rows[0]["open"] >= (double)buyCandle.Rows[0]["close"] ||
                 (double)buyCandle.Rows[1]["open"] <= (double)buyCandle.Rows[1]["close"]) return 0;
-            if (((double)buyCandle.Rows[0]["open"] + (double)buyCandle.Rows[0]["close"]) * 0.5 <
+            if ((double)buyCandle.Rows[0]["close"] <
                 ((double)buyCandle.Rows[1]["open"] + (double)buyCandle.Rows[1]["close"]) * 0.5) return 0;
 
 
@@ -806,7 +806,7 @@ namespace UpbitDealer.src
                 return -1;
             }
             if ((double)sellCandle.Rows[0]["open"] <= (double)sellCandle.Rows[0]["close"]) return 0;
-            if (((double)sellCandle.Rows[0]["open"] + (double)sellCandle.Rows[0]["close"]) * 0.5 >
+            if ((double)sellCandle.Rows[0]["close"] >
                 ((double)sellCandle.Rows[1]["open"] + (double)sellCandle.Rows[1]["close"] * 3d) * 0.25) return 0;
 
 
