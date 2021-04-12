@@ -14,6 +14,8 @@ namespace UpbitDealer.src
         private Dictionary<string, string> apiParameter = new Dictionary<string, string>();
 
         private List<string> coinList = new List<string>();
+        public List<string> hotList = new List<string>();
+        public List<string> dangerList = new List<string>();
 
         public List<Output> executionStr = new List<Output>();
         public List<string> sortedCoinList = new List<string>();
@@ -93,7 +95,22 @@ namespace UpbitDealer.src
                 ticker[coinName[1]].accTotal = (double)jArray[i]["acc_trade_price"];
                 ticker[coinName[1]].accVolume = (double)jArray[i]["acc_trade_volume"];
                 ticker[coinName[1]].change = (double)jArray[i]["signed_change_price"];
-                ticker[coinName[1]].changeRate = (double)jArray[i]["signed_change_rate"];
+                ticker[coinName[1]].changeRate = (double)jArray[i]["signed_change_rate"] * 100d;
+
+                if (ticker[coinName[1]].changeRate > 10)
+                {
+                    if (!hotList.Contains(coinName[1]))
+                        hotList.Add(coinName[1]);
+                    if (dangerList.Contains(coinName[1]))
+                        dangerList.Remove(coinName[1]);
+                }
+                else if (ticker[coinName[1]].changeRate < -10)
+                {
+                    if (hotList.Contains(coinName[1]))
+                        hotList.Remove(coinName[1]);
+                    if (!dangerList.Contains(coinName[1]))
+                        dangerList.Add(coinName[1]);
+                }
             }
 
             return 0;
@@ -358,7 +375,11 @@ namespace UpbitDealer.src
 
         public int getHistoryData(string coinName, int page = 1)
         {
-            JArray jArray = apiData.getDoneCancelOrder(coinName, page);
+            JArray jArray;
+            if (coinName == "")
+                jArray = apiData.getDoneCancelOrder("", page);
+            else
+                jArray = apiData.getDoneCancelOrder(coinName, page);
             if (jArray == null) return -1;
 
             historyData.Rows.Clear();
@@ -368,7 +389,7 @@ namespace UpbitDealer.src
                 {
                     double buf = 0;
                     DataRow dataRow = historyData.NewRow();
-                    dataRow["coinName"] = coinName;
+                    dataRow["coinName"] = jArray[i]["market"].ToString().Split('-')[1];
                     dataRow["date"] = Convert.ToDateTime(jArray[i]["created_at"]);
                     dataRow["isBid"] = jArray[i]["side"].ToString() == "bid" ? true : false;
                     dataRow["unit"] = double.TryParse(jArray[i]["volume"].ToString(), out buf) ? buf : 0;

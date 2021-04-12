@@ -52,8 +52,14 @@ namespace UpbitDealer.form
             this.btn_hour1 = new System.Windows.Forms.Button();
             this.btn_min30 = new System.Windows.Forms.Button();
             this.btn_min10 = new System.Windows.Forms.Button();
+            this.list_hotList = new System.Windows.Forms.ListBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.list_dangerList = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -70,9 +76,9 @@ namespace UpbitDealer.form
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.chart1);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(128, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(514, 534);
+            this.groupBox1.Size = new System.Drawing.Size(515, 534);
             this.groupBox1.TabIndex = 23;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Avg Bollinger Value";
@@ -260,7 +266,7 @@ namespace UpbitDealer.form
             chartArea1.BackColor = System.Drawing.Color.Black;
             chartArea1.Name = "ChartArea";
             this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.Location = new System.Drawing.Point(6, 21);
+            this.chart1.Location = new System.Drawing.Point(1, 21);
             this.chart1.Name = "chart1";
             series1.BorderWidth = 3;
             series1.ChartArea = "ChartArea";
@@ -276,6 +282,7 @@ namespace UpbitDealer.form
             series2.Name = "avg";
             series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series3.BorderWidth = 2;
             series3.ChartArea = "ChartArea";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series3.Color = System.Drawing.Color.Green;
@@ -286,7 +293,7 @@ namespace UpbitDealer.form
             this.chart1.Series.Add(series1);
             this.chart1.Series.Add(series2);
             this.chart1.Series.Add(series3);
-            this.chart1.Size = new System.Drawing.Size(502, 463);
+            this.chart1.Size = new System.Drawing.Size(513, 463);
             this.chart1.TabIndex = 22;
             this.chart1.Text = "chart1";
             // 
@@ -295,7 +302,7 @@ namespace UpbitDealer.form
             this.btn_week.BackColor = System.Drawing.Color.DarkGray;
             this.btn_week.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_week.ForeColor = System.Drawing.Color.Black;
-            this.btn_week.Location = new System.Drawing.Point(445, 552);
+            this.btn_week.Location = new System.Drawing.Point(562, 552);
             this.btn_week.Name = "btn_week";
             this.btn_week.Size = new System.Drawing.Size(81, 30);
             this.btn_week.TabIndex = 31;
@@ -308,7 +315,7 @@ namespace UpbitDealer.form
             this.btn_day.BackColor = System.Drawing.Color.DarkGray;
             this.btn_day.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_day.ForeColor = System.Drawing.Color.Black;
-            this.btn_day.Location = new System.Drawing.Point(358, 552);
+            this.btn_day.Location = new System.Drawing.Point(476, 552);
             this.btn_day.Name = "btn_day";
             this.btn_day.Size = new System.Drawing.Size(81, 30);
             this.btn_day.TabIndex = 30;
@@ -321,7 +328,7 @@ namespace UpbitDealer.form
             this.btn_hour4.BackColor = System.Drawing.Color.DarkGray;
             this.btn_hour4.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_hour4.ForeColor = System.Drawing.Color.Black;
-            this.btn_hour4.Location = new System.Drawing.Point(272, 552);
+            this.btn_hour4.Location = new System.Drawing.Point(389, 552);
             this.btn_hour4.Name = "btn_hour4";
             this.btn_hour4.Size = new System.Drawing.Size(81, 30);
             this.btn_hour4.TabIndex = 29;
@@ -334,7 +341,7 @@ namespace UpbitDealer.form
             this.btn_hour1.BackColor = System.Drawing.Color.DarkGray;
             this.btn_hour1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_hour1.ForeColor = System.Drawing.Color.Black;
-            this.btn_hour1.Location = new System.Drawing.Point(185, 552);
+            this.btn_hour1.Location = new System.Drawing.Point(301, 552);
             this.btn_hour1.Name = "btn_hour1";
             this.btn_hour1.Size = new System.Drawing.Size(81, 30);
             this.btn_hour1.TabIndex = 28;
@@ -347,7 +354,7 @@ namespace UpbitDealer.form
             this.btn_min30.BackColor = System.Drawing.Color.DarkGray;
             this.btn_min30.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_min30.ForeColor = System.Drawing.Color.Black;
-            this.btn_min30.Location = new System.Drawing.Point(99, 552);
+            this.btn_min30.Location = new System.Drawing.Point(214, 552);
             this.btn_min30.Name = "btn_min30";
             this.btn_min30.Size = new System.Drawing.Size(81, 30);
             this.btn_min30.TabIndex = 27;
@@ -360,7 +367,7 @@ namespace UpbitDealer.form
             this.btn_min10.BackColor = System.Drawing.Color.DarkGray;
             this.btn_min10.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_min10.ForeColor = System.Drawing.Color.Black;
-            this.btn_min10.Location = new System.Drawing.Point(12, 552);
+            this.btn_min10.Location = new System.Drawing.Point(128, 552);
             this.btn_min10.Name = "btn_min10";
             this.btn_min10.Size = new System.Drawing.Size(81, 30);
             this.btn_min10.TabIndex = 32;
@@ -368,12 +375,60 @@ namespace UpbitDealer.form
             this.btn_min10.UseVisualStyleBackColor = false;
             this.btn_min10.Click += new System.EventHandler(this.btn_min10_Click);
             // 
+            // list_hotList
+            // 
+            this.list_hotList.BackColor = System.Drawing.Color.Black;
+            this.list_hotList.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Italic);
+            this.list_hotList.ForeColor = System.Drawing.Color.White;
+            this.list_hotList.FormattingEnabled = true;
+            this.list_hotList.ItemHeight = 19;
+            this.list_hotList.Location = new System.Drawing.Point(6, 21);
+            this.list_hotList.Name = "list_hotList";
+            this.list_hotList.Size = new System.Drawing.Size(98, 251);
+            this.list_hotList.TabIndex = 33;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.list_hotList);
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
+            this.groupBox2.Location = new System.Drawing.Point(12, 12);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(110, 282);
+            this.groupBox2.TabIndex = 34;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Rate > 10";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.list_dangerList);
+            this.groupBox3.ForeColor = System.Drawing.Color.White;
+            this.groupBox3.Location = new System.Drawing.Point(12, 300);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(110, 282);
+            this.groupBox3.TabIndex = 35;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Rate < -10";
+            // 
+            // list_dangerList
+            // 
+            this.list_dangerList.BackColor = System.Drawing.Color.Black;
+            this.list_dangerList.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Italic);
+            this.list_dangerList.ForeColor = System.Drawing.Color.White;
+            this.list_dangerList.FormattingEnabled = true;
+            this.list_dangerList.ItemHeight = 19;
+            this.list_dangerList.Location = new System.Drawing.Point(6, 21);
+            this.list_dangerList.Name = "list_dangerList";
+            this.list_dangerList.Size = new System.Drawing.Size(98, 251);
+            this.list_dangerList.TabIndex = 33;
+            // 
             // Indicator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(538, 594);
+            this.ClientSize = new System.Drawing.Size(655, 594);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btn_min10);
             this.Controls.Add(this.btn_week);
             this.Controls.Add(this.btn_day);
@@ -385,8 +440,6 @@ namespace UpbitDealer.form
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.MaximumSize = new System.Drawing.Size(554, 633);
-            this.MinimumSize = new System.Drawing.Size(554, 633);
             this.Name = "Indicator";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Indicator";
@@ -394,6 +447,8 @@ namespace UpbitDealer.form
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -417,5 +472,9 @@ namespace UpbitDealer.form
         private System.Windows.Forms.TextBox text_min_value;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Button btn_min10;
+        private System.Windows.Forms.ListBox list_hotList;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ListBox list_dangerList;
     }
 }

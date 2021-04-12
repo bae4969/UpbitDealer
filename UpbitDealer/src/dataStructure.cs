@@ -71,16 +71,11 @@ namespace UpbitDealer.src
         public double krw;
         public double time;
         public double limit;
-        public double week_from;
-        public double week_to;
-        public double day_from;
-        public double day_to;
-        public double hour4_from;
-        public double hour4_to;
-        public double hour1_from;
-        public double hour1_to;
-        public double min30_from;
-        public double min30_to;
+        public double week;
+        public double day;
+        public double hour4;
+        public double hour1;
+        public double min30;
 
         public bool week_bias;
         public bool day_bias;

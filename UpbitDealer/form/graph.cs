@@ -333,11 +333,8 @@ namespace UpbitDealer.form
                 }
                 dataShowType = tempType;
 
-                for (int i = 0; i < 20; i++)
-                {
-                    if (AllStop || dataShowType != needShowType) break;
+                for (int i = 0; !AllStop && dataShowType == needShowType && i < 20; i++)
                     Thread.Sleep(100);
-                }
             }
         }
         private void timer_update_Tick(object sender, EventArgs e)

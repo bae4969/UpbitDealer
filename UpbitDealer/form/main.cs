@@ -23,7 +23,7 @@ namespace UpbitDealer.form
         private readonly object lock_logList = new object();
 
         private Thread thread_updater;
-        private MainUpdater mainUpdater;
+        public MainUpdater mainUpdater;
         public readonly object lock_mainUpdater = new object();
         public List<Account> account;
         public Dictionary<string, Ticker> ticker;
@@ -235,14 +235,10 @@ namespace UpbitDealer.form
                         tradeHistory.executionStr.Clear();
                         if (needSave) tradeHistory.saveFile();
                     }
-
-                    for (int j = 0; j < 10; j++)
-                    {
-                        if (AllStop) break;
-                        Thread.Sleep(100);
-                    }
+                    Thread.Sleep(100);
                 }
-                Thread.Sleep(100);
+                for (int j = 0; !AllStop && j < 10; j++)
+                    Thread.Sleep(100);
             }
         }
         private void executeMacro()
@@ -251,28 +247,21 @@ namespace UpbitDealer.form
             lock (lock_mainUpdater) macro.updateSortedCoinList(mainUpdater.sortedCoinList);
             for (int i = 0; !AllStop && i < macro.getListCount(); i++)
             {
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
                 lock (lock_macro)
                     if (macro.initCandleData(i) < 0) i--;
-                stopwatch.Stop();
 
-                long sleepTime = 1000 - stopwatch.ElapsedMilliseconds;
-                while (sleepTime > 0)
-                {
-                    if (AllStop) break;
+                for (int j = 0; !AllStop && j < 8; j++)
                     Thread.Sleep(100);
-                    sleepTime -= 100;
-                }
             }
             macro.initBollingerAvg();
-            macro.updateLowestBollinger();
             logIn(new Output(0, "Macro Exection", "Finish to load, Start macro"));
 
             while (!AllStop)
             {
                 lock (lock_macro) lock (lock_mainUpdater)
                         macro.updateSortedCoinList(mainUpdater.sortedCoinList);
+                macro.updateBollingerAvg();
+                macro.updateLowestBollinger();
 
                 for (int i = 0; !AllStop && i < macro.getListCount(); i++)
                 {
@@ -307,8 +296,6 @@ namespace UpbitDealer.form
                     }
                     Thread.Sleep(100);
                 }
-                macro.updateBollingerAvg();
-                macro.updateLowestBollinger();
             }
         }
         public void logIn(Output log)

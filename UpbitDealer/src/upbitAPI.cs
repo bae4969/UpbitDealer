@@ -379,7 +379,7 @@ namespace UpbitDealer.src
             string url = ac.BASE_URL + "orders";
             string queryString;
             if (coinName == "")
-                queryString = "states[]=cancel&page=" + page + "&count=" + count;
+                queryString = "states[]=done&states[]=cancel&page=" + page + "&count=" + count;
             else
                 queryString = "market=KRW-" + coinName + "&states[]=done&states[]=cancel&page=" + page + "&count=" + count;
 
