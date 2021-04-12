@@ -28,7 +28,7 @@ namespace UpbitDealer.form
         }
         private void Indicator_Load(object sender, EventArgs e)
         {
-            btn_min30.PerformClick();
+            setDefaultText();
         }
         private void text_focus_disable(object sender, EventArgs e)
         {
@@ -62,26 +62,31 @@ namespace UpbitDealer.form
             switch (index)
             {
                 case 0:
+                    btn_min10.BackColor = Color.Red;
+                    chart1.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Hours;
+                    chart1.ChartAreas["ChartArea"].AxisX.Interval = 1;
+                    break;
+                case 1:
                     btn_min30.BackColor = Color.Red;
                     chart1.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Hours;
                     chart1.ChartAreas["ChartArea"].AxisX.Interval = 3;
                     break;
-                case 1:
+                case 2:
                     btn_hour1.BackColor = Color.Red;
                     chart1.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Hours;
                     chart1.ChartAreas["ChartArea"].AxisX.Interval = 6;
                     break;
-                case 2:
+                case 3:
                     btn_hour4.BackColor = Color.Red;
                     chart1.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Days;
                     chart1.ChartAreas["ChartArea"].AxisX.Interval = 1;
                     break;
-                case 3:
+                case 4:
                     btn_day.BackColor = Color.Red;
                     chart1.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Days;
                     chart1.ChartAreas["ChartArea"].AxisX.Interval = 6;
                     break;
-                case 4:
+                case 5:
                     btn_week.BackColor = Color.Red;
                     chart1.ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Weeks;
                     chart1.ChartAreas["ChartArea"].AxisX.Interval = 6;
@@ -90,6 +95,7 @@ namespace UpbitDealer.form
         }
         private void setDefaultButton()
         {
+            btn_min10.BackColor = Color.DarkGray;
             btn_min30.BackColor = Color.DarkGray;
             btn_hour1.BackColor = Color.DarkGray;
             btn_hour4.BackColor = Color.DarkGray;
@@ -98,25 +104,29 @@ namespace UpbitDealer.form
         }
 
 
-        private void btn_min30_Click(object sender, EventArgs e)
+        private void btn_min10_Click(object sender, EventArgs e)
         {
             setDefaultText(0);
         }
-        private void btn_hour1_Click(object sender, EventArgs e)
+        private void btn_min30_Click(object sender, EventArgs e)
         {
             setDefaultText(1);
         }
-        private void btn_hour4_Click(object sender, EventArgs e)
+        private void btn_hour1_Click(object sender, EventArgs e)
         {
             setDefaultText(2);
         }
-        private void btn_day_Click(object sender, EventArgs e)
+        private void btn_hour4_Click(object sender, EventArgs e)
         {
             setDefaultText(3);
         }
-        private void btn_week_Click(object sender, EventArgs e)
+        private void btn_day_Click(object sender, EventArgs e)
         {
             setDefaultText(4);
+        }
+        private void btn_week_Click(object sender, EventArgs e)
+        {
+            setDefaultText(5);
         }
     }
 }

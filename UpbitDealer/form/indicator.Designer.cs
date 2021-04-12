@@ -51,6 +51,7 @@ namespace UpbitDealer.form
             this.btn_hour4 = new System.Windows.Forms.Button();
             this.btn_hour1 = new System.Windows.Forms.Button();
             this.btn_min30 = new System.Windows.Forms.Button();
+            this.btn_min10 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
@@ -294,9 +295,9 @@ namespace UpbitDealer.form
             this.btn_week.BackColor = System.Drawing.Color.DarkGray;
             this.btn_week.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_week.ForeColor = System.Drawing.Color.Black;
-            this.btn_week.Location = new System.Drawing.Point(428, 552);
+            this.btn_week.Location = new System.Drawing.Point(445, 552);
             this.btn_week.Name = "btn_week";
-            this.btn_week.Size = new System.Drawing.Size(98, 30);
+            this.btn_week.Size = new System.Drawing.Size(81, 30);
             this.btn_week.TabIndex = 31;
             this.btn_week.Text = "Week";
             this.btn_week.UseVisualStyleBackColor = false;
@@ -307,9 +308,9 @@ namespace UpbitDealer.form
             this.btn_day.BackColor = System.Drawing.Color.DarkGray;
             this.btn_day.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_day.ForeColor = System.Drawing.Color.Black;
-            this.btn_day.Location = new System.Drawing.Point(324, 552);
+            this.btn_day.Location = new System.Drawing.Point(358, 552);
             this.btn_day.Name = "btn_day";
-            this.btn_day.Size = new System.Drawing.Size(98, 30);
+            this.btn_day.Size = new System.Drawing.Size(81, 30);
             this.btn_day.TabIndex = 30;
             this.btn_day.Text = "Day";
             this.btn_day.UseVisualStyleBackColor = false;
@@ -320,9 +321,9 @@ namespace UpbitDealer.form
             this.btn_hour4.BackColor = System.Drawing.Color.DarkGray;
             this.btn_hour4.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_hour4.ForeColor = System.Drawing.Color.Black;
-            this.btn_hour4.Location = new System.Drawing.Point(220, 552);
+            this.btn_hour4.Location = new System.Drawing.Point(272, 552);
             this.btn_hour4.Name = "btn_hour4";
-            this.btn_hour4.Size = new System.Drawing.Size(98, 30);
+            this.btn_hour4.Size = new System.Drawing.Size(81, 30);
             this.btn_hour4.TabIndex = 29;
             this.btn_hour4.Text = "4 Hour";
             this.btn_hour4.UseVisualStyleBackColor = false;
@@ -333,9 +334,9 @@ namespace UpbitDealer.form
             this.btn_hour1.BackColor = System.Drawing.Color.DarkGray;
             this.btn_hour1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_hour1.ForeColor = System.Drawing.Color.Black;
-            this.btn_hour1.Location = new System.Drawing.Point(116, 552);
+            this.btn_hour1.Location = new System.Drawing.Point(185, 552);
             this.btn_hour1.Name = "btn_hour1";
-            this.btn_hour1.Size = new System.Drawing.Size(98, 30);
+            this.btn_hour1.Size = new System.Drawing.Size(81, 30);
             this.btn_hour1.TabIndex = 28;
             this.btn_hour1.Text = "1 Hour";
             this.btn_hour1.UseVisualStyleBackColor = false;
@@ -346,13 +347,26 @@ namespace UpbitDealer.form
             this.btn_min30.BackColor = System.Drawing.Color.DarkGray;
             this.btn_min30.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_min30.ForeColor = System.Drawing.Color.Black;
-            this.btn_min30.Location = new System.Drawing.Point(12, 552);
+            this.btn_min30.Location = new System.Drawing.Point(99, 552);
             this.btn_min30.Name = "btn_min30";
-            this.btn_min30.Size = new System.Drawing.Size(98, 30);
+            this.btn_min30.Size = new System.Drawing.Size(81, 30);
             this.btn_min30.TabIndex = 27;
             this.btn_min30.Text = "30 Min";
             this.btn_min30.UseVisualStyleBackColor = false;
             this.btn_min30.Click += new System.EventHandler(this.btn_min30_Click);
+            // 
+            // btn_min10
+            // 
+            this.btn_min10.BackColor = System.Drawing.Color.DarkGray;
+            this.btn_min10.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_min10.ForeColor = System.Drawing.Color.Black;
+            this.btn_min10.Location = new System.Drawing.Point(12, 552);
+            this.btn_min10.Name = "btn_min10";
+            this.btn_min10.Size = new System.Drawing.Size(81, 30);
+            this.btn_min10.TabIndex = 32;
+            this.btn_min10.Text = "10 Min";
+            this.btn_min10.UseVisualStyleBackColor = false;
+            this.btn_min10.Click += new System.EventHandler(this.btn_min10_Click);
             // 
             // Indicator
             // 
@@ -360,6 +374,7 @@ namespace UpbitDealer.form
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(538, 594);
+            this.Controls.Add(this.btn_min10);
             this.Controls.Add(this.btn_week);
             this.Controls.Add(this.btn_day);
             this.Controls.Add(this.btn_hour4);
@@ -401,5 +416,6 @@ namespace UpbitDealer.form
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.TextBox text_min_value;
         private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.Button btn_min10;
     }
 }
