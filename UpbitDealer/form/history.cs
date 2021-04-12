@@ -384,27 +384,30 @@ namespace UpbitDealer.form
         }
         private void btn_history_get_Click(object sender, EventArgs e)
         {
-            string coinName;
-            int page;
-            if (text_historyCoinName.Text == "Name")
-                coinName = "";
-            else
-                coinName = text_historyCoinName.Text.ToUpper();
-            if (text_page.Text == "" || text_page.Text == "Page")
-                page = 1;
-            else if (!int.TryParse(text_page.Text, out page) || page < 1)
-                MessageBox.Show("Page must be positive intger type value.");
-            else
+            string coinName = "";
+            int page = 1;
+
+            if (text_historyCoinName.Text != "")
+                if (text_historyCoinName.Text != "Name")
+                    coinName = text_historyCoinName.Text.ToUpper();
+
+            if (text_page.Text != "")
+                if (text_page.Text != "Page")
+                    if (!int.TryParse(text_page.Text, out page) || page < 1)
+                    {
+                        MessageBox.Show("Page must be positive intger type value.");
+                        return;
+                    }
+
+            if (ownerForm.tradeHistory.getHistoryData(coinName, page) < 0)
             {
-                if (ownerForm.tradeHistory.getHistoryData(coinName, page) < 0)
-                {
-                    MessageBox.Show("Invalid coin name.");
-                    return;
-                }
-                lock (ownerForm.lock_tradeHistory)
-                    historyData = ownerForm.tradeHistory.historyData.Copy();
-                isNeedBindHistory = true;
+                MessageBox.Show("Invalid coin name.");
+                return;
             }
+            lock (ownerForm.lock_tradeHistory)
+                historyData = ownerForm.tradeHistory.historyData.Copy();
+
+            isNeedBindHistory = true;
         }
     }
 }
