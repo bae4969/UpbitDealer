@@ -249,7 +249,7 @@ namespace UpbitDealer.form
         {
             logIn(new Output(0, "Macro Exection", "Load candle data"));
             lock (lock_mainUpdater) macro.updateSortedCoinList(mainUpdater.sortedCoinList);
-            for (int i = 0; !AllStop && i < macro.coinList.Count; i++)
+            for (int i = 0; !AllStop && i < macro.getListCount(); i++)
             {
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
@@ -266,6 +266,7 @@ namespace UpbitDealer.form
                 }
             }
             macro.initBollingerAvg();
+            macro.updateLowestBollinger();
             logIn(new Output(0, "Macro Exection", "Finish to load, Start macro"));
 
             while (!AllStop)
@@ -273,7 +274,7 @@ namespace UpbitDealer.form
                 lock (lock_macro) lock (lock_mainUpdater)
                         macro.updateSortedCoinList(mainUpdater.sortedCoinList);
 
-                for (int i = 0; !AllStop && i < macro.coinList.Count; i++)
+                for (int i = 0; !AllStop && i < macro.getListCount(); i++)
                 {
                     lock (lock_macro)
                     {
@@ -307,6 +308,7 @@ namespace UpbitDealer.form
                     Thread.Sleep(100);
                 }
                 macro.updateBollingerAvg();
+                macro.updateLowestBollinger();
             }
         }
         public void logIn(Output log)

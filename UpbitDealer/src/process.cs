@@ -14,6 +14,8 @@ namespace UpbitDealer.src
         private Dictionary<string, string> apiParameter = new Dictionary<string, string>();
 
         private List<string> coinList = new List<string>();
+
+        public List<Output> executionStr = new List<Output>();
         public List<string> sortedCoinList = new List<string>();
         public List<Account> account = new List<Account>();
         public Dictionary<string, Ticker> ticker = new Dictionary<string, Ticker>();
@@ -103,7 +105,6 @@ namespace UpbitDealer.src
     public class React
     {
         private ApiData apiData;
-
         private Dictionary<string, string> parTrans = new Dictionary<string, string>();
         private Dictionary<string, string> parOrderBook = new Dictionary<string, string>();
         private Dictionary<string, string> parBalance = new Dictionary<string, string>();
@@ -199,8 +200,8 @@ namespace UpbitDealer.src
     public class TradeHistory
     {
         private ApiData apiData;
-        public List<Output> executionStr = new List<Output>();
 
+        public List<Output> executionStr = new List<Output>();
         public DataTable pendingData = new DataTable();
         public DataTable historyData = new DataTable();
 

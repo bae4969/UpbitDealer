@@ -18,7 +18,7 @@ namespace UpbitDealer.form
 
         private DataView btcBollinger;
         private DataView avgBollinger;
-        private MacroResult macroResult;
+        private NameValue bbLowest;
 
 
         public Indicator(Main ownerForm)
@@ -42,22 +42,22 @@ namespace UpbitDealer.form
             {
                 btcBollinger = new DataView(ownerForm.macro.indexBollinger[index].Tables[0]);
                 avgBollinger = new DataView(ownerForm.macro.indexBollinger[index].Tables[1]);
-                macroResult = ownerForm.macro.getLowestBollinger(index);
+                bbLowest = new NameValue(ownerForm.macro.bbLowest[index]);
             }
 
             setDefaultButton();
             chart1.Series["btc"].Points.DataBind(btcBollinger, "date", "value", "");
             chart1.Series["avg"].Points.DataBind(avgBollinger, "date", "value", "");
-            chart1.Series["dis"].Points.DataBind(avgBollinger, "date", "dis", "");
-            if (btcBollinger.Count > 0 && macroResult != null)
+            chart1.Series["dev"].Points.DataBind(avgBollinger, "date", "dev", "");
+            if (btcBollinger.Count > 0)
             {
                 chart1.ChartAreas["ChartArea"].AxisX.Maximum = ((DateTime)btcBollinger[0][0]).ToOADate();
                 chart1.ChartAreas["ChartArea"].AxisX.Minimum = ((DateTime)btcBollinger[btcBollinger.Count - 1][0]).ToOADate();
                 text_btc.Text = ((double)btcBollinger[0]["value"]).ToString("0.##");
                 text_avg.Text = ((double)avgBollinger[0]["value"]).ToString("0.##");
-                text_dis.Text = ((double)avgBollinger[0]["dis"]).ToString("0.##");
-                text_min_name.Text = macroResult.coinName;
-                text_min_value.Text = macroResult.value.ToString("0.##");
+                text_dis.Text = ((double)avgBollinger[0]["dev"]).ToString("0.##");
+                text_min_name.Text = bbLowest.coinName;
+                text_min_value.Text = bbLowest.value.ToString("0.##");
             }
             switch (index)
             {
@@ -118,6 +118,5 @@ namespace UpbitDealer.form
         {
             setDefaultText(4);
         }
-
     }
 }

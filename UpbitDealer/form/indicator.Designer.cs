@@ -278,7 +278,7 @@ namespace UpbitDealer.form
             series3.ChartArea = "ChartArea";
             series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series3.Color = System.Drawing.Color.Green;
-            series3.Name = "dis";
+            series3.Name = "dev";
             series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series3.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
             series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;

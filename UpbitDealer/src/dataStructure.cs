@@ -89,12 +89,18 @@ namespace UpbitDealer.src
         public bool min30_bias;
     }
 
-    public class MacroResult
+    public class NameValue
     {
         public string coinName;
         public double value;
 
-        public MacroResult(string coinName, double value)
+
+        public NameValue(NameValue nameValue)
+        {
+            coinName = nameValue.coinName;
+            value = nameValue.value;
+        }
+        public NameValue(string coinName, double value)
         {
             this.coinName = coinName;
             this.value = value;
