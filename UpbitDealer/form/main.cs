@@ -228,15 +228,14 @@ namespace UpbitDealer.form
                     sleepTime -= 100;
                 }
             }
-            if(!AllStop) macro.initBollingerAvg();
+            if (!AllStop) macro.initBollingerAvg();
             logIn(new Output(0, "Macro Exection", "Finish to load, Start macro"));
 
             while (!AllStop)
             {
                 lock (lock_macro) lock (lock_mainUpdater)
-                        macro.updateSortedCoinList(mainUpdater.sortedCoinList);
+                    macro.updateSortedCoinList(mainUpdater.sortedCoinList);
                 macro.updateBollingerAvg();
-                macro.updateLowestBollinger();
 
                 for (int i = 0; !AllStop && i < macro.getListCount(); i++)
                 {
@@ -269,7 +268,7 @@ namespace UpbitDealer.form
                             logIn(macro.executionStr[j]);
                         macro.executionStr.Clear();
                     }
-                    Thread.Sleep(100);
+                    Thread.Sleep(1000 / macro.getListCount());
                 }
             }
         }
@@ -371,7 +370,7 @@ namespace UpbitDealer.form
         private void text_search_TextChanged(object sender, EventArgs e)
         {
             list_coinName.Items.Clear();
-            for(int i = 0; i < coinList.Count; i++)
+            for (int i = 0; i < coinList.Count; i++)
                 if (coinList[i].StartsWith(text_search.Text.ToUpper()))
                     list_coinName.Items.Add(coinList[i]);
         }

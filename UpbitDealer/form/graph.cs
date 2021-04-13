@@ -35,6 +35,9 @@ namespace UpbitDealer.form
         Thread updateThread;
         private readonly object lock_update = new object();
 
+        Point? prevPosition = null;
+        ToolTip tooltip = new ToolTip();
+
 
         public graph(string coinName, string access_key, string secret_key)
         {

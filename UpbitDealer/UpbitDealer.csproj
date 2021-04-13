@@ -117,6 +117,7 @@
       <DependentUpon>trader.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\coinType.cs" />
     <Compile Include="src\dataStructure.cs" />
     <Compile Include="src\macro.cs" />
     <Compile Include="src\process.cs" />
