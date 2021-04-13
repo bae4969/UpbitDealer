@@ -384,7 +384,9 @@ namespace UpbitDealer.form
             this.list_hotList.ItemHeight = 19;
             this.list_hotList.Location = new System.Drawing.Point(6, 21);
             this.list_hotList.Name = "list_hotList";
+            this.list_hotList.ScrollAlwaysVisible = true;
             this.list_hotList.Size = new System.Drawing.Size(98, 251);
+            this.list_hotList.Sorted = true;
             this.list_hotList.TabIndex = 33;
             // 
             // groupBox2
@@ -418,7 +420,9 @@ namespace UpbitDealer.form
             this.list_dangerList.ItemHeight = 19;
             this.list_dangerList.Location = new System.Drawing.Point(6, 21);
             this.list_dangerList.Name = "list_dangerList";
+            this.list_dangerList.ScrollAlwaysVisible = true;
             this.list_dangerList.Size = new System.Drawing.Size(98, 251);
+            this.list_dangerList.Sorted = true;
             this.list_dangerList.TabIndex = 33;
             // 
             // Indicator

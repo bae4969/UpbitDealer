@@ -166,38 +166,6 @@ namespace UpbitDealer.form
         }
 
 
-        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                notifyIcon.ContextMenuStrip = contextMenuStrip;
-                System.Reflection.MethodInfo methodInfo =
-                       typeof(NotifyIcon).GetMethod("ShowContextMenu",
-                        System.Reflection.BindingFlags.Instance |
-                           System.Reflection.BindingFlags.NonPublic);
-                methodInfo.Invoke(notifyIcon, null);
-            }
-        }
-        private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            Visible = true;
-            ShowIcon = true;
-            Show();
-            WindowState = FormWindowState.Normal;
-        }
-        private void toolStripTextBox_show_Click(object sender, EventArgs e)
-        {
-            Visible = true;
-            ShowIcon = true;
-            Show();
-            WindowState = FormWindowState.Normal;
-        }
-        private void toolStripTextBox_exit_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-
         private void executeMainUpdater()
         {
             while (!AllStop)
@@ -210,9 +178,8 @@ namespace UpbitDealer.form
 
                 stopwatch.Stop();
                 long sleepTime = 1000 - stopwatch.ElapsedMilliseconds;
-                while (sleepTime > 0)
+                while (!AllStop && sleepTime > 0)
                 {
-                    if (AllStop) break;
                     Thread.Sleep(100);
                     sleepTime -= 100;
                 }
@@ -243,17 +210,25 @@ namespace UpbitDealer.form
         }
         private void executeMacro()
         {
-            logIn(new Output(0, "Macro Exection", "Load candle data"));
+            logIn(new Output(0, "Macro Exection", "Load candle data. As you possible, DO NOT TOUCH."));
             lock (lock_mainUpdater) macro.updateSortedCoinList(mainUpdater.sortedCoinList);
             for (int i = 0; !AllStop && i < macro.getListCount(); i++)
             {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+
                 lock (lock_macro)
                     if (macro.initCandleData(i) < 0) i--;
 
-                for (int j = 0; !AllStop && j < 8; j++)
+                stopwatch.Stop();
+                long sleepTime = 1000 - stopwatch.ElapsedMilliseconds;
+                while (!AllStop && sleepTime > 0)
+                {
                     Thread.Sleep(100);
+                    sleepTime -= 100;
+                }
             }
-            macro.initBollingerAvg();
+            if(!AllStop) macro.initBollingerAvg();
             logIn(new Output(0, "Macro Exection", "Finish to load, Start macro"));
 
             while (!AllStop)
@@ -352,10 +327,58 @@ namespace UpbitDealer.form
         }
 
 
+        private void notifyIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                notifyIcon.ContextMenuStrip = contextMenuStrip;
+                System.Reflection.MethodInfo methodInfo =
+                       typeof(NotifyIcon).GetMethod("ShowContextMenu",
+                        System.Reflection.BindingFlags.Instance |
+                           System.Reflection.BindingFlags.NonPublic);
+                methodInfo.Invoke(notifyIcon, null);
+            }
+        }
+        private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Visible = true;
+            ShowIcon = true;
+            Show();
+            WindowState = FormWindowState.Normal;
+        }
+        private void toolStripTextBox_show_Click(object sender, EventArgs e)
+        {
+            Visible = true;
+            ShowIcon = true;
+            Show();
+            WindowState = FormWindowState.Normal;
+        }
+        private void toolStripTextBox_exit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+        private void toolStripTextBox_mouse(object sender, MouseEventArgs e)
+        {
+            Cursor.Current = Cursors.Arrow;
+        }
+
+
         private void dataGridView_holdList_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
                 showAccount.DefaultView.Sort = "";
+        }
+        private void text_search_TextChanged(object sender, EventArgs e)
+        {
+            list_coinName.Items.Clear();
+            for(int i = 0; i < coinList.Count; i++)
+                if (coinList[i].StartsWith(text_search.Text.ToUpper()))
+                    list_coinName.Items.Add(coinList[i]);
+        }
+        private void btn_search_reset_Click(object sender, EventArgs e)
+        {
+            text_search.Text = "";
+            text_search.Focus();
         }
 
 
@@ -464,5 +487,6 @@ namespace UpbitDealer.form
             }
             timer_log.Start();
         }
+
     }
 }

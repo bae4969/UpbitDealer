@@ -423,6 +423,18 @@ namespace UpbitDealer.form
             but_place.BackColor = Color.DarkGray;
             but_market.BackColor = Color.DarkGray;
         }
+        private void text_search_TextChanged(object sender, EventArgs e)
+        {
+            list_coinName.Items.Clear();
+            for (int i = 0; i < coinList.Count; i++)
+                if (coinList[i].StartsWith(text_search.Text.ToUpper()))
+                    list_coinName.Items.Add(coinList[i]);
+        }
+        private void btn_search_reset_Click(object sender, EventArgs e)
+        {
+            text_search.Text = "";
+            text_search.Focus();
+        }
         private void setDefaultTrade(bool isBuy, bool isPlace)
         {
             this.isBuy = isBuy;

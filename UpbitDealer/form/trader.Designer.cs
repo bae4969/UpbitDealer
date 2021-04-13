@@ -155,6 +155,8 @@ namespace UpbitDealer.form
             this.but_place = new System.Windows.Forms.Button();
             this.but_sell = new System.Windows.Forms.Button();
             this.but_buy = new System.Windows.Forms.Button();
+            this.btn_search_reset = new System.Windows.Forms.Button();
+            this.text_search = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -172,10 +174,10 @@ namespace UpbitDealer.form
             this.list_coinName.ForeColor = System.Drawing.Color.White;
             this.list_coinName.FormattingEnabled = true;
             this.list_coinName.ItemHeight = 18;
-            this.list_coinName.Location = new System.Drawing.Point(6, 28);
+            this.list_coinName.Location = new System.Drawing.Point(6, 51);
             this.list_coinName.Name = "list_coinName";
             this.list_coinName.ScrollAlwaysVisible = true;
-            this.list_coinName.Size = new System.Drawing.Size(101, 598);
+            this.list_coinName.Size = new System.Drawing.Size(101, 580);
             this.list_coinName.Sorted = true;
             this.list_coinName.TabIndex = 0;
             this.list_coinName.MouseUp += new System.Windows.Forms.MouseEventHandler(this.list_coinName_MouseUp);
@@ -183,7 +185,9 @@ namespace UpbitDealer.form
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Black;
+            this.groupBox1.Controls.Add(this.btn_search_reset);
             this.groupBox1.Controls.Add(this.list_coinName);
+            this.groupBox1.Controls.Add(this.text_search);
             this.groupBox1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -2060,6 +2064,34 @@ namespace UpbitDealer.form
             this.but_buy.UseVisualStyleBackColor = false;
             this.but_buy.Click += new System.EventHandler(this.but_buy_Click);
             // 
+            // btn_search_reset
+            // 
+            this.btn_search_reset.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.btn_search_reset.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btn_search_reset.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.btn_search_reset.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.btn_search_reset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_search_reset.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_search_reset.ForeColor = System.Drawing.Color.Black;
+            this.btn_search_reset.Location = new System.Drawing.Point(88, 24);
+            this.btn_search_reset.Name = "btn_search_reset";
+            this.btn_search_reset.Size = new System.Drawing.Size(19, 25);
+            this.btn_search_reset.TabIndex = 21;
+            this.btn_search_reset.Text = "X";
+            this.btn_search_reset.UseVisualStyleBackColor = false;
+            this.btn_search_reset.Click += new System.EventHandler(this.btn_search_reset_Click);
+            // 
+            // text_search
+            // 
+            this.text_search.BackColor = System.Drawing.Color.Black;
+            this.text_search.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_search.ForeColor = System.Drawing.Color.White;
+            this.text_search.Location = new System.Drawing.Point(6, 23);
+            this.text_search.Name = "text_search";
+            this.text_search.Size = new System.Drawing.Size(84, 26);
+            this.text_search.TabIndex = 20;
+            this.text_search.TextChanged += new System.EventHandler(this.text_search_TextChanged);
+            // 
             // Trader
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -2082,6 +2114,7 @@ namespace UpbitDealer.form
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Trader_FormClosed);
             this.Load += new System.EventHandler(this.Trader_Load);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -2225,5 +2258,7 @@ namespace UpbitDealer.form
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.TextBox text_totalTrack_value;
         private System.Windows.Forms.TextBox text_priceTrack_value;
+        private System.Windows.Forms.Button btn_search_reset;
+        private System.Windows.Forms.TextBox text_search;
     }
 }

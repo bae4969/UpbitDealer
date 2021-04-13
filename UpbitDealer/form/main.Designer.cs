@@ -32,10 +32,10 @@ namespace UpbitDealer.form
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.text_log = new System.Windows.Forms.TextBox();
             this.btn_save = new System.Windows.Forms.Button();
@@ -57,6 +57,8 @@ namespace UpbitDealer.form
             this.text_curTime = new System.Windows.Forms.TextBox();
             this.btn_trader = new System.Windows.Forms.Button();
             this.btn_indicator = new System.Windows.Forms.Button();
+            this.text_search = new System.Windows.Forms.TextBox();
+            this.btn_search_reset = new System.Windows.Forms.Button();
             this.group_account.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView_holdList)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -106,10 +108,10 @@ namespace UpbitDealer.form
             this.list_coinName.ForeColor = System.Drawing.SystemColors.Window;
             this.list_coinName.FormattingEnabled = true;
             this.list_coinName.ItemHeight = 19;
-            this.list_coinName.Location = new System.Drawing.Point(6, 20);
+            this.list_coinName.Location = new System.Drawing.Point(6, 48);
             this.list_coinName.Name = "list_coinName";
             this.list_coinName.ScrollAlwaysVisible = true;
-            this.list_coinName.Size = new System.Drawing.Size(98, 460);
+            this.list_coinName.Size = new System.Drawing.Size(98, 441);
             this.list_coinName.Sorted = true;
             this.list_coinName.TabIndex = 17;
             this.list_coinName.MouseUp += new System.Windows.Forms.MouseEventHandler(this.list_coinName_MouseUp);
@@ -170,45 +172,45 @@ namespace UpbitDealer.form
             this.dataGridView_holdList.BackgroundColor = System.Drawing.Color.Black;
             this.dataGridView_holdList.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleVertical;
             this.dataGridView_holdList.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-            this.dataGridView_holdList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle17.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.Color.White;
+            this.dataGridView_holdList.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle17;
             this.dataGridView_holdList.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView_holdList.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle18.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView_holdList.DefaultCellStyle = dataGridViewCellStyle18;
             this.dataGridView_holdList.EnableHeadersVisualStyles = false;
             this.dataGridView_holdList.GridColor = System.Drawing.Color.White;
             this.dataGridView_holdList.Location = new System.Drawing.Point(6, 65);
             this.dataGridView_holdList.MultiSelect = false;
             this.dataGridView_holdList.Name = "dataGridView_holdList";
             this.dataGridView_holdList.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.DarkGray;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView_holdList.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle19.BackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.Color.DarkGray;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView_holdList.RowHeadersDefaultCellStyle = dataGridViewCellStyle19;
             this.dataGridView_holdList.RowHeadersVisible = false;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.NullValue = null;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
-            this.dataGridView_holdList.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle20.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle20.NullValue = null;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.Color.White;
+            this.dataGridView_holdList.RowsDefaultCellStyle = dataGridViewCellStyle20;
             this.dataGridView_holdList.RowTemplate.Height = 23;
             this.dataGridView_holdList.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dataGridView_holdList.Size = new System.Drawing.Size(492, 384);
@@ -244,12 +246,14 @@ namespace UpbitDealer.form
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btn_search_reset);
+            this.groupBox2.Controls.Add(this.text_search);
             this.groupBox2.Controls.Add(this.list_coinName);
             this.groupBox2.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.ForeColor = System.Drawing.Color.White;
-            this.groupBox2.Location = new System.Drawing.Point(12, 25);
+            this.groupBox2.Location = new System.Drawing.Point(12, 17);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(110, 488);
+            this.groupBox2.Size = new System.Drawing.Size(110, 496);
             this.groupBox2.TabIndex = 35;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "List";
@@ -272,7 +276,7 @@ namespace UpbitDealer.form
             this.contextMenuStrip.Name = "contextMenuStrip";
             this.contextMenuStrip.ShowImageMargin = false;
             this.contextMenuStrip.ShowItemToolTips = false;
-            this.contextMenuStrip.Size = new System.Drawing.Size(120, 74);
+            this.contextMenuStrip.Size = new System.Drawing.Size(120, 52);
             this.contextMenuStrip.Text = "Upbit Dealer";
             // 
             // toolStripTextBox_show
@@ -285,6 +289,7 @@ namespace UpbitDealer.form
             this.toolStripTextBox_show.Text = "Show";
             this.toolStripTextBox_show.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolStripTextBox_show.Click += new System.EventHandler(this.toolStripTextBox_show_Click);
+            this.toolStripTextBox_show.MouseMove += new System.Windows.Forms.MouseEventHandler(this.toolStripTextBox_mouse);
             // 
             // toolStripTextBox_exit
             // 
@@ -296,6 +301,7 @@ namespace UpbitDealer.form
             this.toolStripTextBox_exit.Text = "Exit";
             this.toolStripTextBox_exit.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.toolStripTextBox_exit.Click += new System.EventHandler(this.toolStripTextBox_exit_Click);
+            this.toolStripTextBox_exit.MouseMove += new System.Windows.Forms.MouseEventHandler(this.toolStripTextBox_mouse);
             // 
             // btn_history
             // 
@@ -352,6 +358,34 @@ namespace UpbitDealer.form
             this.btn_indicator.UseVisualStyleBackColor = false;
             this.btn_indicator.Click += new System.EventHandler(this.btn_indicator_Click);
             // 
+            // text_search
+            // 
+            this.text_search.BackColor = System.Drawing.Color.Black;
+            this.text_search.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_search.ForeColor = System.Drawing.Color.White;
+            this.text_search.Location = new System.Drawing.Point(6, 20);
+            this.text_search.Name = "text_search";
+            this.text_search.Size = new System.Drawing.Size(80, 26);
+            this.text_search.TabIndex = 18;
+            this.text_search.TextChanged += new System.EventHandler(this.text_search_TextChanged);
+            // 
+            // btn_search_reset
+            // 
+            this.btn_search_reset.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.btn_search_reset.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btn_search_reset.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.btn_search_reset.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.btn_search_reset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_search_reset.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_search_reset.ForeColor = System.Drawing.Color.Black;
+            this.btn_search_reset.Location = new System.Drawing.Point(85, 21);
+            this.btn_search_reset.Name = "btn_search_reset";
+            this.btn_search_reset.Size = new System.Drawing.Size(19, 24);
+            this.btn_search_reset.TabIndex = 19;
+            this.btn_search_reset.Text = "X";
+            this.btn_search_reset.UseVisualStyleBackColor = false;
+            this.btn_search_reset.Click += new System.EventHandler(this.btn_search_reset_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -385,6 +419,7 @@ namespace UpbitDealer.form
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.contextMenuStrip.ResumeLayout(false);
             this.contextMenuStrip.PerformLayout();
             this.ResumeLayout(false);
@@ -413,6 +448,8 @@ namespace UpbitDealer.form
         private TextBox text_curTime;
         private Button btn_trader;
         private Button btn_indicator;
+        private TextBox text_search;
+        private Button btn_search_reset;
     }
 }
 

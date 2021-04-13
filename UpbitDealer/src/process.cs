@@ -95,16 +95,16 @@ namespace UpbitDealer.src
                 ticker[coinName[1]].accTotal = (double)jArray[i]["acc_trade_price"];
                 ticker[coinName[1]].accVolume = (double)jArray[i]["acc_trade_volume"];
                 ticker[coinName[1]].change = (double)jArray[i]["signed_change_price"];
-                ticker[coinName[1]].changeRate = (double)jArray[i]["signed_change_rate"] * 100d;
+                ticker[coinName[1]].changeRate = (double)jArray[i]["signed_change_rate"];
 
-                if (ticker[coinName[1]].changeRate > 10)
+                if (ticker[coinName[1]].changeRate > 0.1)
                 {
                     if (!hotList.Contains(coinName[1]))
                         hotList.Add(coinName[1]);
                     if (dangerList.Contains(coinName[1]))
                         dangerList.Remove(coinName[1]);
                 }
-                else if (ticker[coinName[1]].changeRate < -10)
+                else if (ticker[coinName[1]].changeRate < -0.1)
                 {
                     if (hotList.Contains(coinName[1]))
                         hotList.Remove(coinName[1]);
