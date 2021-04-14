@@ -80,10 +80,7 @@ namespace UpbitDealer.form
 
                 maxMin[i, 0] = new NameValue("", 0);
                 maxMin[i, 1] = new NameValue("", 0);
-            }
 
-            for (int i = 0; i < 6; i++)
-            {
                 int maxIndex = -1;
                 int minIndex = -1;
                 double max = double.MinValue;
@@ -102,10 +99,7 @@ namespace UpbitDealer.form
                 maxMin[i, 0].value = max;
                 maxMin[i, 1].coinName = bollinger[i].Tables[minIndex].TableName;
                 maxMin[i, 1].value = min;
-            }
 
-            for (int i = 0; i < 6; i++)
-            {
                 for (int j = 0; j < bollinger[i].Tables["BTC"].Rows.Count; j++)
                 {
                     DateTime dateTime = (DateTime)bollinger[i].Tables["BTC"].Rows[j]["date"];
@@ -169,17 +163,11 @@ namespace UpbitDealer.form
                     bbTable[i, 2].Rows.Add(dateTime, platform, util, pay);
                     bbTable[i, 3].Rows.Add(dateTime, kor, chi, sea);
                 }
+
+                for (int j = 0; j < 4; j++)
+                    chartData[i, j] = new DataView(bbTable[i, j]);
             }
 
-
-            for (int i = 0; i < 6; i++)
-                for (int j = 0; j < 4; j++)
-                {
-                    chartData[i, j] = new DataView(bbTable[i, j]);
-                    chartData[i, j] = new DataView(bbTable[i, j]);
-                    chartData[i, j] = new DataView(bbTable[i, j]);
-                    chartData[i, j] = new DataView(bbTable[i, j]);
-                }
             setDefault();
         }
         private void text_focus_disable(object sender, EventArgs e)

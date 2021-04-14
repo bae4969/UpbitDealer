@@ -11,6 +11,7 @@
 *.sln.docstates
 *.dat
 build
+UpbitDealer_wpf
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

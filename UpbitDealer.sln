@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "UpbitDealer_setup", "UpbitDealer_setup\UpbitDealer_setup.vdproj", "{4293BF91-DC98-437E-A733-85F79C1C9E04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpbitDealer_wpf", "UpbitDealer_wpf\UpbitDealer_wpf.csproj", "{49C574A3-8291-445D-9650-905AE4F31F61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,10 @@ Global
 		{4293BF91-DC98-437E-A733-85F79C1C9E04}.Debug|Any CPU.ActiveCfg = Debug
 		{4293BF91-DC98-437E-A733-85F79C1C9E04}.Release|Any CPU.ActiveCfg = Release
 		{4293BF91-DC98-437E-A733-85F79C1C9E04}.Release|Any CPU.Build.0 = Release
+		{49C574A3-8291-445D-9650-905AE4F31F61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49C574A3-8291-445D-9650-905AE4F31F61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49C574A3-8291-445D-9650-905AE4F31F61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49C574A3-8291-445D-9650-905AE4F31F61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
