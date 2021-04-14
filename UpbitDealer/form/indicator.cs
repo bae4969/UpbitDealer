@@ -17,9 +17,9 @@ namespace UpbitDealer.form
         private Main ownerForm;
 
         private CoinType CT = new CoinType();
-        private DataSet[] bollinger = new DataSet[6];
-        private DataView[,] chartData = new DataView[6, 4];
-        private NameValue[,] maxMin = new NameValue[6, 2];
+        private DataSet[] bollinger = new DataSet[5];
+        private DataView[,] chartData = new DataView[5, 4];
+        private NameValue[,] maxMin = new NameValue[5, 2];
         private List<string> hotList;
         private List<string> dangerList;
 
@@ -37,10 +37,10 @@ namespace UpbitDealer.form
                 dangerList = new List<string>(ownerForm.mainUpdater.dangerList);
             }
             lock (ownerForm.lock_macro)
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < 5; i++)
                     bollinger[i] = ownerForm.macro.bollinger[i].Copy();
 
-            if (bollinger[0].Tables["BTC"].Rows.Count < 1)
+            if (bollinger[1].Tables["BTC"].Rows.Count < 1)
             {
                 MessageBox.Show(
                     "Macro does not finish to load candle data.\n" +
@@ -52,8 +52,8 @@ namespace UpbitDealer.form
             for (int i = 0; i < hotList.Count; i++) list_hotList.Items.Add(hotList[i]);
             for (int i = 0; i < dangerList.Count; i++) list_dangerList.Items.Add(dangerList[i]);
 
-            DataTable[,] bbTable = new DataTable[6, 4];
-            for (int i = 0; i < 6; i++)
+            DataTable[,] bbTable = new DataTable[5, 4];
+            for (int i = 0; i < 5; i++)
             {
                 bbTable[i, 0] = new DataTable();
                 bbTable[i, 0].Columns.Add("date", typeof(DateTime));
@@ -228,16 +228,6 @@ namespace UpbitDealer.form
             switch (index)
             {
                 case 0:
-                    btn_min10.BackColor = Color.Red;
-                    for (int i = 0; i < 4; i++)
-                    {
-                        chartPtr[i].ChartAreas["ChartArea"].AxisX.Maximum = xMax.AddMinutes(10).ToOADate();
-                        chartPtr[i].ChartAreas["ChartArea"].AxisX.Minimum = xMin.ToOADate();
-                        chartPtr[i].ChartAreas["ChartArea"].AxisX.IntervalType = DateTimeIntervalType.Hours;
-                        chartPtr[i].ChartAreas["ChartArea"].AxisX.Interval = 1;
-                    }
-                    break;
-                case 1:
                     btn_min30.BackColor = Color.Red;
                     for (int i = 0; i < 4; i++)
                     {
@@ -247,7 +237,7 @@ namespace UpbitDealer.form
                         chartPtr[i].ChartAreas["ChartArea"].AxisX.Interval = 3;
                     }
                     break;
-                case 2:
+                case 1:
                     btn_hour1.BackColor = Color.Red;
                     for (int i = 0; i < 4; i++)
                     {
@@ -257,7 +247,7 @@ namespace UpbitDealer.form
                         chartPtr[i].ChartAreas["ChartArea"].AxisX.Interval = 6;
                     }
                     break;
-                case 3:
+                case 2:
                     btn_hour4.BackColor = Color.Red;
                     for (int i = 0; i < 4; i++)
                     {
@@ -267,7 +257,7 @@ namespace UpbitDealer.form
                         chartPtr[i].ChartAreas["ChartArea"].AxisX.Interval = 1;
                     }
                     break;
-                case 4:
+                case 3:
                     btn_day.BackColor = Color.Red;
                     for (int i = 0; i < 4; i++)
                     {
@@ -277,7 +267,7 @@ namespace UpbitDealer.form
                         chartPtr[i].ChartAreas["ChartArea"].AxisX.Interval = 6;
                     }
                     break;
-                case 5:
+                case 4:
                     btn_week.BackColor = Color.Red;
                     for (int i = 0; i < 4; i++)
                     {
@@ -291,7 +281,6 @@ namespace UpbitDealer.form
         }
         private void setDefaultButton()
         {
-            btn_min10.BackColor = Color.DarkGray;
             btn_min30.BackColor = Color.DarkGray;
             btn_hour1.BackColor = Color.DarkGray;
             btn_hour4.BackColor = Color.DarkGray;
@@ -300,29 +289,25 @@ namespace UpbitDealer.form
         }
 
 
-        private void btn_min10_Click(object sender, EventArgs e)
+        private void btn_min30_Click(object sender, EventArgs e)
         {
             setDefault(0);
         }
-        private void btn_min30_Click(object sender, EventArgs e)
+        private void btn_hour1_Click(object sender, EventArgs e)
         {
             setDefault(1);
         }
-        private void btn_hour1_Click(object sender, EventArgs e)
+        private void btn_hour4_Click(object sender, EventArgs e)
         {
             setDefault(2);
         }
-        private void btn_hour4_Click(object sender, EventArgs e)
+        private void btn_day_Click(object sender, EventArgs e)
         {
             setDefault(3);
         }
-        private void btn_day_Click(object sender, EventArgs e)
-        {
-            setDefault(4);
-        }
         private void btn_week_Click(object sender, EventArgs e)
         {
-            setDefault(5);
+            setDefault(4);
         }
     }
 }

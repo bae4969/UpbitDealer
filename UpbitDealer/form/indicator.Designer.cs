@@ -64,7 +64,6 @@ namespace UpbitDealer.form
             this.btn_hour4 = new System.Windows.Forms.Button();
             this.btn_hour1 = new System.Windows.Forms.Button();
             this.btn_min30 = new System.Windows.Forms.Button();
-            this.btn_min10 = new System.Windows.Forms.Button();
             this.list_hotList = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -429,19 +428,6 @@ namespace UpbitDealer.form
             this.btn_min30.UseVisualStyleBackColor = false;
             this.btn_min30.Click += new System.EventHandler(this.btn_min30_Click);
             // 
-            // btn_min10
-            // 
-            this.btn_min10.BackColor = System.Drawing.Color.DarkGray;
-            this.btn_min10.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_min10.ForeColor = System.Drawing.Color.Black;
-            this.btn_min10.Location = new System.Drawing.Point(1044, 708);
-            this.btn_min10.Name = "btn_min10";
-            this.btn_min10.Size = new System.Drawing.Size(110, 30);
-            this.btn_min10.TabIndex = 32;
-            this.btn_min10.Text = "10 Min";
-            this.btn_min10.UseVisualStyleBackColor = false;
-            this.btn_min10.Click += new System.EventHandler(this.btn_min10_Click);
-            // 
             // list_hotList
             // 
             this.list_hotList.BackColor = System.Drawing.Color.Black;
@@ -452,7 +438,7 @@ namespace UpbitDealer.form
             this.list_hotList.Location = new System.Drawing.Point(6, 21);
             this.list_hotList.Name = "list_hotList";
             this.list_hotList.ScrollAlwaysVisible = true;
-            this.list_hotList.Size = new System.Drawing.Size(98, 308);
+            this.list_hotList.Size = new System.Drawing.Size(98, 327);
             this.list_hotList.Sorted = true;
             this.list_hotList.TabIndex = 33;
             // 
@@ -462,7 +448,7 @@ namespace UpbitDealer.form
             this.groupBox2.ForeColor = System.Drawing.Color.White;
             this.groupBox2.Location = new System.Drawing.Point(1044, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(110, 337);
+            this.groupBox2.Size = new System.Drawing.Size(110, 356);
             this.groupBox2.TabIndex = 34;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Rate > 10";
@@ -471,9 +457,9 @@ namespace UpbitDealer.form
             // 
             this.groupBox3.Controls.Add(this.list_dangerList);
             this.groupBox3.ForeColor = System.Drawing.Color.White;
-            this.groupBox3.Location = new System.Drawing.Point(1044, 357);
+            this.groupBox3.Location = new System.Drawing.Point(1044, 376);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(110, 337);
+            this.groupBox3.Size = new System.Drawing.Size(110, 356);
             this.groupBox3.TabIndex = 35;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Rate < -10";
@@ -488,7 +474,7 @@ namespace UpbitDealer.form
             this.list_dangerList.Location = new System.Drawing.Point(6, 21);
             this.list_dangerList.Name = "list_dangerList";
             this.list_dangerList.ScrollAlwaysVisible = true;
-            this.list_dangerList.Size = new System.Drawing.Size(98, 308);
+            this.list_dangerList.Size = new System.Drawing.Size(98, 327);
             this.list_dangerList.Sorted = true;
             this.list_dangerList.TabIndex = 33;
             // 
@@ -1014,7 +1000,6 @@ namespace UpbitDealer.form
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.btn_min10);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btn_week);
             this.Controls.Add(this.btn_min30);
@@ -1065,7 +1050,6 @@ namespace UpbitDealer.form
         private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.TextBox text_min_value;
         private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Button btn_min10;
         private System.Windows.Forms.ListBox list_hotList;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;

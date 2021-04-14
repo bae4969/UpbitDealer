@@ -124,7 +124,7 @@ namespace UpbitDealer.form
                                     dataRow["unit"] = macroState.Tables[tempCoinName].Rows[j]["unit"];
                                     dataRow["price"] = macroState.Tables[tempCoinName].Rows[j]["price"];
                                     dataRow["target"] = (double)macroState.Tables[tempCoinName].Rows[j]["price"]
-                                        * (100d + yield) / 100d;
+                                        * (100d + yield) * 0.01;
                                     macroPrintSwap.Rows.Add(dataRow);
                                 }
                             }

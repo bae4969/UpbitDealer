@@ -18,9 +18,10 @@ namespace UpbitDealer.src
 
         private double holdKRW = 0;
         private Dictionary<string, double> quote = new Dictionary<string, double>();
-        private DataSet[] candle = new DataSet[6];
-        public DataSet[] bollinger = new DataSet[6];
-        private double[] bollingerAvg = new double[6];
+        private DataSet[] candle = new DataSet[5];
+        private DataSet lastQuote = new DataSet();
+        public DataSet[] bollinger = new DataSet[5];
+        private double[] bollingerAvg = new double[5];
         private bool[] needAvgAdd = new bool[6] { false, false, false, false, false, false };
 
 
@@ -48,7 +49,7 @@ namespace UpbitDealer.src
             for (int i = 0; i < coinList.Count; i++)
                 quote.Add(coinList[i], 0);
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 5; i++)
             {
                 candle[i] = new DataSet();
                 bollinger[i] = new DataSet();
@@ -67,6 +68,13 @@ namespace UpbitDealer.src
                     dataTable.Columns.Add("value", typeof(double));
                     bollinger[i].Tables.Add(dataTable);
                 }
+            }
+
+            for (int i = 0; i < coinList.Count; i++)
+            {
+                DataTable dataTable = new DataTable(coinList[i]);
+                dataTable.Columns.Add("value", typeof(double));
+                lastQuote.Tables.Add(dataTable);
             }
         }
         public int loadFile()
@@ -280,18 +288,16 @@ namespace UpbitDealer.src
         {
             string coinName = coinList[index];
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 5; i++)
             {
-                DateTime now = DateTime.Now.AddSeconds(-10);
                 JArray jArray;
                 switch (i)
                 {
-                    case 0: jArray = apiData.getCandle(coinName, ac.CANDLE_MIN10, 200); break;
-                    case 1: jArray = apiData.getCandle(coinName, ac.CANDLE_MIN30, 200); break;
-                    case 2: jArray = apiData.getCandle(coinName, ac.CANDLE_HOUR1, 200); break;
-                    case 3: jArray = apiData.getCandle(coinName, ac.CANDLE_HOUR4, 200); break;
-                    case 4: jArray = apiData.getCandle(coinName, ac.CANDLE_DAY, 200); break;
-                    case 5: jArray = apiData.getCandle(coinName, ac.CANDLE_WEEK, 200); break;
+                    case 0: jArray = apiData.getCandle(coinName, ac.CANDLE_MIN30, 200); break;
+                    case 1: jArray = apiData.getCandle(coinName, ac.CANDLE_HOUR1, 200); break;
+                    case 2: jArray = apiData.getCandle(coinName, ac.CANDLE_HOUR4, 200); break;
+                    case 3: jArray = apiData.getCandle(coinName, ac.CANDLE_DAY, 200); break;
+                    case 4: jArray = apiData.getCandle(coinName, ac.CANDLE_WEEK, 200); break;
                     default: jArray = null; break;
                 }
                 if (jArray == null) return -10 * i;
@@ -335,7 +341,7 @@ namespace UpbitDealer.src
         }
         public void initBollingerAvg()
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 5; i++)
             {
                 double avg = 0;
                 double count = 0;
@@ -395,37 +401,42 @@ namespace UpbitDealer.src
             string coinName = coinList[index];
             if (!ticker.ContainsKey(coinName)) return -1;
             quote[coinName] = ticker[coinName].close;
+
+            DataRow dataRow = lastQuote.Tables[coinName].NewRow();
+            dataRow["value"] = quote[coinName];
+            lastQuote.Tables[coinName].Rows.InsertAt(dataRow, 0);
+            if (lastQuote.Tables[coinName].Rows.Count > 60)
+                lastQuote.Tables[coinName].Rows.RemoveAt(lastQuote.Tables[coinName].Rows.Count - 1);
+
             return 0;
         }
         public void updateCandle(int index)
         {
             string coinName = coinList[index];
 
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 5; i++)
             {
                 DateTime now = DateTime.Now;
                 DateTime last = (DateTime)candle[i].Tables[coinName].Rows[0]["date"];
                 bool isAdd = false;
                 switch (i)
                 {
-                    case 0: isAdd = (now - last).TotalMinutes > 10; break;
-                    case 1: isAdd = (now - last).TotalMinutes > 30; break;
-                    case 2: isAdd = (now - last).TotalHours > 1; break;
-                    case 3: isAdd = (now - last).TotalHours > 4; break;
-                    case 4: isAdd = (now - last).TotalDays > 1; break;
-                    case 5: isAdd = (now - last).TotalDays > 7; break;
+                    case 0: isAdd = (now - last).TotalMinutes > 30; break;
+                    case 1: isAdd = (now - last).TotalHours > 1; break;
+                    case 2: isAdd = (now - last).TotalHours > 4; break;
+                    case 3: isAdd = (now - last).TotalDays > 1; break;
+                    case 4: isAdd = (now - last).TotalDays > 7; break;
                 }
                 if (isAdd)
                 {
                     DataRow dataRow = candle[i].Tables[coinName].NewRow();
                     switch (i)
                     {
-                        case 0: dataRow["date"] = last.AddMinutes(10); break;
-                        case 1: dataRow["date"] = last.AddMinutes(30); break;
-                        case 2: dataRow["date"] = last.AddHours(1); break;
-                        case 3: dataRow["date"] = last.AddHours(4); break;
-                        case 4: dataRow["date"] = last.AddDays(1); break;
-                        case 5: dataRow["date"] = last.AddDays(7); break;
+                        case 0: dataRow["date"] = last.AddMinutes(30); break;
+                        case 1: dataRow["date"] = last.AddHours(1); break;
+                        case 2: dataRow["date"] = last.AddHours(4); break;
+                        case 3: dataRow["date"] = last.AddDays(1); break;
+                        case 4: dataRow["date"] = last.AddDays(7); break;
                     }
                     dataRow["open"] = quote[coinName];
                     dataRow["close"] = quote[coinName];
@@ -482,7 +493,7 @@ namespace UpbitDealer.src
         }
         public void updateBollingerAvg()
         {
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 5; i++)
             {
                 double avg = 0;
                 double count = 0;
@@ -569,75 +580,8 @@ namespace UpbitDealer.src
             string coinName = coinList[index];
             if (state.Tables[coinName].Rows.Count >= setting.time && setting.time != 0) return 0;
 
-
-            DataTable buyCandle = null;
-            if (setting.min30 > -90000d) buyCandle = candle[1].Tables[coinName];
-            else if (setting.hour1 > -90000d) buyCandle = candle[2].Tables[coinName];
-            else if (setting.hour4 > -90000d) buyCandle = candle[3].Tables[coinName];
-            else if (setting.day > -90000d) buyCandle = candle[4].Tables[coinName];
-            else if (setting.week > -90000d) buyCandle = candle[5].Tables[coinName];
-            if (buyCandle.Rows.Count < 2)
-            {
-                executionStr.Add(new Output(0, "Macro Execution",
-                    "Fail to load " + coinName + " buy candle (Not Enouph Data)"));
-                return -1;
-            }
-            if ((double)buyCandle.Rows[0]["open"] >= (double)buyCandle.Rows[0]["close"] ||
-                (double)buyCandle.Rows[1]["open"] <= (double)buyCandle.Rows[1]["close"] * (100d + setting.yield * 2d) / 100d) return 0;
-            if ((double)buyCandle.Rows[0]["close"] <
-                ((double)buyCandle.Rows[1]["open"] + (double)buyCandle.Rows[1]["close"]) * 0.5) return 0;
-
-
-            DateTime lastBuyDate = DateTime.Now.AddYears(-1);
-            for (int i = 0; i < state.Tables[coinName].Rows.Count; i++)
-                if (DateTime.Compare(lastBuyDate, (DateTime)state.Tables[coinName].Rows[i]["date"]) < 0)
-                    lastBuyDate = (DateTime)state.Tables[coinName].Rows[i]["date"];
-
-            if (setting.min30 > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddMinutes(30)) <= 0) return 0; }
-            else if (setting.hour1 > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddHours(1)) <= 0) return 0; }
-            else if (setting.hour4 > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddHours(4)) <= 0) return 0; }
-            else if (setting.day > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddDays(1)) <= 0) return 0; }
-            else if (setting.week > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddDays(7)) <= 0) return 0; }
-
-            for (int i = 5; i > 0; i--)
-            {
-                double target = 0;
-                switch (i)
-                {
-                    case 5:
-                        if ((target = setting.week) < -90000d) continue;
-                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
-                        if (setting.week_bias)
-                            target += bollingerAvg[i];
-                        break;
-                    case 4:
-                        if ((target = setting.day) < -90000d) continue;
-                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
-                        if (setting.day_bias)
-                            target += bollingerAvg[i];
-                        break;
-                    case 3:
-                        if ((target = setting.hour4) < -90000d) continue;
-                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
-                        if (setting.hour4_bias)
-                            target += bollingerAvg[i];
-                        break;
-                    case 2:
-                        if ((target = setting.hour1) < -90000d) continue;
-                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
-                        if (setting.hour1_bias)
-                            target += bollingerAvg[i];
-                        break;
-                    case 1:
-                        if ((target = setting.min30) < -90000d) continue;
-                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
-                        if (setting.min30_bias)
-                            target += bollingerAvg[i];
-                        break;
-                }
-
-                if ((double)bollinger[i].Tables[coinName].Rows[0]["value"] > target) return 0;
-            }
+            int ret;
+            if ((ret = buyDecision(index)) < 1) return ret;
 
 
             Dictionary<string, string> par = new Dictionary<string, string>();
@@ -665,25 +609,16 @@ namespace UpbitDealer.src
             string coinName = coinList[index];
             if (state.Tables[coinName].Rows.Count < 1) return 0;
 
+            int ret;
+            if ((ret = sellDecision(index)) < 1) return ret;
 
-            DataTable sellCandle = candle[0].Tables[coinName];
-            if (sellCandle.Rows.Count < 2)
-            {
-                executionStr.Add(new Output(0, "Macro Execution", "Fail to load " + coinName + " sell candle (Not Enouph)"));
-                return -1;
-            }
-            if ((double)sellCandle.Rows[0]["open"] <= (double)sellCandle.Rows[0]["close"]) return 0;
-            if ((double)sellCandle.Rows[0]["close"] >
-                ((double)sellCandle.Rows[1]["open"] + (double)sellCandle.Rows[1]["close"]) * 0.5) return 0;
-
-
-            int ret = 0;
+            ret = 0;
             for (int i = 0; i < state.Tables[coinName].Rows.Count; i++)
             {
                 double unit = (double)state.Tables[coinName].Rows[i]["unit"];
                 double targetPrice = (double)state.Tables[coinName].Rows[i]["price"];
-                targetPrice *= (100d + setting.yield) / 100d;
-                if ((double)sellCandle.Rows[0]["close"] < targetPrice) continue;
+                targetPrice *= (100d + setting.yield) * 0.01;
+                if (quote[coinName] < targetPrice) continue;
 
                 Dictionary<string, string> par = new Dictionary<string, string>();
                 par.Add("market", "KRW-" + coinName);
@@ -706,6 +641,107 @@ namespace UpbitDealer.src
             }
 
             return ret;
+        }
+
+
+        private int buyDecision(int index)
+        {
+            string coinName = coinList[index];
+
+            DataTable buyCandle = null;
+            if (setting.min30 > -90000d) buyCandle = candle[1].Tables[coinName];
+            else if (setting.hour1 > -90000d) buyCandle = candle[2].Tables[coinName];
+            else if (setting.hour4 > -90000d) buyCandle = candle[3].Tables[coinName];
+            else if (setting.day > -90000d) buyCandle = candle[4].Tables[coinName];
+            else if (setting.week > -90000d) buyCandle = candle[5].Tables[coinName];
+            if (buyCandle.Rows.Count < 2)
+            {
+                executionStr.Add(new Output(0, "Macro Execution",
+                    "Fail to load " + coinName + " buy candle (Not Enouph Data)"));
+                return -1;
+            }
+            if ((double)buyCandle.Rows[0]["open"] >= (double)buyCandle.Rows[0]["close"] ||
+                (double)buyCandle.Rows[1]["open"] <= (double)buyCandle.Rows[1]["close"] * (100d + setting.yield * 2d) * 0.01) return 0;
+            if ((double)buyCandle.Rows[0]["close"] <
+                ((double)buyCandle.Rows[1]["open"] + (double)buyCandle.Rows[1]["close"]) * 0.5) return 0;
+
+
+            DateTime lastBuyDate = DateTime.Now.AddYears(-1);
+            for (int i = 0; i < state.Tables[coinName].Rows.Count; i++)
+                if (DateTime.Compare(lastBuyDate, (DateTime)state.Tables[coinName].Rows[i]["date"]) < 0)
+                    lastBuyDate = (DateTime)state.Tables[coinName].Rows[i]["date"];
+
+            if (setting.min30 > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddMinutes(30)) <= 0) return 0; }
+            else if (setting.hour1 > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddHours(1)) <= 0) return 0; }
+            else if (setting.hour4 > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddHours(4)) <= 0) return 0; }
+            else if (setting.day > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddDays(1)) <= 0) return 0; }
+            else if (setting.week > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddDays(7)) <= 0) return 0; }
+
+            for (int i = 4; i >= 0; i--)
+            {
+                double target = 0;
+                switch (i)
+                {
+                    case 4:
+                        if ((target = setting.week) < -90000d) continue;
+                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
+                        if (setting.week_bias)
+                            target += bollingerAvg[i];
+                        break;
+                    case 3:
+                        if ((target = setting.day) < -90000d) continue;
+                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
+                        if (setting.day_bias)
+                            target += bollingerAvg[i];
+                        break;
+                    case 2:
+                        if ((target = setting.hour4) < -90000d) continue;
+                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
+                        if (setting.hour4_bias)
+                            target += bollingerAvg[i];
+                        break;
+                    case 1:
+                        if ((target = setting.hour1) < -90000d) continue;
+                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
+                        if (setting.hour1_bias)
+                            target += bollingerAvg[i];
+                        break;
+                    case 0:
+                        if ((target = setting.min30) < -90000d) continue;
+                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
+                        if (setting.min30_bias)
+                            target += bollingerAvg[i];
+                        break;
+                }
+
+                if ((double)bollinger[i].Tables[coinName].Rows[0]["value"] > target) return 0;
+            }
+
+            return 1;
+        }
+        private int sellDecision(int index)
+        {
+            string coinName = coinList[index];
+
+            DataTable sellCandle = candle[0].Tables[coinName];
+            if (sellCandle.Rows.Count < 2)
+            {
+                executionStr.Add(new Output(0, "Macro Execution", "Fail to load " + coinName + " sell candle (Not Enouph)"));
+                return -1;
+            }
+
+            if ((double)sellCandle.Rows[0]["open"] * (100d + setting.yield * 2d) * 0.01 <= (double)sellCandle.Rows[0]["close"])
+                if (lastQuote.Tables[coinName].Rows.Count >= 5)
+                    if ((double)lastQuote.Tables[coinName].Rows[4]["value"] > (double)lastQuote.Tables[coinName].Rows[0]["value"] &&
+                        (double)lastQuote.Tables[coinName].Rows[4]["value"] > (double)lastQuote.Tables[coinName].Rows[1]["value"] &&
+                        (double)lastQuote.Tables[coinName].Rows[4]["value"] > (double)lastQuote.Tables[coinName].Rows[2]["value"] &&
+                        (double)lastQuote.Tables[coinName].Rows[4]["value"] > (double)lastQuote.Tables[coinName].Rows[3]["value"])
+                        return 1;
+            if ((double)sellCandle.Rows[0]["open"] <= (double)sellCandle.Rows[0]["close"]) return 0;
+            if ((double)sellCandle.Rows[0]["close"] >
+                ((double)sellCandle.Rows[1]["open"] + (double)sellCandle.Rows[1]["close"]) * 0.5) return 0;
+
+            return 1;
         }
     }
 }

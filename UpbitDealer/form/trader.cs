@@ -530,7 +530,7 @@ namespace UpbitDealer.form
         {
             if (!canTradeSet || !isPlace) return;
 
-            price = ticker.close * trackBar_price.Value / 100d;
+            price = ticker.close * trackBar_price.Value * 0.01;
             if (price > 2000000) price = Convert.ToInt32(price / 1000) * 1000;
             else if (price > 1000000) price = Convert.ToInt32(price / 500) * 500;
             else if (price > 500000) price = Convert.ToInt32(price / 100) * 100;
@@ -605,7 +605,7 @@ namespace UpbitDealer.form
 
             if (isBuy)
             {
-                total = (trackBar_total.Value == 100) ? krw : (krw * trackBar_total.Value / 100d);
+                total = (trackBar_total.Value == 100) ? krw : (krw * trackBar_total.Value * 0.01);
                 if (isPlace && price > 0)
                     units = total / price;
                 else if (!isPlace && ticker.close > 0)
@@ -613,7 +613,7 @@ namespace UpbitDealer.form
             }
             else
             {
-                units = (trackBar_total.Value == 100) ? currency : (currency * trackBar_total.Value / 100d);
+                units = (trackBar_total.Value == 100) ? currency : (currency * trackBar_total.Value * 0.01);
                 if (isPlace && price > 0)
                     total = units * price;
                 else if (!isPlace && ticker.close > 0)
