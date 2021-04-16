@@ -649,11 +649,11 @@ namespace UpbitDealer.src
             string coinName = coinList[index];
 
             DataTable buyCandle = null;
-            if (setting.min30 > -90000d) buyCandle = candle[1].Tables[coinName];
-            else if (setting.hour1 > -90000d) buyCandle = candle[2].Tables[coinName];
-            else if (setting.hour4 > -90000d) buyCandle = candle[3].Tables[coinName];
-            else if (setting.day > -90000d) buyCandle = candle[4].Tables[coinName];
-            else if (setting.week > -90000d) buyCandle = candle[5].Tables[coinName];
+            if (setting.min30 > -90000d) buyCandle = candle[0].Tables[coinName];
+            else if (setting.hour1 > -90000d) buyCandle = candle[1].Tables[coinName];
+            else if (setting.hour4 > -90000d) buyCandle = candle[2].Tables[coinName];
+            else if (setting.day > -90000d) buyCandle = candle[3].Tables[coinName];
+            else if (setting.week > -90000d) buyCandle = candle[4].Tables[coinName];
             if (buyCandle.Rows.Count < 2)
             {
                 executionStr.Add(new Output(0, "Macro Execution",
