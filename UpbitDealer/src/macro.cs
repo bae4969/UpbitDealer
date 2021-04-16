@@ -618,7 +618,7 @@ namespace UpbitDealer.src
                 double unit = (double)state.Tables[coinName].Rows[i]["unit"];
                 double targetPrice = (double)state.Tables[coinName].Rows[i]["price"];
                 targetPrice *= (100d + setting.yield) * 0.01;
-                if (quote[coinName] > targetPrice) continue;
+                if (quote[coinName] < targetPrice) continue;
 
                 Dictionary<string, string> par = new Dictionary<string, string>();
                 par.Add("market", "KRW-" + coinName);
