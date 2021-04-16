@@ -618,7 +618,7 @@ namespace UpbitDealer.src
                 double unit = (double)state.Tables[coinName].Rows[i]["unit"];
                 double targetPrice = (double)state.Tables[coinName].Rows[i]["price"];
                 targetPrice *= (100d + setting.yield) * 0.01;
-                if (quote[coinName] < targetPrice) continue;
+                if (quote[coinName] > targetPrice) continue;
 
                 Dictionary<string, string> par = new Dictionary<string, string>();
                 par.Add("market", "KRW-" + coinName);
@@ -730,7 +730,7 @@ namespace UpbitDealer.src
                 return -1;
             }
 
-            if ((double)sellCandle.Rows[0]["open"] * (100d + setting.yield * 2d) * 0.01 <= (double)sellCandle.Rows[0]["close"])
+            if ((double)sellCandle.Rows[0]["open"] * (100d + setting.yield * 10d) * 0.01 <= (double)sellCandle.Rows[0]["close"])
                 if (lastQuote.Tables[coinName].Rows.Count >= 5)
                     if ((double)lastQuote.Tables[coinName].Rows[4]["value"] > (double)lastQuote.Tables[coinName].Rows[0]["value"] &&
                         (double)lastQuote.Tables[coinName].Rows[4]["value"] > (double)lastQuote.Tables[coinName].Rows[1]["value"] &&
