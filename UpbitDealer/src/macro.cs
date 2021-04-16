@@ -732,9 +732,9 @@ namespace UpbitDealer.src
 
             if ((double)sellCandle.Rows[0]["open"] * (100d + setting.yield * 10d) * 0.01 <= (double)sellCandle.Rows[0]["close"])
                 if (lastQuote.Tables[coinName].Rows.Count >= 5)
-                    if ((double)lastQuote.Tables[coinName].Rows[4]["value"] > (double)lastQuote.Tables[coinName].Rows[0]["value"] &&
-                        (double)lastQuote.Tables[coinName].Rows[4]["value"] > (double)lastQuote.Tables[coinName].Rows[1]["value"] &&
-                        (double)lastQuote.Tables[coinName].Rows[4]["value"] > (double)lastQuote.Tables[coinName].Rows[2]["value"] &&
+                    if ((double)lastQuote.Tables[coinName].Rows[1]["value"] > (double)lastQuote.Tables[coinName].Rows[0]["value"] &&
+                        (double)lastQuote.Tables[coinName].Rows[2]["value"] > (double)lastQuote.Tables[coinName].Rows[1]["value"] &&
+                        (double)lastQuote.Tables[coinName].Rows[3]["value"] > (double)lastQuote.Tables[coinName].Rows[2]["value"] &&
                         (double)lastQuote.Tables[coinName].Rows[4]["value"] > (double)lastQuote.Tables[coinName].Rows[3]["value"])
                         return 1;
             if ((double)sellCandle.Rows[0]["open"] <= (double)sellCandle.Rows[0]["close"]) return 0;
