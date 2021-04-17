@@ -48,11 +48,17 @@ namespace UpbitDealer.form
             if (setting.hour1 > -90000d) text_hour1.Text = setting.hour1.ToString();
             if (setting.min30 > -90000d) text_min30.Text = setting.min30.ToString();
 
-            check_week.Checked = setting.week_bias;
-            check_day.Checked = setting.day_bias;
-            check_hour4.Checked = setting.hour4_bias;
-            check_hour1.Checked = setting.hour1_bias;
-            check_min30.Checked = setting.min30_bias;
+            check_week_bias.Checked = setting.week_bias;
+            check_day_bias.Checked = setting.day_bias;
+            check_hour4_bias.Checked = setting.hour4_bias;
+            check_hour1_bias.Checked = setting.hour1_bias;
+            check_min30_bias.Checked = setting.min30_bias;
+
+            check_week_auto.Checked = setting.week_auto;
+            check_day_auto.Checked = setting.day_auto;
+            check_hour4_auto.Checked = setting.hour4_auto;
+            check_hour1_auto.Checked = setting.hour1_auto;
+            check_min30_auto.Checked = setting.min30_auto;
         }
 
 
@@ -184,11 +190,17 @@ namespace UpbitDealer.form
             }
             else setting.min30 = -100000;
 
-            setting.week_bias = check_week.Checked;
-            setting.day_bias = check_day.Checked;
-            setting.hour4_bias = check_hour4.Checked;
-            setting.hour1_bias = check_hour1.Checked;
-            setting.min30_bias = check_min30.Checked;
+            setting.week_bias = check_week_bias.Checked;
+            setting.day_bias = check_day_bias.Checked;
+            setting.hour4_bias = check_hour4_bias.Checked;
+            setting.hour1_bias = check_hour1_bias.Checked;
+            setting.min30_bias = check_min30_bias.Checked;
+
+            setting.week_auto = check_week_auto.Checked;
+            setting.day_auto = check_day_auto.Checked;
+            setting.hour4_auto = check_hour4_auto.Checked;
+            setting.hour1_auto = check_hour1_auto.Checked;
+            setting.min30_auto = check_min30_auto.Checked;
 
             lock (ownerForm.lock_macro)
                 ownerForm.macro.saveMacroSetting(setting);

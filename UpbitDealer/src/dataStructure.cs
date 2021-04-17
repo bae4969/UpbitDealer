@@ -82,6 +82,12 @@ namespace UpbitDealer.src
         public bool hour4_bias;
         public bool hour1_bias;
         public bool min30_bias;
+
+        public bool week_auto;
+        public bool day_auto;
+        public bool hour4_auto;
+        public bool hour1_auto;
+        public bool min30_auto;
     }
 
     public class NameValue

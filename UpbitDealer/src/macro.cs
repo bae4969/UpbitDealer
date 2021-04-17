@@ -22,7 +22,7 @@ namespace UpbitDealer.src
         private DataSet lastQuote = new DataSet();
         public DataSet[] bollinger = new DataSet[5];
         private double[] bollingerAvg = new double[5];
-        private bool[] needAvgAdd = new bool[6] { false, false, false, false, false, false };
+        private double[] bollingerMin = new double[5];
 
 
         public MacroSetting(string access_key, string secret_key, List<string> coinList)
@@ -89,7 +89,7 @@ namespace UpbitDealer.src
                 else
                 {
                     string[] reader = System.IO.File.ReadAllLines(macroSettingDataPath);
-                    if (reader.Length > 15)
+                    if (reader.Length > 20)
                     {
                         setting.pause = bool.Parse(reader[0]);
 
@@ -109,6 +109,12 @@ namespace UpbitDealer.src
                         setting.hour4_bias = bool.Parse(reader[13]);
                         setting.hour1_bias = bool.Parse(reader[14]);
                         setting.min30_bias = bool.Parse(reader[15]);
+
+                        setting.week_auto = bool.Parse(reader[16]);
+                        setting.day_auto = bool.Parse(reader[17]);
+                        setting.hour4_auto = bool.Parse(reader[18]);
+                        setting.hour1_auto = bool.Parse(reader[19]);
+                        setting.min30_auto = bool.Parse(reader[20]);
                     }
                 }
             }
@@ -184,21 +190,30 @@ namespace UpbitDealer.src
                 {
                     string tempStr
                         = setting.pause.ToString() + '\n'
+
                         + setting.top.ToString() + '\n'
                         + setting.yield.ToString("0.########") + '\n'
                         + setting.krw.ToString("0.########") + '\n'
                         + setting.time.ToString("0.########") + '\n'
                         + setting.limit.ToString("0.########") + '\n'
+
                         + setting.week.ToString("0.########") + '\n'
                         + setting.day.ToString("0.########") + '\n'
                         + setting.hour4.ToString("0.########") + '\n'
                         + setting.hour1.ToString("0.########") + '\n'
                         + setting.min30.ToString("0.########") + '\n'
+
                         + setting.week_bias.ToString() + '\n'
                         + setting.day_bias.ToString() + '\n'
                         + setting.hour4_bias.ToString() + '\n'
                         + setting.hour1_bias.ToString() + '\n'
-                        + setting.min30_bias.ToString();
+                        + setting.min30_bias.ToString() + '\n'
+
+                        + setting.week_auto.ToString() + '\n'
+                        + setting.day_auto.ToString() + '\n'
+                        + setting.hour4_auto.ToString() + '\n'
+                        + setting.hour1_auto.ToString() + '\n'
+                        + setting.min30_auto.ToString();
                     System.IO.File.WriteAllText(macroSettingDataPath, tempStr + "\n");
                 }
             }
@@ -283,6 +298,12 @@ namespace UpbitDealer.src
             setting.hour4_bias = false;
             setting.hour1_bias = false;
             setting.min30_bias = false;
+
+            setting.week_auto = false;
+            setting.day_auto = false;
+            setting.hour4_auto = false;
+            setting.hour1_auto = false;
+            setting.min30_auto = false;
         }
         public int initCandleData(int index)
         {
@@ -338,24 +359,6 @@ namespace UpbitDealer.src
             }
 
             return 0;
-        }
-        public void initBollingerAvg()
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                double avg = 0;
-                double count = 0;
-
-                for (int j = 0; j < coinList.Count; j++)
-                {
-                    if (bollinger[i].Tables[j].Rows.Count > 0)
-                    {
-                        avg += (double)bollinger[i].Tables[j].Rows[0]["value"];
-                        count += 1;
-                    }
-                }
-                bollingerAvg[i] = avg / count;
-            }
         }
 
 
@@ -487,22 +490,30 @@ namespace UpbitDealer.src
                     bollinger[i].Tables[coinName].Rows[0]["date"] = candle[i].Tables[coinName].Rows[0]["date"];
                     bollinger[i].Tables[coinName].Rows[0]["value"] = value;
                 }
-
-                if (coinName == "BTC") needAvgAdd[i] = isAdd;
             }
         }
-        public void updateBollingerAvg()
+        public void updateBollingerAvgMin()
         {
             for (int i = 0; i < 5; i++)
             {
+                bool minCheck = false;
+                double min = double.MaxValue;
                 double avg = 0;
                 double count = 0;
+
                 for (int j = 0; j < coinList.Count; j++)
                     if (bollinger[i].Tables[j].Rows.Count > 0)
                     {
+                        if (min > (double)bollinger[i].Tables[j].Rows[0]["value"])
+                        {
+                            minCheck = true;
+                            min = (double)bollinger[i].Tables[j].Rows[0]["value"];
+                        }
                         avg += (double)bollinger[i].Tables[j].Rows[0]["value"];
                         count += 1;
                     }
+
+                bollingerMin[i] = minCheck ? min : double.MinValue;
                 bollingerAvg[i] = avg / count;
             }
         }
@@ -649,11 +660,11 @@ namespace UpbitDealer.src
             string coinName = coinList[index];
 
             DataTable buyCandle = null;
-            if (setting.min30 > -90000d) buyCandle = candle[0].Tables[coinName];
-            else if (setting.hour1 > -90000d) buyCandle = candle[1].Tables[coinName];
-            else if (setting.hour4 > -90000d) buyCandle = candle[2].Tables[coinName];
-            else if (setting.day > -90000d) buyCandle = candle[3].Tables[coinName];
-            else if (setting.week > -90000d) buyCandle = candle[4].Tables[coinName];
+            if (setting.min30 > -90000d || setting.min30_auto) buyCandle = candle[0].Tables[coinName];
+            else if (setting.hour1 > -90000d || setting.hour1_auto) buyCandle = candle[1].Tables[coinName];
+            else if (setting.hour4 > -90000d || setting.hour4_auto) buyCandle = candle[2].Tables[coinName];
+            else if (setting.day > -90000d || setting.day_auto) buyCandle = candle[3].Tables[coinName];
+            else if (setting.week > -90000d || setting.week_auto) buyCandle = candle[4].Tables[coinName];
             if (buyCandle.Rows.Count < 2)
             {
                 executionStr.Add(new Output(0, "Macro Execution",
@@ -671,11 +682,11 @@ namespace UpbitDealer.src
                 if (DateTime.Compare(lastBuyDate, (DateTime)state.Tables[coinName].Rows[i]["date"]) < 0)
                     lastBuyDate = (DateTime)state.Tables[coinName].Rows[i]["date"];
 
-            if (setting.min30 > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddMinutes(30)) <= 0) return 0; }
-            else if (setting.hour1 > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddHours(1)) <= 0) return 0; }
-            else if (setting.hour4 > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddHours(4)) <= 0) return 0; }
-            else if (setting.day > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddDays(1)) <= 0) return 0; }
-            else if (setting.week > -90000d) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddDays(7)) <= 0) return 0; }
+            if (setting.min30 > -90000d || setting.min30_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddMinutes(30)) <= 0) return 0; }
+            else if (setting.hour1 > -90000d || setting.hour1_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddHours(1)) <= 0) return 0; }
+            else if (setting.hour4 > -90000d || setting.hour4_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddHours(4)) <= 0) return 0; }
+            else if (setting.day > -90000d || setting.day_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddDays(1)) <= 0) return 0; }
+            else if (setting.week > -90000d || setting.week_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddDays(7)) <= 0) return 0; }
 
             for (int i = 4; i >= 0; i--)
             {
@@ -683,37 +694,53 @@ namespace UpbitDealer.src
                 switch (i)
                 {
                     case 4:
-                        if ((target = setting.week) < -90000d) continue;
-                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
-                        if (setting.week_bias)
-                            target += bollingerAvg[i];
+                        if (setting.week_auto)
+                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.8;
+                        else
+                        {
+                            if ((target = setting.week) < -90000d) continue;
+                            if (setting.week_bias) target += bollingerAvg[i];
+                        }
                         break;
                     case 3:
-                        if ((target = setting.day) < -90000d) continue;
-                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
-                        if (setting.day_bias)
-                            target += bollingerAvg[i];
+                        if (setting.day_auto)
+                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.8;
+                        else
+                        {
+                            if ((target = setting.day) < -90000d) continue;
+                            if (setting.day_bias) target += bollingerAvg[i];
+                        }
                         break;
                     case 2:
-                        if ((target = setting.hour4) < -90000d) continue;
-                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
-                        if (setting.hour4_bias)
-                            target += bollingerAvg[i];
+                        if (setting.hour4_auto)
+                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.8;
+                        else
+                        {
+                            if ((target = setting.hour4) < -90000d) continue;
+                            if (setting.hour4_bias) target += bollingerAvg[i];
+                        }
                         break;
                     case 1:
-                        if ((target = setting.hour1) < -90000d) continue;
-                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
-                        if (setting.hour1_bias)
-                            target += bollingerAvg[i];
+                        if (setting.hour1_auto)
+                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.8;
+                        else
+                        {
+                            if ((target = setting.hour1) < -90000d) continue;
+                            if (setting.hour1_bias) target += bollingerAvg[i];
+                        }
                         break;
                     case 0:
-                        if ((target = setting.min30) < -90000d) continue;
-                        if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
-                        if (setting.min30_bias)
-                            target += bollingerAvg[i];
+                        if (setting.min30_auto)
+                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.8;
+                        else
+                        {
+                            if ((target = setting.min30) < -90000d) continue;
+                            if (setting.min30_bias) target += bollingerAvg[i];
+                        }
                         break;
                 }
 
+                if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
                 if ((double)bollinger[i].Tables[coinName].Rows[0]["value"] > target) return 0;
             }
 

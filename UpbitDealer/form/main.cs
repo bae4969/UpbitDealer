@@ -211,7 +211,6 @@ namespace UpbitDealer.form
         private void executeMacro()
         {
             logIn(new Output(0, "Macro Exection", "Load candle data. As you possible, DO NOT TOUCH."));
-            lock (lock_mainUpdater) macro.updateCoinList(mainUpdater.coinList);
             for (int i = 0; !AllStop && i < macro.getListCount(); i++)
             {
                 Stopwatch stopwatch = new Stopwatch();
@@ -228,14 +227,13 @@ namespace UpbitDealer.form
                     sleepTime -= 100;
                 }
             }
-            if (!AllStop) macro.initBollingerAvg();
             logIn(new Output(0, "Macro Exection", "Finish to load, Start macro"));
 
             while (!AllStop)
             {
                 lock (lock_macro) lock (lock_mainUpdater)
                     macro.updateCoinList(mainUpdater.coinList);
-                macro.updateBollingerAvg();
+                macro.updateBollingerAvgMin();
 
                 for (int i = 0; !AllStop && i < macro.getListCount(); i++)
                 {
