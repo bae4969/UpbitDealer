@@ -383,7 +383,7 @@ namespace UpbitDealer.src
         }
 
 
-        public void updateSortedCoinList(List<string> coinList)
+        public void updateCoinList(List<string> coinList)
         {
             this.coinList = new List<string>(coinList);
         }

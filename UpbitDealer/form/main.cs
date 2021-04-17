@@ -95,7 +95,7 @@ namespace UpbitDealer.form
             }
 
             {
-                macro = new MacroSetting(sAPI_Key, sAPI_Secret, mainUpdater.sortedCoinList);
+                macro = new MacroSetting(sAPI_Key, sAPI_Secret, coinList);
                 if (macro.loadFile() < 0)
                 {
                     Close();
@@ -211,7 +211,7 @@ namespace UpbitDealer.form
         private void executeMacro()
         {
             logIn(new Output(0, "Macro Exection", "Load candle data. As you possible, DO NOT TOUCH."));
-            lock (lock_mainUpdater) macro.updateSortedCoinList(mainUpdater.sortedCoinList);
+            lock (lock_mainUpdater) macro.updateCoinList(mainUpdater.coinList);
             for (int i = 0; !AllStop && i < macro.getListCount(); i++)
             {
                 Stopwatch stopwatch = new Stopwatch();
@@ -234,7 +234,7 @@ namespace UpbitDealer.form
             while (!AllStop)
             {
                 lock (lock_macro) lock (lock_mainUpdater)
-                    macro.updateSortedCoinList(mainUpdater.sortedCoinList);
+                    macro.updateCoinList(mainUpdater.coinList);
                 macro.updateBollingerAvg();
 
                 for (int i = 0; !AllStop && i < macro.getListCount(); i++)

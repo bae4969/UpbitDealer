@@ -13,12 +13,11 @@ namespace UpbitDealer.src
         private ApiData apiData;
         private Dictionary<string, string> apiParameter = new Dictionary<string, string>();
 
-        private List<string> coinList = new List<string>();
+        public List<string> coinList = new List<string>();
         public List<string> hotList = new List<string>();
         public List<string> dangerList = new List<string>();
 
         public List<Output> executionStr = new List<Output>();
-        public List<string> sortedCoinList = new List<string>();
         public List<Account> account = new List<Account>();
         public Dictionary<string, Ticker> ticker = new Dictionary<string, Ticker>();
 
@@ -78,13 +77,12 @@ namespace UpbitDealer.src
         {
             JArray jArray = apiData.getTicker(coinList);
             if (jArray == null) return -1;
-            jArray = new JArray(jArray.OrderByDescending(obj => (string)obj["acc_trade_price"]));
 
-            sortedCoinList.Clear();
+            coinList.Clear();
             for (int i = 0; i < jArray.Count; i++)
             {
                 string[] coinName = jArray[i]["market"].ToString().Split('-');
-                sortedCoinList.Add(coinName[1]);
+                coinList.Add(coinName[1]);
                 ticker[coinName[1]].coinName = coinName[1];
                 ticker[coinName[1]].open = (double)jArray[i]["opening_price"];
                 ticker[coinName[1]].close = (double)jArray[i]["trade_price"];
