@@ -695,7 +695,10 @@ namespace UpbitDealer.src
                 {
                     case 4:
                         if (setting.week_auto)
-                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.8;
+                        {
+                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
+                            if (target > -30d) return 0;
+                        }
                         else
                         {
                             if ((target = setting.week) < -90000d) continue;
@@ -704,7 +707,10 @@ namespace UpbitDealer.src
                         break;
                     case 3:
                         if (setting.day_auto)
-                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.8;
+                        {
+                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
+                            if (target > -30d) return 0;
+                        }
                         else
                         {
                             if ((target = setting.day) < -90000d) continue;
@@ -713,7 +719,10 @@ namespace UpbitDealer.src
                         break;
                     case 2:
                         if (setting.hour4_auto)
-                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.8;
+                        {
+                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
+                            if (target > -30d) return 0;
+                        }
                         else
                         {
                             if ((target = setting.hour4) < -90000d) continue;
@@ -722,7 +731,10 @@ namespace UpbitDealer.src
                         break;
                     case 1:
                         if (setting.hour1_auto)
-                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.8;
+                        {
+                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
+                            if (target > -30d) return 0;
+                        }
                         else
                         {
                             if ((target = setting.hour1) < -90000d) continue;
@@ -731,7 +743,10 @@ namespace UpbitDealer.src
                         break;
                     case 0:
                         if (setting.min30_auto)
-                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.8;
+                        {
+                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
+                            if (target > -30d) return 0;
+                        }
                         else
                         {
                             if ((target = setting.min30) < -90000d) continue;
