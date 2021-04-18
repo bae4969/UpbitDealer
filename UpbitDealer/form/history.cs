@@ -12,7 +12,6 @@ namespace UpbitDealer.form
     {
         private bool AllStop = false;
         private bool isInit = false;
-        private Main ownerForm;
 
         private int type = 0;
         private Thread loadData;
@@ -29,10 +28,9 @@ namespace UpbitDealer.form
         private DataSet macroState;
 
 
-        public History(Main ownerForm)
+        public History()
         {
             InitializeComponent();
-            this.ownerForm = ownerForm;
         }
         private void History_Load(object sender, EventArgs e)
         {
@@ -66,8 +64,8 @@ namespace UpbitDealer.form
             macroPrintSwap.Columns.Add("price", typeof(double));
             macroPrintSwap.Columns.Add("target", typeof(double));
 
-            lock (ownerForm.lock_tradeHistory)
-                pendingData = ownerForm.tradeHistory.pendingData.Copy();
+            lock (((Main)Owner).lock_tradeHistory)
+                pendingData = ((Main)Owner).tradeHistory.pendingData.Copy();
 
             loadData = new Thread(() => executeLoadData());
             loadData.Start();
@@ -101,15 +99,15 @@ namespace UpbitDealer.form
                     switch (type)
                     {
                         case 0:
-                            lock (ownerForm.lock_tradeHistory)
-                                pendingData = ownerForm.tradeHistory.pendingData.Copy();
+                            lock (((Main)Owner).lock_tradeHistory)
+                                pendingData = ((Main)Owner).tradeHistory.pendingData.Copy();
                             break;
                         case 2:
                             double yield;
-                            lock (ownerForm.lock_macro)
+                            lock (((Main)Owner).lock_macro)
                             {
-                                yield = ownerForm.macro.setting.yield;
-                                macroState = ownerForm.macro.state.Copy();
+                                yield = ((Main)Owner).macro.setting.yield;
+                                macroState = ((Main)Owner).macro.state.Copy();
                             }
                             macroPrintSwap.Rows.Clear();
                             for (int i = 0; i < macroState.Tables.Count; i++)
@@ -341,7 +339,7 @@ namespace UpbitDealer.form
                       , "Confirm", MessageBoxButtons.OKCancel);
                 if (test == DialogResult.OK)
                 {
-                    int ret = ownerForm.tradeHistory.cancelPending(selected.uuid);
+                    int ret = ((Main)Owner).tradeHistory.cancelPending(selected.uuid);
                     if (ret < 0)
                     {
                         MessageBox.Show("API error, try again");
@@ -362,8 +360,8 @@ namespace UpbitDealer.form
                 if (test == DialogResult.OK)
                 {
                     int ret;
-                    lock (ownerForm.lock_macro)
-                        ret = ownerForm.macro.deleteMacroState(selected.coinName, selected.uuid);
+                    lock (((Main)Owner).lock_macro)
+                        ret = ((Main)Owner).macro.deleteMacroState(selected.coinName, selected.uuid);
                     if (ret < 0)
                     {
                         MessageBox.Show("Fail");
@@ -399,13 +397,13 @@ namespace UpbitDealer.form
                         return;
                     }
 
-            if (ownerForm.tradeHistory.getHistoryData(coinName, page) < 0)
+            if (((Main)Owner).tradeHistory.getHistoryData(coinName, page) < 0)
             {
                 MessageBox.Show("Invalid coin name.");
                 return;
             }
-            lock (ownerForm.lock_tradeHistory)
-                historyData = ownerForm.tradeHistory.historyData.Copy();
+            lock (((Main)Owner).lock_tradeHistory)
+                historyData = ((Main)Owner).tradeHistory.historyData.Copy();
 
             isNeedBindHistory = true;
         }

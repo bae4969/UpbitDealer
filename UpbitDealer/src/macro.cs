@@ -697,7 +697,7 @@ namespace UpbitDealer.src
                         if (setting.week_auto)
                         {
                             target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
-                            if (target > -30d) return 0;
+                            if (target > -40d) return 0;
                         }
                         else
                         {
@@ -709,7 +709,7 @@ namespace UpbitDealer.src
                         if (setting.day_auto)
                         {
                             target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
-                            if (target > -30d) return 0;
+                            if (target > -40d) return 0;
                         }
                         else
                         {
@@ -721,7 +721,7 @@ namespace UpbitDealer.src
                         if (setting.hour4_auto)
                         {
                             target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
-                            if (target > -30d) return 0;
+                            if (target > -40d) return 0;
                         }
                         else
                         {
@@ -733,7 +733,7 @@ namespace UpbitDealer.src
                         if (setting.hour1_auto)
                         {
                             target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
-                            if (target > -30d) return 0;
+                            if (target > -40d) return 0;
                         }
                         else
                         {
@@ -745,7 +745,7 @@ namespace UpbitDealer.src
                         if (setting.min30_auto)
                         {
                             target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
-                            if (target > -30d) return 0;
+                            if (target > -40d) return 0;
                         }
                         else
                         {

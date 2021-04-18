@@ -10,15 +10,12 @@ namespace UpbitDealer.form
 {
     public partial class Macro : Form
     {
-        private Main ownerForm;
-
         private MacroSettingData setting;
 
 
-        public Macro(Main ownerForm)
+        public Macro()
         {
             InitializeComponent();
-            this.ownerForm = ownerForm;
         }
         private void Macro_Load(object sender, EventArgs e)
         {
@@ -32,8 +29,8 @@ namespace UpbitDealer.form
 
         private void setDefaultSetting()
         {
-            lock (ownerForm.lock_macro)
-                setting = ownerForm.macro.setting;
+            lock (((Main)Owner).lock_macro)
+                setting = ((Main)Owner).macro.setting;
 
             btn_pause.BackColor = setting.pause ? Color.Red : Color.DarkGray;
 
@@ -202,8 +199,8 @@ namespace UpbitDealer.form
             setting.hour1_auto = check_hour1_auto.Checked;
             setting.min30_auto = check_min30_auto.Checked;
 
-            lock (ownerForm.lock_macro)
-                ownerForm.macro.saveMacroSetting(setting);
+            lock (((Main)Owner).lock_macro)
+                ((Main)Owner).macro.saveMacroSetting(setting);
 
             setDefaultSetting();
             MessageBox.Show("Save success.");
@@ -215,8 +212,8 @@ namespace UpbitDealer.form
         private void btn_pause_Click(object sender, EventArgs e)
         {
             setting.pause = setting.pause ? false : true;
-            lock (ownerForm.lock_macro)
-                ownerForm.macro.saveMacroSetting(setting);
+            lock (((Main)Owner).lock_macro)
+                ((Main)Owner).macro.saveMacroSetting(setting);
             setDefaultSetting();
 
             if (setting.pause)

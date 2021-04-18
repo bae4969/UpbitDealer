@@ -14,8 +14,6 @@ namespace UpbitDealer.form
 {
     public partial class Indicator : Form
     {
-        private Main ownerForm;
-
         private CoinType CT = new CoinType();
         private DataSet[] bollinger = new DataSet[5];
         private DataView[,] chartData = new DataView[5, 4];
@@ -24,21 +22,20 @@ namespace UpbitDealer.form
         private List<string> dangerList;
 
 
-        public Indicator(Main ownerForm)
+        public Indicator()
         {
             InitializeComponent();
-            this.ownerForm = ownerForm;
         }
         private void Indicator_Load(object sender, EventArgs e)
         {
-            lock (ownerForm.lock_mainUpdater)
+            lock (((Main)Owner).lock_mainUpdater)
             {
-                hotList = new List<string>(ownerForm.mainUpdater.hotList);
-                dangerList = new List<string>(ownerForm.mainUpdater.dangerList);
+                hotList = new List<string>(((Main)Owner).mainUpdater.hotList);
+                dangerList = new List<string>(((Main)Owner).mainUpdater.dangerList);
             }
-            lock (ownerForm.lock_macro)
+            lock (((Main)Owner).lock_macro)
                 for (int i = 0; i < 5; i++)
-                    bollinger[i] = ownerForm.macro.bollinger[i].Copy();
+                    bollinger[i] = ((Main)Owner).macro.bollinger[i].Copy();
 
             if (bollinger[1].Tables["BTC"].Rows.Count < 1)
             {

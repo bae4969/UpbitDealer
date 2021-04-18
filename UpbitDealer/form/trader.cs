@@ -13,7 +13,6 @@ namespace UpbitDealer.form
     {
         private React react;
         private List<string> coinList;
-        private Main ownerForm;
 
         private bool AllStop = false;
 
@@ -41,10 +40,9 @@ namespace UpbitDealer.form
         private double total = 0d;
 
 
-        public Trader(Main ownerForm, string access_key, string secret_key, List<string> coinList)
+        public Trader(string access_key, string secret_key, List<string> coinList)
         {
             InitializeComponent();
-            this.ownerForm = ownerForm;
             this.react = new React(access_key, secret_key);
             this.coinList = new List<string>(coinList);
         }
@@ -77,10 +75,10 @@ namespace UpbitDealer.form
                         string coinName = selectedName;
                         Ticker tempTicker;
                         List<Account> tempAccount;
-                        lock (ownerForm.lock_mainUpdater)
+                        lock (((Main)Owner).lock_mainUpdater)
                         {
-                            tempTicker = ownerForm.ticker[coinName];
-                            tempAccount = new List<Account>(ownerForm.account);
+                            tempTicker = ((Main)Owner).ticker[coinName];
+                            tempAccount = new List<Account>(((Main)Owner).account);
                         }
                         JArray tempTH = react.getTransactionData(coinName);
                         List<double>[] tempOB = react.getOrderBookData(coinName);
@@ -671,7 +669,7 @@ namespace UpbitDealer.form
                 return;
             }
 
-            lock (ownerForm.lock_tradeHistory)
+            lock (((Main)Owner).lock_tradeHistory)
             {
                 TradeData tempData = new TradeData();
                 tempData.uuid = ret["uuid"].ToString();
@@ -681,12 +679,12 @@ namespace UpbitDealer.form
                 tempData.unit = units;
                 tempData.price = isPlace ? price : 0;
                 tempData.fee = 0;
-                ownerForm.tradeHistory.addNewPending(tempData);
-                ownerForm.tradeHistory.saveFile();
+                ((Main)Owner).tradeHistory.addNewPending(tempData);
+                ((Main)Owner).tradeHistory.saveFile();
             }
             canTradeSet = false;
             needTradeInit = true;
-            ownerForm.logIn(new Output(0, "Trade execution", selectedName + ", " + how + type + ", " + units + ", " + tempPrice));
+            ((Main)Owner).logIn(new Output(0, "Trade execution", selectedName + ", " + how + type + ", " + units + ", " + tempPrice));
             MessageBox.Show("Success!");
         }
     }

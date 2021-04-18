@@ -14,7 +14,6 @@ namespace UpbitDealer.form
         private string sAPI_Secret;
 
         private List<string> coinList = new List<string>();
-        private List<Form> openFormList = new List<Form>();
 
         private bool isInit = false;
         private bool AllStop = false;
@@ -139,9 +138,6 @@ namespace UpbitDealer.form
 
             savingMsg closing = new savingMsg();
             closing.Show(this);
-
-            for (int i = 0; i < openFormList.Count; i++)
-                openFormList[i].Close();
 
             AllStop = true;
             thread_updater.Join();
@@ -397,8 +393,7 @@ namespace UpbitDealer.form
                     }
 
                 graph chartForm = new graph(name, sAPI_Key, sAPI_Secret);
-                chartForm.Show();
-                openFormList.Add(chartForm);
+                chartForm.Show(this);
                 return;
             }
 
@@ -415,9 +410,8 @@ namespace UpbitDealer.form
 
             Trader traderForm;
             lock (lock_mainUpdater)
-                traderForm = new Trader(this, sAPI_Key, sAPI_Secret, coinList);
-            traderForm.Show();
-            openFormList.Add(traderForm);
+                traderForm = new Trader(sAPI_Key, sAPI_Secret, coinList);
+            traderForm.Show(this);
         }
         private void btn_history_Click(object sender, EventArgs e)
         {
@@ -430,9 +424,8 @@ namespace UpbitDealer.form
 
             History historyForm;
             lock (lock_mainUpdater)
-                historyForm = new History(this);
-            historyForm.Show();
-            openFormList.Add(historyForm);
+                historyForm = new History();
+            historyForm.Show(this);
         }
         private void btn_indicator_Click(object sender, EventArgs e)
         {
@@ -443,9 +436,8 @@ namespace UpbitDealer.form
                     return;
                 }
 
-            Indicator indicatorForm = new Indicator(this);
-            indicatorForm.Show();
-            openFormList.Add(indicatorForm);
+            Indicator indicatorForm = new Indicator();
+            indicatorForm.Show(this);
         }
         private void btn_macro_Click(object sender, EventArgs e)
         {
@@ -456,9 +448,8 @@ namespace UpbitDealer.form
                     return;
                 }
 
-            Macro macroForm = new Macro(this);
-            macroForm.Show();
-            openFormList.Add(macroForm);
+            Macro macroForm = new Macro();
+            macroForm.Show(this);
         }
         private void btn_save_Click(object sender, EventArgs e)
         {
@@ -484,6 +475,5 @@ namespace UpbitDealer.form
             }
             timer_log.Start();
         }
-
     }
 }

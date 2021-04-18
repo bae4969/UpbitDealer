@@ -844,15 +844,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:UpbitDealer"
-        "ProductCode" = "8:{AA367C85-DA19-4F0B-8A93-817F7605A97D}"
-        "PackageCode" = "8:{5DBF5348-B10D-48DC-9776-F244B4B47BE8}"
+        "ProductCode" = "8:{57D1F281-467B-45AD-98DF-6F815E8E0B05}"
+        "PackageCode" = "8:{D3B99ABB-F86E-4113-A57D-9337BD440EA4}"
         "UpgradeCode" = "8:{D44D3B63-EE38-4AD0-B288-022E8E2D7BAD}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.2.3"
+        "ProductVersion" = "8:1.2.4"
         "Manufacturer" = "8:NoDesigner"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -1380,7 +1380,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_251AB2F97FFA403EABAC0EDA7D8CB48C"
             {
-            "SourcePath" = "8:..\\UpbitDealer\\obj\\Release\\UpbitDealer.exe"
+            "SourcePath" = "8:..\\UpbitDealer\\obj\\Debug\\UpbitDealer.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F63D947F2DC049B687DD84CF26CF2727"
