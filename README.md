@@ -14,7 +14,7 @@
 
 	Notice
 
-		This project contain the latest version of upbit dealer. Currently, it is mainly undergoing
+		This project contain the latest version of upbit dealer. Currently, this is mainly undergoing
 		long-term testing. And using test results, I change the macro algorithm.
 
 
@@ -22,15 +22,16 @@
 
 	Precautions
 	
-		1. This DOES NOT solve everything. Eventually, the price goes up and then gain profit.
+		1. Above all, DO NOT trust this program. IF YOU LOSE MONEY, IT'S 'YOUR FAULT' TO USE IT.
 
-		2. Above all, DO NOT trust this program. IF YOU LOSE MONEY, IT'S 'YOUR FAULT' TO USE IT.
+		2. This DOES NOT solve everything. Eventually, first the price increase and then you can
+		get yield. This means this doesn't make money.
 
-		3. I tring to do not make erros and test several times, but don't trust it entirely as
+		3. I tring to do not make erros and test several times, but don't trust this entirely as
 		there may be errors. So, DO NOT perform strange manipulations, which increases the
 		possibility of errors. That is a useless act and only your damage will occur.
 	
-		4. Characteristic of upbit api is it returns accurate results, but the number of requests
+		4. Characteristic of upbit api is this returns accurate results, but the number of requests
 		per second is very low. Api limit are based on ip address and account. So DO NOT open
 		'trader' and many 'chart' at the same time.
 
@@ -46,13 +47,13 @@
 
 		1. Can show graph using API candle data
 
-		2. Can trade (order or cancel)Above all, don't trust this program. If you lose it is your responsibility to use it.
+		2. Can execute manual trade (order and cancel)
 
 		3. can lockup trade history
 
-		4. Can use macro with bollinger value for top 70 coin
+		4. Can use macro with bollinger value for top N coin
 
-		5. Can show average weighted and average bollinger value
+		5. Can show indicator value
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
