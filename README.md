@@ -24,20 +24,19 @@
 	
 		1. This DOES NOT solve everything. Eventually, the price goes up and then gain profit.
 
-		2. I tring to do not make erros and test several times, but don't trust it entirely as
+		2. Above all, DO NOT trust this program. IF YOU LOSE MONEY, IT'S 'YOUR FAULT' TO USE IT.
+
+		3. I tring to do not make erros and test several times, but don't trust it entirely as
 		there may be errors. So, DO NOT perform strange manipulations, which increases the
 		possibility of errors. That is a useless act and only your damage will occur.
 	
-		3. Characteristic of upbit api is it returns accurate results, but the number of requests
+		4. Characteristic of upbit api is it returns accurate results, but the number of requests
 		per second is very low. Api limit are based on ip address and account. So DO NOT open
 		'trader' and many 'chart' at the same time.
 
-		4. Upbit api always need access ip address and your ip address sometimes change. That
+		5. Upbit api always need access ip address and your ip address sometimes change. That
 		means, if you can not login one day, check your current ip address and change the access
-		ip address in upbit homepage.
-
-		5. Upbit has a large fluctuation range in the short term. So, the short-term yield is
-		high. The reason seems that upbit has many beginners.
+		ip address in upbit homepage. Also, the key has an end period and you should be checked
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +46,7 @@
 
 		1. Can show graph using API candle data
 
-		2. Can trade (order or cancel)
+		2. Can trade (order or cancel)Above all, don't trust this program. If you lose it is your responsibility to use it.
 
 		3. can lockup trade history
 
