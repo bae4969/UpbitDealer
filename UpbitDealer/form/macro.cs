@@ -39,6 +39,8 @@ namespace UpbitDealer.form
             text_krw.Text = setting.krw.ToString();
             text_time.Text = setting.time.ToString();
             text_limit.Text = setting.limit.ToString();
+            text_lostCut.Text = setting.lostCut.ToString();
+
             if (setting.week > -90000d) text_week.Text = setting.week.ToString();
             if (setting.day > -90000d) text_day.Text = setting.day.ToString();
             if (setting.hour4 > -90000d) text_hour4.Text = setting.hour4.ToString();
@@ -104,94 +106,94 @@ namespace UpbitDealer.form
                     return;
                 }
             }
+            if (!double.TryParse(text_lostCut.Text, out setting.lostCut))
+            {
+                if (text_lostCut.Text == "") setting.lostCut = 0;
+                else
+                {
+                    MessageBox.Show("Lost Cut value is not number.");
+                    return;
+                }
+            }
 
-            if (text_week.Text == "" && text_day.Text == "" && text_hour4.Text == ""
-                && text_hour1.Text == "" && text_min30.Text == "")
+            if (setting.top < 0 || setting.yield < 0 || setting.krw < 0 ||
+                setting.time < 0 || setting.limit < 0 || setting.lostCut < 0)
+            {
+                MessageBox.Show("Top, yield, krw, timem limit and lostCut value can't be negative.");
+                return;
+            }
+
+
+            if (text_week.Text == "" && text_day.Text == "" && text_hour4.Text == "" &&
+                text_hour1.Text == "" && text_min30.Text == "")
             {
                 MessageBox.Show("At least one of 'from rate' parameter need.");
                 return;
             }
 
-            if (text_week.Text != "")
+            if (!double.TryParse(text_week.Text, out setting.week))
             {
-                if (!double.TryParse(text_week.Text, out setting.week))
+                if (text_week.Text == "") setting.week = -100000;
+                else
                 {
                     MessageBox.Show("Week rate is not number.");
                     return;
                 }
-                if (setting.week < -10000)
-                {
-                    MessageBox.Show("Rate value must be at least -10000.");
-                    return;
-                }
             }
-            else setting.week = -100000;
-
-            if (text_day.Text != "")
+            if (!double.TryParse(text_day.Text, out setting.day))
             {
-                if (!double.TryParse(text_day.Text, out setting.day))
+                if (text_day.Text == "") setting.day = -100000;
+                else
                 {
                     MessageBox.Show("Day rate is not number.");
                     return;
                 }
-                if (setting.day < -10000)
-                {
-                    MessageBox.Show("Rate value must be at least -10000.");
-                    return;
-                }
             }
-            else setting.day = -100000;
-
-            if (text_hour4.Text != "")
+            if (!double.TryParse(text_hour4.Text, out setting.hour4))
             {
-                if (!double.TryParse(text_hour4.Text, out setting.hour4))
+                if (text_hour4.Text == "") setting.hour4 = -100000;
+                else
                 {
                     MessageBox.Show("4 hour rate is not number.");
                     return;
                 }
-                if (setting.hour4 < -10000)
-                {
-                    MessageBox.Show("Rate value must be at least -10000.");
-                    return;
-                }
             }
-            else setting.hour4 = -100000;
-
-            if (text_hour1.Text != "")
+            if (!double.TryParse(text_hour1.Text, out setting.hour1))
             {
-                if (!double.TryParse(text_hour1.Text, out setting.hour1))
+                if (text_hour1.Text == "") setting.hour1 = -100000;
+                else
                 {
                     MessageBox.Show("1 hour rate is not number.");
                     return;
                 }
-                if (setting.hour1 < -10000)
-                {
-                    MessageBox.Show("Rate value must be at least -10000.");
-                    return;
-                }
             }
-            else setting.hour1 = -100000;
-
-            if (text_min30.Text != "")
+            if (!double.TryParse(text_min30.Text, out setting.min30))
             {
-                if (!double.TryParse(text_min30.Text, out setting.min30))
+                if (text_min30.Text == "") setting.min30 = -100000;
+                else
                 {
                     MessageBox.Show("'from' 30 minute rate is not number.");
                     return;
                 }
-                if (setting.min30 < -10000)
-                {
-                    MessageBox.Show("Rate value must be at least -10000.");
-                    return;
-                }
             }
-            else setting.min30 = -100000;
+
+            if ((setting.week != -100000 && setting.week < -10000) ||
+                (setting.day != -100000 && setting.day < -10000) ||
+                (setting.hour4 != -100000 && setting.hour4 < -10000) ||
+                (setting.hour1 != -100000 && setting.hour1 < -10000) ||
+                (setting.min30 != -100000 && setting.min30 < -10000))
+            {
+                MessageBox.Show("Rate value must be at least -10000.");
+                return;
+            }
+
 
             setting.week_bias = check_week_bias.Checked;
             setting.day_bias = check_day_bias.Checked;
             setting.hour4_bias = check_hour4_bias.Checked;
             setting.hour1_bias = check_hour1_bias.Checked;
             setting.min30_bias = check_min30_bias.Checked;
+
 
             setting.week_auto = check_week_auto.Checked;
             setting.day_auto = check_day_auto.Checked;

@@ -71,6 +71,8 @@ namespace UpbitDealer.src
         public double krw;
         public double time;
         public double limit;
+        public double lostCut;
+
         public double week;
         public double day;
         public double hour4;

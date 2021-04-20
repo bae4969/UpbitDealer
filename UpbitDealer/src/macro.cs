@@ -89,7 +89,7 @@ namespace UpbitDealer.src
                 else
                 {
                     string[] reader = System.IO.File.ReadAllLines(macroSettingDataPath);
-                    if (reader.Length > 20)
+                    if (reader.Length > 21)
                     {
                         setting.pause = bool.Parse(reader[0]);
 
@@ -98,23 +98,25 @@ namespace UpbitDealer.src
                         setting.krw = double.Parse(reader[3]);
                         setting.time = double.Parse(reader[4]);
                         setting.limit = double.Parse(reader[5]);
-                        setting.week = double.Parse(reader[6]);
-                        setting.day = double.Parse(reader[7]);
-                        setting.hour4 = double.Parse(reader[8]);
-                        setting.hour1 = double.Parse(reader[9]);
-                        setting.min30 = double.Parse(reader[10]);
+                        setting.lostCut = double.Parse(reader[6]);
 
-                        setting.week_bias = bool.Parse(reader[11]);
-                        setting.day_bias = bool.Parse(reader[12]);
-                        setting.hour4_bias = bool.Parse(reader[13]);
-                        setting.hour1_bias = bool.Parse(reader[14]);
-                        setting.min30_bias = bool.Parse(reader[15]);
+                        setting.week = double.Parse(reader[7]);
+                        setting.day = double.Parse(reader[8]);
+                        setting.hour4 = double.Parse(reader[9]);
+                        setting.hour1 = double.Parse(reader[10]);
+                        setting.min30 = double.Parse(reader[11]);
 
-                        setting.week_auto = bool.Parse(reader[16]);
-                        setting.day_auto = bool.Parse(reader[17]);
-                        setting.hour4_auto = bool.Parse(reader[18]);
-                        setting.hour1_auto = bool.Parse(reader[19]);
-                        setting.min30_auto = bool.Parse(reader[20]);
+                        setting.week_bias = bool.Parse(reader[12]);
+                        setting.day_bias = bool.Parse(reader[13]);
+                        setting.hour4_bias = bool.Parse(reader[14]);
+                        setting.hour1_bias = bool.Parse(reader[15]);
+                        setting.min30_bias = bool.Parse(reader[16]);
+
+                        setting.week_auto = bool.Parse(reader[17]);
+                        setting.day_auto = bool.Parse(reader[18]);
+                        setting.hour4_auto = bool.Parse(reader[19]);
+                        setting.hour1_auto = bool.Parse(reader[20]);
+                        setting.min30_auto = bool.Parse(reader[21]);
                     }
                 }
             }
@@ -196,6 +198,7 @@ namespace UpbitDealer.src
                         + setting.krw.ToString("0.########") + '\n'
                         + setting.time.ToString("0.########") + '\n'
                         + setting.limit.ToString("0.########") + '\n'
+                        + setting.lostCut.ToString("0.########") + '\n'
 
                         + setting.week.ToString("0.########") + '\n'
                         + setting.day.ToString("0.########") + '\n'
@@ -283,10 +286,13 @@ namespace UpbitDealer.src
         {
             setting.pause = true;
 
-            setting.yield = 1;
-            setting.krw = 5000;
+            setting.top = 60;
+            setting.yield = 0.5;
+            setting.krw = 10000;
             setting.time = 1;
             setting.limit = 0;
+            setting.lostCut = 0;
+
             setting.week = -100;
             setting.day = -100;
             setting.hour4 = -100;
@@ -627,9 +633,10 @@ namespace UpbitDealer.src
             for (int i = 0; i < state.Tables[coinName].Rows.Count; i++)
             {
                 double unit = (double)state.Tables[coinName].Rows[i]["unit"];
-                double targetPrice = (double)state.Tables[coinName].Rows[i]["price"];
-                targetPrice *= (100d + setting.yield) * 0.01;
-                if (quote[coinName] < targetPrice) continue;
+                double price = (double)state.Tables[coinName].Rows[i]["price"];
+                if (quote[coinName] < price * (100d + setting.yield) * 0.01 &&
+                    quote[coinName] > price * (setting.lostCut) * 0.01)
+                        continue;
 
                 Dictionary<string, string> par = new Dictionary<string, string>();
                 par.Add("market", "KRW-" + coinName);
