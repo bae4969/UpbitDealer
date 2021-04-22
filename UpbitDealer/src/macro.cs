@@ -21,8 +21,8 @@ namespace UpbitDealer.src
         private DataSet[] candle = new DataSet[5];
         private DataSet lastQuote = new DataSet();
         public DataSet[] bollinger = new DataSet[5];
-        private double[] bollingerAvg = new double[5];
-        private double[] bollingerMin = new double[5];
+        private double[,] bollingerAvg = new double[5, 5];
+        private double[,] bollingerMin = new double[5, 5];
 
 
         public MacroSetting(string access_key, string secret_key, List<string> coinList)
@@ -502,25 +502,28 @@ namespace UpbitDealer.src
         {
             for (int i = 0; i < 5; i++)
             {
-                bool minCheck = false;
-                double min = double.MaxValue;
-                double avg = 0;
-                double count = 0;
+                for (int k = 0; k < 5; k++)
+                {
+                    bool minCheck = false;
+                    double min = double.MaxValue;
+                    double avg = 0;
+                    double count = 0;
 
-                for (int j = 0; j < coinList.Count; j++)
-                    if (bollinger[i].Tables[j].Rows.Count > 0)
-                    {
-                        if (min > (double)bollinger[i].Tables[j].Rows[0]["value"])
+                    for (int j = 0; j < coinList.Count; j++)
+                        if (bollinger[i].Tables[j].Rows.Count > k)
                         {
-                            minCheck = true;
-                            min = (double)bollinger[i].Tables[j].Rows[0]["value"];
+                            if (min > (double)bollinger[i].Tables[j].Rows[k]["value"])
+                            {
+                                minCheck = true;
+                                min = (double)bollinger[i].Tables[j].Rows[k]["value"];
+                            }
+                            avg += (double)bollinger[i].Tables[j].Rows[k]["value"];
+                            count += 1;
                         }
-                        avg += (double)bollinger[i].Tables[j].Rows[0]["value"];
-                        count += 1;
-                    }
 
-                bollingerMin[i] = minCheck ? min : double.MinValue;
-                bollingerAvg[i] = avg / count;
+                    bollingerMin[i, k] = minCheck ? min : double.MinValue;
+                    bollingerAvg[i, k] = avg / count;
+                }
             }
         }
 
@@ -703,61 +706,80 @@ namespace UpbitDealer.src
                     case 4:
                         if (setting.week_auto)
                         {
-                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
-                            if (target > -40d) return 0;
+                            if (bollingerAvg[i, 0] > 0) return 0;
+                            if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
+                            if (bollingerAvg[i, 1] > bollingerAvg[i, 2]) return 0;
+                            if (bollingerAvg[i, 2] > bollingerAvg[i, 3]) return 0;
+                            target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i, 0]) * 0.7;
                         }
                         else
                         {
                             if ((target = setting.week) < -90000d) continue;
-                            if (setting.week_bias) target += bollingerAvg[i];
+                            if (setting.week_bias) target += bollingerAvg[i, 0];
                         }
                         break;
                     case 3:
                         if (setting.day_auto)
                         {
-                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
-                            if (target > -40d) return 0;
+                            if (bollingerAvg[i, 0] > 0) return 0;
+                            if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
+                            if (bollingerAvg[i, 1] > bollingerAvg[i, 2]) return 0;
+                            if (bollingerAvg[i, 2] > bollingerAvg[i, 3]) return 0;
+                            target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i, 0]) * 0.7;
                         }
                         else
                         {
                             if ((target = setting.day) < -90000d) continue;
-                            if (setting.day_bias) target += bollingerAvg[i];
+                            if (setting.day_bias) target += bollingerAvg[i, 0];
                         }
                         break;
                     case 2:
                         if (setting.hour4_auto)
                         {
-                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
-                            if (target > -40d) return 0;
+                            if (bollingerAvg[i, 0] > 0) return 0;
+                            if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
+                            if (bollingerAvg[i, 1] > bollingerAvg[i, 2]) return 0;
+                            if (bollingerAvg[i, 2] > bollingerAvg[i, 3]) return 0;
+                            target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i, 0]) * 0.7;
                         }
                         else
                         {
                             if ((target = setting.hour4) < -90000d) continue;
-                            if (setting.hour4_bias) target += bollingerAvg[i];
+                            if (setting.hour4_bias) target += bollingerAvg[i, 0];
                         }
                         break;
                     case 1:
                         if (setting.hour1_auto)
                         {
-                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
-                            if (target > -40d) return 0;
+                            if (bollingerAvg[i, 0] > 0) return 0;
+                            if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
+                            if (bollingerAvg[i, 1] > bollingerAvg[i, 2]) return 0;
+                            if (bollingerAvg[i, 2] > bollingerAvg[i, 3]) return 0;
+                            target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i, 0]) * 0.7;
                         }
                         else
                         {
                             if ((target = setting.hour1) < -90000d) continue;
-                            if (setting.hour1_bias) target += bollingerAvg[i];
+                            if (setting.hour1_bias) target += bollingerAvg[i, 0];
                         }
                         break;
                     case 0:
                         if (setting.min30_auto)
                         {
-                            target = bollingerAvg[i] - (bollingerAvg[i] - bollingerMin[i]) * 0.7;
-                            if (target > -40d) return 0;
+                            if (bollingerAvg[i, 0] > 0) return 0;
+                            if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
+                            if (bollingerAvg[i, 1] > bollingerAvg[i, 2]) return 0;
+                            if (bollingerAvg[i, 2] > bollingerAvg[i, 3]) return 0;
+                            target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i, 0]) * 0.7;
                         }
                         else
                         {
+                            if (bollingerAvg[i, 0] > 0) return 0;
+                            if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
+                            if (bollingerAvg[i, 1] > bollingerAvg[i, 2]) return 0;
+                            if (bollingerAvg[i, 2] > bollingerAvg[i, 3]) return 0;
                             if ((target = setting.min30) < -90000d) continue;
-                            if (setting.min30_bias) target += bollingerAvg[i];
+                            if (setting.min30_bias) target += bollingerAvg[i, 0];
                         }
                         break;
                 }
