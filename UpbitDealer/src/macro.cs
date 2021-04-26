@@ -21,8 +21,10 @@ namespace UpbitDealer.src
         private DataSet[] candle = new DataSet[5];
         private DataSet lastQuote = new DataSet();
         public DataSet[] bollinger = new DataSet[5];
-        private double[,] bollingerAvg = new double[5, 5];
-        private double[,] bollingerMin = new double[5, 5];
+        private double[,] bollingerAvg = new double[5, 60];
+        private double[] bollingerMin = new double[5];
+        private double[] bollingerTotalMax = new double[5];
+        private double[] bollingerTotalMin = new double[5];
 
 
         public MacroSetting(string access_key, string secret_key, List<string> coinList)
@@ -502,28 +504,50 @@ namespace UpbitDealer.src
         {
             for (int i = 0; i < 5; i++)
             {
-                for (int k = 0; k < 5; k++)
+                bool minCheck = false;
+                double min = double.MaxValue;
+                for (int j = 0; j < coinList.Count; j++)
+                    if (bollinger[i].Tables[j].Rows.Count > 0)
+                        if (min > (double)bollinger[i].Tables[j].Rows[0]["value"])
+                        {
+                            minCheck = true;
+                            min = (double)bollinger[i].Tables[j].Rows[0]["value"];
+                        }
+                bollingerMin[i] = minCheck ? min : double.MinValue;
+
+
+                bool totalMinCheck = false;
+                bool totalMaxCheck = false;
+                double totalMin = double.MaxValue;
+                double totalMax = double.MinValue;
+
+                for (int k = 0; k < 60; k++)
                 {
-                    bool minCheck = false;
-                    double min = double.MaxValue;
                     double avg = 0;
                     double count = 0;
 
                     for (int j = 0; j < coinList.Count; j++)
                         if (bollinger[i].Tables[j].Rows.Count > k)
                         {
-                            if (min > (double)bollinger[i].Tables[j].Rows[k]["value"])
-                            {
-                                minCheck = true;
-                                min = (double)bollinger[i].Tables[j].Rows[k]["value"];
-                            }
                             avg += (double)bollinger[i].Tables[j].Rows[k]["value"];
                             count += 1;
                         }
-
-                    bollingerMin[i, k] = minCheck ? min : double.MinValue;
                     bollingerAvg[i, k] = avg / count;
+
+                    if (totalMin > bollingerAvg[i, k])
+                    {
+                        totalMinCheck = true;
+                        totalMin = bollingerAvg[i, k];
+                    }
+                    if (totalMax < bollingerAvg[i, k])
+                    {
+                        totalMaxCheck = true;
+                        totalMax = bollingerAvg[i, k];
+                    }
                 }
+
+                bollingerTotalMin[i] = totalMinCheck ? totalMin : double.MinValue;
+                bollingerTotalMax[i] = totalMaxCheck ? totalMax : double.MaxValue;
             }
         }
 
@@ -736,12 +760,12 @@ namespace UpbitDealer.src
                 }
                 if (isAutoMode)
                 {
-                    if (bollingerAvg[i, 0] > 0) return 0;
-                    target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i, 0]) * 0.7;
+                    if (bollingerAvg[i, 0] > (bollingerTotalMax[i] + bollingerTotalMin[i]) * 0.5) return 0;
+                    target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i]) * 0.7;
                 }
                 else
                 {
-                    if (target < -90000d) continue;
+                    if (target < -10000d) continue;
                     if (isBias) target += bollingerAvg[i, 0];
                 }
 
