@@ -176,11 +176,11 @@ namespace UpbitDealer.form
                 MessageBox.Show("Top, yield, krw, timem limit and lostCut value can't be negative.");
                 return;
             }
-            if (!(setting.week >= -10000 ||
-                setting.day >= -10000 ||
-                setting.hour4 >= -10000 ||
-                setting.hour1 >= -10000 ||
-                setting.min30 >= -10000 ||
+            if (!(setting.week >= -10000d ||
+                setting.day >= -10000d ||
+                setting.hour4 >= -10000d ||
+                setting.hour1 >= -10000d ||
+                setting.min30 >= -10000d ||
                 setting.week_auto ||
                 setting.day_auto ||
                 setting.hour4_auto ||

@@ -670,11 +670,13 @@ namespace UpbitDealer.src
             string coinName = coinList[index];
 
             DataTable buyCandle = null;
-            if (setting.min30 > -90000d || setting.min30_auto) buyCandle = candle[0].Tables[coinName];
-            else if (setting.hour1 > -90000d || setting.hour1_auto) buyCandle = candle[1].Tables[coinName];
-            else if (setting.hour4 > -90000d || setting.hour4_auto) buyCandle = candle[2].Tables[coinName];
-            else if (setting.day > -90000d || setting.day_auto) buyCandle = candle[3].Tables[coinName];
-            else if (setting.week > -90000d || setting.week_auto) buyCandle = candle[4].Tables[coinName];
+            if (setting.min30 >= -10000d || setting.min30_auto) buyCandle = candle[0].Tables[coinName];
+            else if (setting.hour1 >= -10000d || setting.hour1_auto) buyCandle = candle[1].Tables[coinName];
+            else if (setting.hour4 >= -10000d || setting.hour4_auto) buyCandle = candle[2].Tables[coinName];
+            else if (setting.day >= -10000d || setting.day_auto) buyCandle = candle[3].Tables[coinName];
+            else if (setting.week >= -10000d || setting.week_auto) buyCandle = candle[4].Tables[coinName];
+            else return 0;
+
             if (buyCandle.Rows.Count < 2)
             {
                 executionStr.Add(new Output(0, "Macro Execution",
@@ -692,11 +694,12 @@ namespace UpbitDealer.src
                 if (DateTime.Compare(lastBuyDate, (DateTime)state.Tables[coinName].Rows[i]["date"]) < 0)
                     lastBuyDate = (DateTime)state.Tables[coinName].Rows[i]["date"];
 
-            if (setting.min30 > -90000d || setting.min30_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddMinutes(30)) <= 0) return 0; }
-            else if (setting.hour1 > -90000d || setting.hour1_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddHours(1)) <= 0) return 0; }
-            else if (setting.hour4 > -90000d || setting.hour4_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddHours(4)) <= 0) return 0; }
-            else if (setting.day > -90000d || setting.day_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddDays(1)) <= 0) return 0; }
-            else if (setting.week > -90000d || setting.week_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddDays(7)) <= 0) return 0; }
+            if (setting.min30 >= -10000d || setting.min30_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddMinutes(30)) <= 0) return 0; }
+            else if (setting.hour1 >= -10000d || setting.hour1_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddHours(1)) <= 0) return 0; }
+            else if (setting.hour4 >= -10000d || setting.hour4_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddHours(4)) <= 0) return 0; }
+            else if (setting.day >= -10000d || setting.day_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddDays(1)) <= 0) return 0; }
+            else if (setting.week >= -10000d || setting.week_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddDays(7)) <= 0) return 0; }
+            else return 0;
 
             for (int i = 4; i >= 0; i--)
             {
