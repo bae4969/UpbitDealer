@@ -700,88 +700,46 @@ namespace UpbitDealer.src
 
             for (int i = 4; i >= 0; i--)
             {
+                bool isAutoMode = false;
                 double target = 0;
+                bool isBias = false;
                 switch (i)
                 {
                     case 4:
-                        if (setting.week_auto)
-                        {
-                            if (bollingerAvg[i, 0] > 0) return 0;
-                            if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
-                            if (bollingerAvg[i, 1] > bollingerAvg[i, 2]) return 0;
-                            if (bollingerAvg[i, 2] > bollingerAvg[i, 3]) return 0;
-                            target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i, 0]) * 0.7;
-                        }
-                        else
-                        {
-                            if ((target = setting.week) < -90000d) continue;
-                            if (setting.week_bias) target += bollingerAvg[i, 0];
-                        }
+                        isAutoMode = setting.week_auto;
+                        target = setting.week;
+                        isBias = setting.week_bias;
                         break;
                     case 3:
-                        if (setting.day_auto)
-                        {
-                            if (bollingerAvg[i, 0] > 0) return 0;
-                            if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
-                            if (bollingerAvg[i, 1] > bollingerAvg[i, 2]) return 0;
-                            if (bollingerAvg[i, 2] > bollingerAvg[i, 3]) return 0;
-                            target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i, 0]) * 0.7;
-                        }
-                        else
-                        {
-                            if ((target = setting.day) < -90000d) continue;
-                            if (setting.day_bias) target += bollingerAvg[i, 0];
-                        }
+                        isAutoMode = setting.day_auto;
+                        target = setting.day;
+                        isBias = setting.day_bias;
                         break;
                     case 2:
-                        if (setting.hour4_auto)
-                        {
-                            if (bollingerAvg[i, 0] > 0) return 0;
-                            if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
-                            if (bollingerAvg[i, 1] > bollingerAvg[i, 2]) return 0;
-                            if (bollingerAvg[i, 2] > bollingerAvg[i, 3]) return 0;
-                            target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i, 0]) * 0.7;
-                        }
-                        else
-                        {
-                            if ((target = setting.hour4) < -90000d) continue;
-                            if (setting.hour4_bias) target += bollingerAvg[i, 0];
-                        }
+                        isAutoMode = setting.hour4_auto;
+                        target = setting.hour4;
+                        isBias = setting.hour4_bias;
                         break;
                     case 1:
-                        if (setting.hour1_auto)
-                        {
-                            if (bollingerAvg[i, 0] > 0) return 0;
-                            if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
-                            if (bollingerAvg[i, 1] > bollingerAvg[i, 2]) return 0;
-                            if (bollingerAvg[i, 2] > bollingerAvg[i, 3]) return 0;
-                            target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i, 0]) * 0.7;
-                        }
-                        else
-                        {
-                            if ((target = setting.hour1) < -90000d) continue;
-                            if (setting.hour1_bias) target += bollingerAvg[i, 0];
-                        }
+                        isAutoMode = setting.hour1_auto;
+                        target = setting.hour1;
+                        isBias = setting.hour1_bias;
                         break;
                     case 0:
-                        if (setting.min30_auto)
-                        {
-                            if (bollingerAvg[i, 0] > 0) return 0;
-                            if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
-                            if (bollingerAvg[i, 1] > bollingerAvg[i, 2]) return 0;
-                            if (bollingerAvg[i, 2] > bollingerAvg[i, 3]) return 0;
-                            target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i, 0]) * 0.7;
-                        }
-                        else
-                        {
-                            if (bollingerAvg[i, 0] > 0) return 0;
-                            if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
-                            if (bollingerAvg[i, 1] > bollingerAvg[i, 2]) return 0;
-                            if (bollingerAvg[i, 2] > bollingerAvg[i, 3]) return 0;
-                            if ((target = setting.min30) < -90000d) continue;
-                            if (setting.min30_bias) target += bollingerAvg[i, 0];
-                        }
+                        isAutoMode = setting.min30_auto;
+                        target = setting.min30;
+                        isBias = setting.min30_bias;
                         break;
+                }
+                if (isAutoMode)
+                {
+                    if (bollingerAvg[i, 0] > 0) return 0;
+                    target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i, 0]) * 0.7;
+                }
+                else
+                {
+                    if (target < -90000d) continue;
+                    if (isBias) target += bollingerAvg[i, 0];
                 }
 
                 if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
