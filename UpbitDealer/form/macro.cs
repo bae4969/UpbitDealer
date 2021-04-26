@@ -72,7 +72,6 @@ namespace UpbitDealer.form
             MacroSettingData setting = new MacroSettingData();
 
             setting.pause = this.setting.pause;
-
             if (!int.TryParse(text_top.Text, out setting.top))
             {
                 if (text_top.Text == "") setting.top = 70;
@@ -115,22 +114,6 @@ namespace UpbitDealer.form
                     return;
                 }
             }
-
-            if (setting.top < 0 || setting.yield < 0 || setting.krw < 0 ||
-                setting.time < 0 || setting.limit < 0 || setting.lostCut < 0)
-            {
-                MessageBox.Show("Top, yield, krw, timem limit and lostCut value can't be negative.");
-                return;
-            }
-
-
-            if (text_week.Text == "" && text_day.Text == "" && text_hour4.Text == "" &&
-                text_hour1.Text == "" && text_min30.Text == "")
-            {
-                MessageBox.Show("At least one of 'from rate' parameter need.");
-                return;
-            }
-
             if (!double.TryParse(text_week.Text, out setting.week))
             {
                 if (text_week.Text == "") setting.week = -100000;
@@ -176,30 +159,39 @@ namespace UpbitDealer.form
                     return;
                 }
             }
-
-            if ((setting.week != -100000 && setting.week < -10000) ||
-                (setting.day != -100000 && setting.day < -10000) ||
-                (setting.hour4 != -100000 && setting.hour4 < -10000) ||
-                (setting.hour1 != -100000 && setting.hour1 < -10000) ||
-                (setting.min30 != -100000 && setting.min30 < -10000))
-            {
-                MessageBox.Show("Rate value must be at least -10000.");
-                return;
-            }
-
-
             setting.week_bias = check_week_bias.Checked;
             setting.day_bias = check_day_bias.Checked;
             setting.hour4_bias = check_hour4_bias.Checked;
             setting.hour1_bias = check_hour1_bias.Checked;
             setting.min30_bias = check_min30_bias.Checked;
-
-
             setting.week_auto = check_week_auto.Checked;
             setting.day_auto = check_day_auto.Checked;
             setting.hour4_auto = check_hour4_auto.Checked;
             setting.hour1_auto = check_hour1_auto.Checked;
             setting.min30_auto = check_min30_auto.Checked;
+
+            if (setting.top < 0 || setting.yield < 0 || setting.krw < 0 ||
+                setting.time < 0 || setting.limit < 0 || setting.lostCut < 0)
+            {
+                MessageBox.Show("Top, yield, krw, timem limit and lostCut value can't be negative.");
+                return;
+            }
+            if (!(setting.week >= -10000 ||
+                setting.day >= -10000 ||
+                setting.hour4 >= -10000 ||
+                setting.hour1 >= -10000 ||
+                setting.min30 >= -10000 ||
+                setting.week_auto ||
+                setting.day_auto ||
+                setting.hour4_auto ||
+                setting.hour1_auto ||
+                setting.min30_auto
+                ))
+            {
+                MessageBox.Show("One of rate value must be set and the value must be at least -10000.\n" +
+                                "Or one of rate auto must be checked.");
+                return;
+            }
 
             lock (((Main)Owner).lock_macro)
                 ((Main)Owner).macro.saveMacroSetting(setting);
