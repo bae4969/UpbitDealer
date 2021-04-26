@@ -18,6 +18,7 @@ namespace UpbitDealer.src
 
         private double holdKRW = 0;
         private Dictionary<string, double> quote = new Dictionary<string, double>();
+        private Dictionary<string, DateTime> lastTrade = new Dictionary<string, DateTime>();
         private DataSet[] candle = new DataSet[5];
         private DataSet lastQuote = new DataSet();
         public DataSet[] bollinger = new DataSet[5];
@@ -49,7 +50,10 @@ namespace UpbitDealer.src
             order.Columns.Add("target_uuid", typeof(string));
 
             for (int i = 0; i < coinList.Count; i++)
+            {
                 quote.Add(coinList[i], 0);
+                lastTrade.Add(coinList[i], DateTime.Now.AddYears(-1));
+            }
 
             for (int i = 0; i < 5; i++)
             {
@@ -84,6 +88,7 @@ namespace UpbitDealer.src
             string macroSettingDataPath = System.IO.Directory.GetCurrentDirectory() + "/macroSetting.dat";
             string macroStateDataPath = System.IO.Directory.GetCurrentDirectory() + "/macroState.dat";
             string macroOrderDataPath = System.IO.Directory.GetCurrentDirectory() + "/macroOrder.dat";
+            string macroLastTradeDataPath = System.IO.Directory.GetCurrentDirectory() + "/macroLastTrade.dat";
 
             try
             {
@@ -178,6 +183,28 @@ namespace UpbitDealer.src
                 executionStr.Add(new Output(2, "Macro Execution", "Fail to load macro order (" + ex.Message + ")"));
                 return -3;
             }
+            try
+            {
+                if (!System.IO.File.Exists(macroLastTradeDataPath)) System.IO.File.Create(macroLastTradeDataPath);
+                else
+                {
+                    string[] reader = System.IO.File.ReadAllLines(macroLastTradeDataPath);
+                    for (int i = 0; i < reader.Length; i++)
+                    {
+                        string[] singleData = reader[i].Split('\t');
+                        if (singleData.Length < 2) continue;
+                        if (lastTrade.ContainsKey(singleData[0]))
+                            lastTrade[singleData[0]] = DateTime.ParseExact(singleData[1], "u", null);
+                        else
+                            lastTrade.Add(singleData[0], DateTime.ParseExact(singleData[1], "u", null));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                executionStr.Add(new Output(2, "Macro Execution", "Fail to load macro last trade (" + ex.Message + ")"));
+                return -3;
+            }
 
             return 0;
         }
@@ -186,6 +213,7 @@ namespace UpbitDealer.src
             string macroSettingDataPath = System.IO.Directory.GetCurrentDirectory() + "/macroSetting.dat";
             string macroStateDataPath = System.IO.Directory.GetCurrentDirectory() + "/macroState.dat";
             string macroOrderDataPath = System.IO.Directory.GetCurrentDirectory() + "/macroOrder.dat";
+            string macroLastTradeDataPath = System.IO.Directory.GetCurrentDirectory() + "/macroLastTrade.dat";
 
             try
             {
@@ -277,6 +305,27 @@ namespace UpbitDealer.src
             catch (Exception ex)
             {
                 executionStr.Add(new Output(2, "Macro Execution", "Fail to save macro order (" + ex.Message + ")"));
+                return -3;
+            }
+            try
+            {
+                if (!System.IO.File.Exists(macroLastTradeDataPath)) System.IO.File.Create(macroLastTradeDataPath);
+                else
+                {
+                    List<string> savingList = new List<string>();
+                    for (int i = 0; i < coinList.Count; i++)
+                    {
+                        string tempStr
+                            = coinList[i] + '\t'
+                            + lastTrade[coinList[i]].ToString("u");
+                        savingList.Add(tempStr);
+                    }
+                    System.IO.File.WriteAllText(macroLastTradeDataPath, string.Join("\n", savingList) + '\n');
+                }
+            }
+            catch (Exception ex)
+            {
+                executionStr.Add(new Output(2, "Macro Execution", "Fail to save macro last trdae (" + ex.Message + ")"));
                 return -3;
             }
 
@@ -645,6 +694,7 @@ namespace UpbitDealer.src
             row["coinName"] = coinName;
             row["uuid"] = jObject["uuid"];
             order.Rows.Add(row);
+            lastTrade[coinName] = DateTime.Now;
 
             return 1;
         }
@@ -713,16 +763,11 @@ namespace UpbitDealer.src
                 ((double)buyCandle.Rows[1]["open"] + (double)buyCandle.Rows[1]["close"]) * 0.5) return 0;
 
 
-            DateTime lastBuyDate = DateTime.Now.AddYears(-1);
-            for (int i = 0; i < state.Tables[coinName].Rows.Count; i++)
-                if (DateTime.Compare(lastBuyDate, (DateTime)state.Tables[coinName].Rows[i]["date"]) < 0)
-                    lastBuyDate = (DateTime)state.Tables[coinName].Rows[i]["date"];
-
-            if (setting.min30 >= -10000d || setting.min30_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddMinutes(30)) <= 0) return 0; }
-            else if (setting.hour1 >= -10000d || setting.hour1_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddHours(1)) <= 0) return 0; }
-            else if (setting.hour4 >= -10000d || setting.hour4_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddHours(4)) <= 0) return 0; }
-            else if (setting.day >= -10000d || setting.day_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddDays(1)) <= 0) return 0; }
-            else if (setting.week >= -10000d || setting.week_auto) { if (DateTime.Compare(DateTime.Now, lastBuyDate.AddDays(7)) <= 0) return 0; }
+            if (setting.min30 >= -10000d || setting.min30_auto) { if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddMinutes(30)) <= 0) return 0; }
+            else if (setting.hour1 >= -10000d || setting.hour1_auto) { if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddHours(1)) <= 0) return 0; }
+            else if (setting.hour4 >= -10000d || setting.hour4_auto) { if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddHours(4)) <= 0) return 0; }
+            else if (setting.day >= -10000d || setting.day_auto) { if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddDays(1)) <= 0) return 0; }
+            else if (setting.week >= -10000d || setting.week_auto) { if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddDays(7)) <= 0) return 0; }
             else return 0;
 
             for (int i = 4; i >= 0; i--)
