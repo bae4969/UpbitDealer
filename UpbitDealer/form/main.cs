@@ -229,7 +229,7 @@ namespace UpbitDealer.form
             {
                 lock (lock_macro) lock (lock_mainUpdater)
                     macro.updateCoinList(mainUpdater.coinList);
-                macro.updateBollingerAvgMin();
+                macro.updateBollingerAvg();
 
                 for (int i = 0; !AllStop && i < macro.getListCount(); i++)
                 {

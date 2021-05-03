@@ -549,7 +549,7 @@ namespace UpbitDealer.src
                 }
             }
         }
-        public void updateBollingerAvgMin()
+        public void updateBollingerAvg()
         {
             for (int i = 0; i < 5; i++)
             {
@@ -743,12 +743,39 @@ namespace UpbitDealer.src
         {
             string coinName = coinList[index];
 
-            DataTable buyCandle = null;
-            if (setting.min30 >= -10000d || setting.min30_auto) buyCandle = candle[0].Tables[coinName];
-            else if (setting.hour1 >= -10000d || setting.hour1_auto) buyCandle = candle[1].Tables[coinName];
-            else if (setting.hour4 >= -10000d || setting.hour4_auto) buyCandle = candle[2].Tables[coinName];
-            else if (setting.day >= -10000d || setting.day_auto) buyCandle = candle[3].Tables[coinName];
-            else if (setting.week >= -10000d || setting.week_auto) buyCandle = candle[4].Tables[coinName];
+            DataTable buyCandle;
+            double dropRate;
+
+            if (setting.min30 >= -10000d || setting.min30_auto)
+            {
+                if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddMinutes(30)) <= 0) return 0;
+                buyCandle = candle[0].Tables[coinName];
+                dropRate = (100d + setting.yield) *0.01;
+            }
+            else if (setting.hour1 >= -10000d || setting.hour1_auto)
+            {
+                if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddHours(1)) <= 0) return 0;
+                buyCandle = candle[1].Tables[coinName];
+                dropRate = (100d + setting.yield * 0.8) * 0.01;
+            }
+            else if (setting.hour4 >= -10000d || setting.hour4_auto)
+            {
+                if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddHours(4)) <= 0) return 0;
+                buyCandle = candle[2].Tables[coinName];
+                dropRate = (100d + setting.yield * 0.6) * 0.01;
+            }
+            else if (setting.day >= -10000d || setting.day_auto)
+            {
+                if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddDays(1)) <= 0) return 0;
+                buyCandle = candle[3].Tables[coinName];
+                dropRate = (100d + setting.yield * 0.4) * 0.01;
+            }
+            else if (setting.week >= -10000d || setting.week_auto)
+            {
+                if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddDays(7)) <= 0) return 0;
+                buyCandle = candle[4].Tables[coinName];
+                dropRate = (100d + setting.yield * 0.2) * 0.01;
+            }
             else return 0;
 
             if (buyCandle.Rows.Count < 2)
@@ -758,17 +785,10 @@ namespace UpbitDealer.src
                 return -1;
             }
             if ((double)buyCandle.Rows[0]["open"] >= (double)buyCandle.Rows[0]["close"] ||
-                (double)buyCandle.Rows[1]["open"] <= (double)buyCandle.Rows[1]["close"] * (100d + setting.yield * 2d) * 0.01) return 0;
+                (double)buyCandle.Rows[1]["open"] <= (double)buyCandle.Rows[1]["close"] * dropRate) return 0;
             if ((double)buyCandle.Rows[0]["close"] <
                 ((double)buyCandle.Rows[1]["open"] + (double)buyCandle.Rows[1]["close"]) * 0.5) return 0;
 
-
-            if (setting.min30 >= -10000d || setting.min30_auto) { if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddMinutes(30)) <= 0) return 0; }
-            else if (setting.hour1 >= -10000d || setting.hour1_auto) { if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddHours(1)) <= 0) return 0; }
-            else if (setting.hour4 >= -10000d || setting.hour4_auto) { if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddHours(4)) <= 0) return 0; }
-            else if (setting.day >= -10000d || setting.day_auto) { if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddDays(1)) <= 0) return 0; }
-            else if (setting.week >= -10000d || setting.week_auto) { if (DateTime.Compare(DateTime.Now, lastTrade[coinName].AddDays(7)) <= 0) return 0; }
-            else return 0;
 
             for (int i = 4; i >= 0; i--)
             {
@@ -805,8 +825,8 @@ namespace UpbitDealer.src
                 }
                 if (isAutoMode)
                 {
-                    if (bollingerAvg[i, 0] > (bollingerTotalMax[i] + bollingerTotalMin[i]) * 0.5) return 0;
-                    target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i]) * 0.7;
+                    if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
+                    target = bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i]) * 0.5;
                 }
                 else
                 {
