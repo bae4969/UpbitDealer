@@ -18,6 +18,7 @@ namespace UpbitDealer.form
         ApiData apiData;
 
         DataView Main_Data;
+        DataView Trend_Data;
         DataView Bollinger_Data;
         DataView MFI_Data;
         DataView Stochastic_Data;
@@ -34,9 +35,6 @@ namespace UpbitDealer.form
 
         Thread updateThread;
         private readonly object lock_update = new object();
-
-        Point? prevPosition = null;
-        ToolTip tooltip = new ToolTip();
 
 
         public graph(string coinName, string access_key, string secret_key)
@@ -59,6 +57,7 @@ namespace UpbitDealer.form
                     Close();
                     return;
                 }
+                Trend_Data = makeTrend(Main_Data);
                 Bollinger_Data = makeBollinger(Main_Data);
                 MFI_Data = makeMFI(Main_Data);
                 Stochastic_Data = makeStochastic(Main_Data);
@@ -114,6 +113,10 @@ namespace UpbitDealer.form
             }
         }
 
+        static double function_y_value(double a, double x, double x_avg, double y_avg)
+        {
+            return a * (x - x_avg) + y_avg;
+        }
 
         private DataView getDataTable(int typeVal)
         {
@@ -162,6 +165,73 @@ namespace UpbitDealer.form
             dataView.Sort = "date";
 
             return dataView;
+        }
+        private DataView makeTrend(DataView candleData)
+        {
+            DataTable trendTable = new DataTable();
+            trendTable.Columns.Add("date", typeof(DateTime));
+            trendTable.Columns.Add("value", typeof(double));
+
+            double x_avg = 0;
+            double y_avg = 0;
+            double init_a;
+            double init_dis;
+
+            int startIndex = candleData.Count < 28 ? 0 : candleData.Count - 28;
+            for (int i = startIndex; i < candleData.Count; i++)
+            {
+                x_avg += ((DateTime)candleData[i]["date"]).ToOADate();
+                y_avg += (double)candleData[i]["close"];
+            }
+            x_avg /= candleData.Count - startIndex;
+            y_avg /= candleData.Count - startIndex;
+            init_a = ((double)candleData[candleData.Count - 1]["close"] - (double)candleData[startIndex]["close"])
+                / candleData.Count - startIndex;
+
+            init_dis = 0;
+            for (int i = startIndex; i < candleData.Count; i++)
+            {
+                double y_value = function_y_value(init_a, ((DateTime)candleData[i]["date"]).ToOADate(), x_avg, y_avg);
+                init_dis += Math.Abs((double)candleData[i]["close"] - y_value);
+            }
+
+            while (true)
+            {
+                double adjust = 0;
+                for (int i = startIndex; i < candleData.Count; i++)
+                {
+                    double y_value = function_y_value(init_a, ((DateTime)candleData[i]["date"]).ToOADate(), x_avg, y_avg);
+                    if (((DateTime)candleData[i]["date"]).ToOADate() == x_avg) continue;
+                    adjust += ((double)candleData[i]["close"] - y_value) / (((DateTime)candleData[i]["date"]).ToOADate() - x_avg);
+                }
+                adjust /= candleData.Count - startIndex;
+
+
+                double this_dis = 0;
+                for (int i = startIndex; i < candleData.Count; i++)
+                {
+                    double y_value = function_y_value(init_a + adjust, ((DateTime)candleData[i]["date"]).ToOADate(), x_avg, y_avg);
+                    this_dis += Math.Abs((double)candleData[i]["close"] - y_value);
+                }
+
+                if (init_dis <= this_dis) break;
+                else
+                {
+                    init_dis = this_dis;
+                    init_a += adjust;
+                }
+            }
+
+            DataRow dataRow = trendTable.NewRow();
+            dataRow["date"] = candleData[startIndex]["date"];
+            dataRow["value"] = function_y_value(init_a, ((DateTime)candleData[startIndex]["date"]).ToOADate(), x_avg, y_avg);
+            trendTable.Rows.Add(dataRow);
+            dataRow = trendTable.NewRow();
+            dataRow["date"] = candleData[candleData.Count - 1]["date"];
+            dataRow["value"] = function_y_value(init_a, ((DateTime)candleData[candleData.Count - 1]["date"]).ToOADate(), x_avg, y_avg);
+            trendTable.Rows.Add(dataRow);
+
+            return new DataView(trendTable);
         }
         private DataView makeBollinger(DataView candleData)
         {
@@ -302,6 +372,8 @@ namespace UpbitDealer.form
             {
                 chart.Series["candle"].Points.DataBind(Main_Data, "date", "max,min,open,close", "");
 
+                chart.Series["trend"].Points.DataBind(Trend_Data, "date", "value", "");
+
                 chart.Series["volume"].Points.DataBind(Main_Data, "date", "volume", "");
 
                 chart.Series["top"].Points.DataBind(Bollinger_Data, "date", "top", "");
@@ -323,6 +395,7 @@ namespace UpbitDealer.form
                 int tempType = needShowType;
                 DataView candleData = getDataTable(needShowType);
                 if (candleData == null) continue;
+                DataView tData = makeTrend(candleData);
                 DataView bbData = makeBollinger(candleData);
                 DataView mfiData = makeMFI(candleData);
                 DataView stocData = makeStochastic(candleData);
@@ -330,6 +403,7 @@ namespace UpbitDealer.form
                 lock (lock_update)
                 {
                     Main_Data = candleData;
+                    Trend_Data = tData;
                     Bollinger_Data = bbData;
                     MFI_Data = mfiData;
                     Stochastic_Data = stocData;
