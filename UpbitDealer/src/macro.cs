@@ -929,7 +929,6 @@ namespace UpbitDealer.src
                     if ((double)trendLine[i].Tables[coinName].Rows[0]["value"] < 0) return 0;
                     if ((double)trendLine[i].Tables[coinName].Rows[0]["value"] <=
                         (double)trendLine[i].Tables[coinName].Rows[1]["value"]) return 0;
-                    return 0;
                 }
             }
 
