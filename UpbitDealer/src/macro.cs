@@ -847,7 +847,7 @@ namespace UpbitDealer.src
             string coinName = coinList[index];
 
             DataTable buyCandle;
-            double dropRate = 100;
+            double dropRate = 1;
 
             if (setting.min30_bb || setting.min30_tl)
             {
@@ -928,7 +928,8 @@ namespace UpbitDealer.src
                     if (trendLine[i].Tables[coinName].Rows.Count < 1) return 0;
                     if ((double)trendLine[i].Tables[coinName].Rows[0]["value"] < 0) return 0;
                     if ((double)trendLine[i].Tables[coinName].Rows[0]["value"] <=
-                        (double)trendLine[i].Tables[coinName].Rows[1]["value"]) return 0;
+                        (double)trendLine[i].Tables[coinName].Rows[1]["value"])
+                        return 0;
                 }
             }
 
