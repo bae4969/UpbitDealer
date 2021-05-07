@@ -132,6 +132,7 @@ namespace UpbitDealer.src
                     if (!(setting.week_bb || setting.day_bb || setting.hour4_bb || setting.hour1_bb || setting.min30_bb ||
                         setting.week_tl || setting.day_tl || setting.hour4_tl || setting.hour1_tl || setting.min30_tl))
                     {
+                        executionStr.Add(new Output(3, "Macro Execution", "Invaild macro setting file detected. Reset the macro setting."));
                         initDefaultSetting();
                     }
                 }
