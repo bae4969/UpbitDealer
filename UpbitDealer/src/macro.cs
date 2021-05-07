@@ -102,34 +102,37 @@ namespace UpbitDealer.src
                 else
                 {
                     string[] reader = System.IO.File.ReadAllLines(macroSettingDataPath);
-                    if (reader.Length > 21)
+                    for (int i = 0; i < reader.Length; i++)
                     {
-                        for (int i = 0; i < reader.Length; i++)
-                        {
-                            string[] singleData = reader[i].Split(':');
-                            if (singleData.Length < 2) continue;
+                        string[] singleData = reader[i].Split(':');
+                        if (singleData.Length < 2) continue;
 
-                            else if (singleData[0] == "pause_buy") setting.pauseBuy = bool.Parse(singleData[1]);
+                        else if (singleData[0] == "pause_buy") setting.pauseBuy = bool.Parse(singleData[1]);
                                  
-                            else if (singleData[0] == "top") setting.top = int.Parse(singleData[1]);
-                            else if (singleData[0] == "yield") setting.yield = double.Parse(singleData[1]);
-                            else if (singleData[0] == "krw") setting.krw = double.Parse(singleData[1]);
-                            else if (singleData[0] == "time") setting.time = double.Parse(singleData[1]);
-                            else if (singleData[0] == "limit") setting.limit = double.Parse(singleData[1]);
-                            else if (singleData[0] == "lost_cut") setting.lostCut = double.Parse(singleData[1]);
+                        else if (singleData[0] == "top") setting.top = int.Parse(singleData[1]);
+                        else if (singleData[0] == "yield") setting.yield = double.Parse(singleData[1]);
+                        else if (singleData[0] == "krw") setting.krw = double.Parse(singleData[1]);
+                        else if (singleData[0] == "time") setting.time = double.Parse(singleData[1]);
+                        else if (singleData[0] == "limit") setting.limit = double.Parse(singleData[1]);
+                        else if (singleData[0] == "lost_cut") setting.lostCut = double.Parse(singleData[1]);
                                  
-                            else if (singleData[0] == "week_bollinger") setting.week_bb = bool.Parse(singleData[1]);
-                            else if (singleData[0] == "day_bollinger") setting.day_bb = bool.Parse(singleData[1]);
-                            else if (singleData[0] == "hour4_bollinger") setting.hour4_bb = bool.Parse(singleData[1]);
-                            else if (singleData[0] == "hour1_bollinger") setting.hour1_bb = bool.Parse(singleData[1]);
-                            else if (singleData[0] == "min30_bollinger") setting.min30_bb = bool.Parse(singleData[1]);
+                        else if (singleData[0] == "week_bollinger") setting.week_bb = bool.Parse(singleData[1]);
+                        else if (singleData[0] == "day_bollinger") setting.day_bb = bool.Parse(singleData[1]);
+                        else if (singleData[0] == "hour4_bollinger") setting.hour4_bb = bool.Parse(singleData[1]);
+                        else if (singleData[0] == "hour1_bollinger") setting.hour1_bb = bool.Parse(singleData[1]);
+                        else if (singleData[0] == "min30_bollinger") setting.min30_bb = bool.Parse(singleData[1]);
                                  
-                            else if (singleData[0] == "week_trend_line") setting.week_tl = bool.Parse(singleData[1]);
-                            else if (singleData[0] == "day_trend_line") setting.day_tl = bool.Parse(singleData[1]);
-                            else if (singleData[0] == "hour4_trend_line") setting.hour4_tl = bool.Parse(singleData[1]);
-                            else if (singleData[0] == "hour1_trend_line") setting.hour1_tl = bool.Parse(singleData[1]);
-                            else if (singleData[0] == "min30_trend_line") setting.min30_tl = bool.Parse(singleData[1]);
-                        }
+                        else if (singleData[0] == "week_trend_line") setting.week_tl = bool.Parse(singleData[1]);
+                        else if (singleData[0] == "day_trend_line") setting.day_tl = bool.Parse(singleData[1]);
+                        else if (singleData[0] == "hour4_trend_line") setting.hour4_tl = bool.Parse(singleData[1]);
+                        else if (singleData[0] == "hour1_trend_line") setting.hour1_tl = bool.Parse(singleData[1]);
+                        else if (singleData[0] == "min30_trend_line") setting.min30_tl = bool.Parse(singleData[1]);
+                    }
+
+                    if (!(setting.week_bb || setting.day_bb || setting.hour4_bb || setting.hour1_bb || setting.min30_bb ||
+                        setting.week_tl || setting.day_tl || setting.hour4_tl || setting.hour1_tl || setting.min30_tl))
+                    {
+                        initDefaultSetting();
                     }
                 }
             }
@@ -444,7 +447,7 @@ namespace UpbitDealer.src
             setting.limit = 0;
             setting.lostCut = 0;
 
-            setting.week_bb = false;
+            setting.week_bb = true;
             setting.day_bb = false;
             setting.hour4_bb = false;
             setting.hour1_bb = false;
@@ -916,13 +919,15 @@ namespace UpbitDealer.src
                 {
                     if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
                     if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
-                    if ((double)bollinger[i].Tables[coinName].Rows[0]["value"] >
-                        bollingerAvg[i, 0] - (bollingerAvg[i, 0] - bollingerMin[i]) * 0.5) return 0;
+                    if ((double)bollinger[i].Tables[coinName].Rows[0]["value"] <=
+                        (double)bollinger[i].Tables[coinName].Rows[1]["value"]) return 0;
                 }
                 if (isTLMode)
                 {
                     if (trendLine[i].Tables[coinName].Rows.Count < 1) return 0;
                     if ((double)trendLine[i].Tables[coinName].Rows[0]["value"] < 0) return 0;
+                    if ((double)trendLine[i].Tables[coinName].Rows[0]["value"] <=
+                        (double)trendLine[i].Tables[coinName].Rows[1]["value"]) return 0;
                     return 0;
                 }
             }

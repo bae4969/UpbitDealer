@@ -131,7 +131,8 @@ namespace UpbitDealer.form
             if (!(setting.week_bb || setting.day_bb || setting.hour4_bb || setting.hour1_bb || setting.min30_bb ||
                 setting.week_tl || setting.day_tl || setting.hour4_tl || setting.hour1_tl || setting.min30_tl))
             {
-                setting.pauseBuy = true;
+                MessageBox.Show("At least one of optional setting values must be checked.");
+                return;
             }
 
             lock (((Main)Owner).lock_macro)
