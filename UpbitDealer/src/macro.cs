@@ -517,8 +517,6 @@ namespace UpbitDealer.src
                     trendLine[i].Tables[coinName].Rows.Add(dataRow);
                 }
             }
-            if(trendLine[3].Tables[coinName].Rows.Count > 0)
-            executionStr.Add(new Output(0, coinName, ((double)trendLine[3].Tables[coinName].Rows[0]["value"]).ToString("0.########")));
         }
 
 
