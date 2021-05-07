@@ -64,7 +64,7 @@ namespace UpbitDealer.src
 
     public struct MacroSettingData
     {
-        public bool pause;
+        public bool pauseBuy;
 
         public int top;
         public double yield;
@@ -73,23 +73,17 @@ namespace UpbitDealer.src
         public double limit;
         public double lostCut;
 
-        public double week;
-        public double day;
-        public double hour4;
-        public double hour1;
-        public double min30;
+        public bool week_bb;
+        public bool day_bb;
+        public bool hour4_bb;
+        public bool hour1_bb;
+        public bool min30_bb;
 
-        public bool week_bias;
-        public bool day_bias;
-        public bool hour4_bias;
-        public bool hour1_bias;
-        public bool min30_bias;
-
-        public bool week_auto;
-        public bool day_auto;
-        public bool hour4_auto;
-        public bool hour1_auto;
-        public bool min30_auto;
+        public bool week_tl;
+        public bool day_tl;
+        public bool hour4_tl;
+        public bool hour1_tl;
+        public bool min30_tl;
     }
 
     public class NameValue

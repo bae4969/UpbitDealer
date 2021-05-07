@@ -177,7 +177,7 @@ namespace UpbitDealer.form
             double init_a;
             double init_dis;
 
-            int startIndex = candleData.Count < 28 ? 0 : candleData.Count - 28;
+            int startIndex = candleData.Count < 14 ? 0 : candleData.Count - 14;
             for (int i = startIndex; i < candleData.Count; i++)
             {
                 x_avg += ((DateTime)candleData[i]["date"]).ToOADate();

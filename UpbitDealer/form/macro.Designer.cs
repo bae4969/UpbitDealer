@@ -31,6 +31,8 @@ namespace UpbitDealer.form
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Macro));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.text_lostCut = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.text_top = new System.Windows.Forms.TextBox();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.text_limit = new System.Windows.Forms.TextBox();
@@ -41,34 +43,27 @@ namespace UpbitDealer.form
             this.text_parName2 = new System.Windows.Forms.TextBox();
             this.text_parName1 = new System.Windows.Forms.TextBox();
             this.text_parName0 = new System.Windows.Forms.TextBox();
-            this.check_min30_bias = new System.Windows.Forms.CheckBox();
-            this.check_hour1_bias = new System.Windows.Forms.CheckBox();
-            this.check_hour4_bias = new System.Windows.Forms.CheckBox();
-            this.check_day_bias = new System.Windows.Forms.CheckBox();
-            this.check_week_bias = new System.Windows.Forms.CheckBox();
-            this.text_min30 = new System.Windows.Forms.TextBox();
             this.textBox9 = new System.Windows.Forms.TextBox();
-            this.text_hour1 = new System.Windows.Forms.TextBox();
             this.textBox7 = new System.Windows.Forms.TextBox();
-            this.text_hour4 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
-            this.text_day = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.text_week = new System.Windows.Forms.TextBox();
             this.text_parName3 = new System.Windows.Forms.TextBox();
             this.btn_save = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
             this.btn_pause = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.check_hour1_auto = new System.Windows.Forms.CheckBox();
-            this.check_week_auto = new System.Windows.Forms.CheckBox();
-            this.check_day_auto = new System.Windows.Forms.CheckBox();
-            this.check_hour4_auto = new System.Windows.Forms.CheckBox();
-            this.check_min30_auto = new System.Windows.Forms.CheckBox();
+            this.check_hour1_bb = new System.Windows.Forms.CheckBox();
+            this.check_week_bb = new System.Windows.Forms.CheckBox();
+            this.check_day_bb = new System.Windows.Forms.CheckBox();
+            this.check_hour4_bb = new System.Windows.Forms.CheckBox();
+            this.check_min30_bb = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.text_lostCut = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.check_hour1_tl = new System.Windows.Forms.CheckBox();
+            this.check_week_tl = new System.Windows.Forms.CheckBox();
+            this.check_day_tl = new System.Windows.Forms.CheckBox();
+            this.check_hour4_tl = new System.Windows.Forms.CheckBox();
+            this.check_min30_tl = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -92,10 +87,39 @@ namespace UpbitDealer.form
             this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(414, 254);
+            this.groupBox1.Size = new System.Drawing.Size(402, 254);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Setting";
+            this.groupBox1.Text = "Required setting";
+            // 
+            // text_lostCut
+            // 
+            this.text_lostCut.BackColor = System.Drawing.Color.LightGray;
+            this.text_lostCut.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.text_lostCut.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.text_lostCut.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.text_lostCut.ForeColor = System.Drawing.Color.Black;
+            this.text_lostCut.Location = new System.Drawing.Point(140, 211);
+            this.text_lostCut.Name = "text_lostCut";
+            this.text_lostCut.Size = new System.Drawing.Size(256, 32);
+            this.text_lostCut.TabIndex = 40;
+            this.text_lostCut.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.Color.Black;
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox2.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.textBox2.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox2.ForeColor = System.Drawing.Color.White;
+            this.textBox2.Location = new System.Drawing.Point(6, 214);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(128, 22);
+            this.textBox2.TabIndex = 41;
+            this.textBox2.Text = "Lost Cut (%)";
+            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox2.Enter += new System.EventHandler(this.text_focus_disable);
             // 
             // text_top
             // 
@@ -242,69 +266,6 @@ namespace UpbitDealer.form
             this.text_parName0.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.text_parName0.Enter += new System.EventHandler(this.text_focus_disable);
             // 
-            // check_min30_bias
-            // 
-            this.check_min30_bias.AutoSize = true;
-            this.check_min30_bias.Location = new System.Drawing.Point(15, 180);
-            this.check_min30_bias.Name = "check_min30_bias";
-            this.check_min30_bias.Size = new System.Drawing.Size(66, 20);
-            this.check_min30_bias.TabIndex = 35;
-            this.check_min30_bias.Text = "30 Min";
-            this.check_min30_bias.UseVisualStyleBackColor = true;
-            // 
-            // check_hour1_bias
-            // 
-            this.check_hour1_bias.AutoSize = true;
-            this.check_hour1_bias.Location = new System.Drawing.Point(15, 142);
-            this.check_hour1_bias.Name = "check_hour1_bias";
-            this.check_hour1_bias.Size = new System.Drawing.Size(65, 20);
-            this.check_hour1_bias.TabIndex = 34;
-            this.check_hour1_bias.Text = "1 Hour";
-            this.check_hour1_bias.UseVisualStyleBackColor = true;
-            // 
-            // check_hour4_bias
-            // 
-            this.check_hour4_bias.AutoSize = true;
-            this.check_hour4_bias.Location = new System.Drawing.Point(15, 104);
-            this.check_hour4_bias.Name = "check_hour4_bias";
-            this.check_hour4_bias.Size = new System.Drawing.Size(65, 20);
-            this.check_hour4_bias.TabIndex = 33;
-            this.check_hour4_bias.Text = "4 Hour";
-            this.check_hour4_bias.UseVisualStyleBackColor = true;
-            // 
-            // check_day_bias
-            // 
-            this.check_day_bias.AutoSize = true;
-            this.check_day_bias.Location = new System.Drawing.Point(15, 66);
-            this.check_day_bias.Name = "check_day_bias";
-            this.check_day_bias.Size = new System.Drawing.Size(50, 20);
-            this.check_day_bias.TabIndex = 32;
-            this.check_day_bias.Text = "Day";
-            this.check_day_bias.UseVisualStyleBackColor = true;
-            // 
-            // check_week_bias
-            // 
-            this.check_week_bias.AutoSize = true;
-            this.check_week_bias.Location = new System.Drawing.Point(15, 28);
-            this.check_week_bias.Name = "check_week_bias";
-            this.check_week_bias.Size = new System.Drawing.Size(61, 20);
-            this.check_week_bias.TabIndex = 31;
-            this.check_week_bias.Text = "Week";
-            this.check_week_bias.UseVisualStyleBackColor = true;
-            // 
-            // text_min30
-            // 
-            this.text_min30.BackColor = System.Drawing.Color.LightGray;
-            this.text_min30.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_min30.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.text_min30.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_min30.ForeColor = System.Drawing.Color.Black;
-            this.text_min30.Location = new System.Drawing.Point(181, 173);
-            this.text_min30.Name = "text_min30";
-            this.text_min30.Size = new System.Drawing.Size(127, 32);
-            this.text_min30.TabIndex = 17;
-            this.text_min30.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // textBox9
             // 
             this.textBox9.BackColor = System.Drawing.Color.Black;
@@ -312,27 +273,14 @@ namespace UpbitDealer.form
             this.textBox9.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox9.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox9.ForeColor = System.Drawing.Color.White;
-            this.textBox9.Location = new System.Drawing.Point(6, 176);
+            this.textBox9.Location = new System.Drawing.Point(6, 191);
             this.textBox9.Name = "textBox9";
             this.textBox9.ReadOnly = true;
-            this.textBox9.Size = new System.Drawing.Size(114, 22);
+            this.textBox9.Size = new System.Drawing.Size(128, 22);
             this.textBox9.TabIndex = 20;
             this.textBox9.Text = "30 Min Rate";
             this.textBox9.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox9.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_hour1
-            // 
-            this.text_hour1.BackColor = System.Drawing.Color.LightGray;
-            this.text_hour1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_hour1.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.text_hour1.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_hour1.ForeColor = System.Drawing.Color.Black;
-            this.text_hour1.Location = new System.Drawing.Point(181, 135);
-            this.text_hour1.Name = "text_hour1";
-            this.text_hour1.Size = new System.Drawing.Size(127, 32);
-            this.text_hour1.TabIndex = 16;
-            this.text_hour1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox7
             // 
@@ -341,27 +289,14 @@ namespace UpbitDealer.form
             this.textBox7.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox7.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox7.ForeColor = System.Drawing.Color.White;
-            this.textBox7.Location = new System.Drawing.Point(6, 138);
+            this.textBox7.Location = new System.Drawing.Point(6, 153);
             this.textBox7.Name = "textBox7";
             this.textBox7.ReadOnly = true;
-            this.textBox7.Size = new System.Drawing.Size(114, 22);
+            this.textBox7.Size = new System.Drawing.Size(128, 22);
             this.textBox7.TabIndex = 18;
             this.textBox7.Text = "1 Hour Rate";
             this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox7.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_hour4
-            // 
-            this.text_hour4.BackColor = System.Drawing.Color.LightGray;
-            this.text_hour4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_hour4.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.text_hour4.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_hour4.ForeColor = System.Drawing.Color.Black;
-            this.text_hour4.Location = new System.Drawing.Point(181, 97);
-            this.text_hour4.Name = "text_hour4";
-            this.text_hour4.Size = new System.Drawing.Size(127, 32);
-            this.text_hour4.TabIndex = 15;
-            this.text_hour4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox5
             // 
@@ -370,27 +305,14 @@ namespace UpbitDealer.form
             this.textBox5.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox5.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox5.ForeColor = System.Drawing.Color.White;
-            this.textBox5.Location = new System.Drawing.Point(6, 100);
+            this.textBox5.Location = new System.Drawing.Point(6, 115);
             this.textBox5.Name = "textBox5";
             this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(114, 22);
+            this.textBox5.Size = new System.Drawing.Size(128, 22);
             this.textBox5.TabIndex = 16;
             this.textBox5.Text = "4 Hour Rate";
             this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox5.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_day
-            // 
-            this.text_day.BackColor = System.Drawing.Color.LightGray;
-            this.text_day.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_day.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.text_day.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_day.ForeColor = System.Drawing.Color.Black;
-            this.text_day.Location = new System.Drawing.Point(181, 59);
-            this.text_day.Name = "text_day";
-            this.text_day.Size = new System.Drawing.Size(127, 32);
-            this.text_day.TabIndex = 14;
-            this.text_day.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBox3
             // 
@@ -399,27 +321,14 @@ namespace UpbitDealer.form
             this.textBox3.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.textBox3.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(6, 62);
+            this.textBox3.Location = new System.Drawing.Point(6, 77);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(114, 22);
+            this.textBox3.Size = new System.Drawing.Size(128, 22);
             this.textBox3.TabIndex = 14;
             this.textBox3.Text = "Day Rate";
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox3.Enter += new System.EventHandler(this.text_focus_disable);
-            // 
-            // text_week
-            // 
-            this.text_week.BackColor = System.Drawing.Color.LightGray;
-            this.text_week.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_week.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.text_week.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_week.ForeColor = System.Drawing.Color.Black;
-            this.text_week.Location = new System.Drawing.Point(181, 21);
-            this.text_week.Name = "text_week";
-            this.text_week.Size = new System.Drawing.Size(127, 32);
-            this.text_week.TabIndex = 13;
-            this.text_week.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // text_parName3
             // 
@@ -428,10 +337,10 @@ namespace UpbitDealer.form
             this.text_parName3.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.text_parName3.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.text_parName3.ForeColor = System.Drawing.Color.White;
-            this.text_parName3.Location = new System.Drawing.Point(6, 24);
+            this.text_parName3.Location = new System.Drawing.Point(6, 39);
             this.text_parName3.Name = "text_parName3";
             this.text_parName3.ReadOnly = true;
-            this.text_parName3.Size = new System.Drawing.Size(114, 22);
+            this.text_parName3.Size = new System.Drawing.Size(128, 22);
             this.text_parName3.TabIndex = 7;
             this.text_parName3.Text = "Week Rate";
             this.text_parName3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -442,9 +351,9 @@ namespace UpbitDealer.form
             this.btn_save.BackColor = System.Drawing.Color.DarkGray;
             this.btn_save.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_save.ForeColor = System.Drawing.Color.Black;
-            this.btn_save.Location = new System.Drawing.Point(12, 491);
+            this.btn_save.Location = new System.Drawing.Point(12, 508);
             this.btn_save.Name = "btn_save";
-            this.btn_save.Size = new System.Drawing.Size(134, 34);
+            this.btn_save.Size = new System.Drawing.Size(130, 34);
             this.btn_save.TabIndex = 19;
             this.btn_save.Text = "Save";
             this.btn_save.UseVisualStyleBackColor = false;
@@ -455,9 +364,9 @@ namespace UpbitDealer.form
             this.btn_cancel.BackColor = System.Drawing.Color.DarkGray;
             this.btn_cancel.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_cancel.ForeColor = System.Drawing.Color.Black;
-            this.btn_cancel.Location = new System.Drawing.Point(152, 491);
+            this.btn_cancel.Location = new System.Drawing.Point(148, 508);
             this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.Size = new System.Drawing.Size(134, 34);
+            this.btn_cancel.Size = new System.Drawing.Size(130, 34);
             this.btn_cancel.TabIndex = 4;
             this.btn_cancel.Text = "Cancel";
             this.btn_cancel.UseVisualStyleBackColor = false;
@@ -468,146 +377,157 @@ namespace UpbitDealer.form
             this.btn_pause.BackColor = System.Drawing.Color.DarkGray;
             this.btn_pause.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_pause.ForeColor = System.Drawing.Color.Black;
-            this.btn_pause.Location = new System.Drawing.Point(292, 491);
+            this.btn_pause.Location = new System.Drawing.Point(284, 508);
             this.btn_pause.Name = "btn_pause";
-            this.btn_pause.Size = new System.Drawing.Size(134, 34);
+            this.btn_pause.Size = new System.Drawing.Size(130, 34);
             this.btn_pause.TabIndex = 20;
-            this.btn_pause.Text = "Pause";
+            this.btn_pause.Text = "Pause Buy";
             this.btn_pause.UseVisualStyleBackColor = false;
             this.btn_pause.Click += new System.EventHandler(this.btn_pause_Click);
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Controls.Add(this.groupBox4);
-            this.groupBox2.Controls.Add(this.text_week);
             this.groupBox2.Controls.Add(this.text_parName3);
             this.groupBox2.Controls.Add(this.textBox3);
-            this.groupBox2.Controls.Add(this.text_day);
             this.groupBox2.Controls.Add(this.textBox5);
-            this.groupBox2.Controls.Add(this.text_hour4);
             this.groupBox2.Controls.Add(this.textBox7);
-            this.groupBox2.Controls.Add(this.text_hour1);
             this.groupBox2.Controls.Add(this.textBox9);
-            this.groupBox2.Controls.Add(this.text_min30);
             this.groupBox2.ForeColor = System.Drawing.Color.White;
             this.groupBox2.Location = new System.Drawing.Point(12, 272);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(314, 213);
+            this.groupBox2.Size = new System.Drawing.Size(402, 230);
             this.groupBox2.TabIndex = 41;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Bollinger Buy";
+            this.groupBox2.Text = "Optional setting";
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.check_hour1_auto);
-            this.groupBox4.Controls.Add(this.check_week_auto);
-            this.groupBox4.Controls.Add(this.check_day_auto);
-            this.groupBox4.Controls.Add(this.check_hour4_auto);
-            this.groupBox4.Controls.Add(this.check_min30_auto);
+            this.groupBox4.Controls.Add(this.check_hour1_bb);
+            this.groupBox4.Controls.Add(this.check_week_bb);
+            this.groupBox4.Controls.Add(this.check_day_bb);
+            this.groupBox4.Controls.Add(this.check_hour4_bb);
+            this.groupBox4.Controls.Add(this.check_min30_bb);
             this.groupBox4.ForeColor = System.Drawing.Color.White;
-            this.groupBox4.Location = new System.Drawing.Point(126, 8);
+            this.groupBox4.Location = new System.Drawing.Point(140, 21);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(49, 199);
+            this.groupBox4.Size = new System.Drawing.Size(49, 203);
             this.groupBox4.TabIndex = 43;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Auto";
+            this.groupBox4.Text = "BB";
             // 
-            // check_hour1_auto
+            // check_hour1_bb
             // 
-            this.check_hour1_auto.AutoSize = true;
-            this.check_hour1_auto.Location = new System.Drawing.Point(17, 136);
-            this.check_hour1_auto.Name = "check_hour1_auto";
-            this.check_hour1_auto.Size = new System.Drawing.Size(15, 14);
-            this.check_hour1_auto.TabIndex = 34;
-            this.check_hour1_auto.UseVisualStyleBackColor = true;
+            this.check_hour1_bb.AutoSize = true;
+            this.check_hour1_bb.Location = new System.Drawing.Point(17, 136);
+            this.check_hour1_bb.Name = "check_hour1_bb";
+            this.check_hour1_bb.Size = new System.Drawing.Size(15, 14);
+            this.check_hour1_bb.TabIndex = 34;
+            this.check_hour1_bb.UseVisualStyleBackColor = true;
             // 
-            // check_week_auto
+            // check_week_bb
             // 
-            this.check_week_auto.AutoSize = true;
-            this.check_week_auto.Location = new System.Drawing.Point(17, 22);
-            this.check_week_auto.Name = "check_week_auto";
-            this.check_week_auto.Size = new System.Drawing.Size(15, 14);
-            this.check_week_auto.TabIndex = 31;
-            this.check_week_auto.UseVisualStyleBackColor = true;
+            this.check_week_bb.AutoSize = true;
+            this.check_week_bb.Location = new System.Drawing.Point(17, 22);
+            this.check_week_bb.Name = "check_week_bb";
+            this.check_week_bb.Size = new System.Drawing.Size(15, 14);
+            this.check_week_bb.TabIndex = 31;
+            this.check_week_bb.UseVisualStyleBackColor = true;
             // 
-            // check_day_auto
+            // check_day_bb
             // 
-            this.check_day_auto.AutoSize = true;
-            this.check_day_auto.Location = new System.Drawing.Point(17, 60);
-            this.check_day_auto.Name = "check_day_auto";
-            this.check_day_auto.Size = new System.Drawing.Size(15, 14);
-            this.check_day_auto.TabIndex = 32;
-            this.check_day_auto.UseVisualStyleBackColor = true;
+            this.check_day_bb.AutoSize = true;
+            this.check_day_bb.Location = new System.Drawing.Point(17, 60);
+            this.check_day_bb.Name = "check_day_bb";
+            this.check_day_bb.Size = new System.Drawing.Size(15, 14);
+            this.check_day_bb.TabIndex = 32;
+            this.check_day_bb.UseVisualStyleBackColor = true;
             // 
-            // check_hour4_auto
+            // check_hour4_bb
             // 
-            this.check_hour4_auto.AutoSize = true;
-            this.check_hour4_auto.Location = new System.Drawing.Point(17, 98);
-            this.check_hour4_auto.Name = "check_hour4_auto";
-            this.check_hour4_auto.Size = new System.Drawing.Size(15, 14);
-            this.check_hour4_auto.TabIndex = 33;
-            this.check_hour4_auto.UseVisualStyleBackColor = true;
+            this.check_hour4_bb.AutoSize = true;
+            this.check_hour4_bb.Location = new System.Drawing.Point(17, 98);
+            this.check_hour4_bb.Name = "check_hour4_bb";
+            this.check_hour4_bb.Size = new System.Drawing.Size(15, 14);
+            this.check_hour4_bb.TabIndex = 33;
+            this.check_hour4_bb.UseVisualStyleBackColor = true;
             // 
-            // check_min30_auto
+            // check_min30_bb
             // 
-            this.check_min30_auto.AutoSize = true;
-            this.check_min30_auto.Location = new System.Drawing.Point(17, 174);
-            this.check_min30_auto.Name = "check_min30_auto";
-            this.check_min30_auto.Size = new System.Drawing.Size(15, 14);
-            this.check_min30_auto.TabIndex = 35;
-            this.check_min30_auto.UseVisualStyleBackColor = true;
+            this.check_min30_bb.AutoSize = true;
+            this.check_min30_bb.Location = new System.Drawing.Point(17, 174);
+            this.check_min30_bb.Name = "check_min30_bb";
+            this.check_min30_bb.Size = new System.Drawing.Size(15, 14);
+            this.check_min30_bb.TabIndex = 35;
+            this.check_min30_bb.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.check_hour1_bias);
-            this.groupBox3.Controls.Add(this.check_week_bias);
-            this.groupBox3.Controls.Add(this.check_day_bias);
-            this.groupBox3.Controls.Add(this.check_hour4_bias);
-            this.groupBox3.Controls.Add(this.check_min30_bias);
+            this.groupBox3.Controls.Add(this.check_hour1_tl);
+            this.groupBox3.Controls.Add(this.check_week_tl);
+            this.groupBox3.Controls.Add(this.check_day_tl);
+            this.groupBox3.Controls.Add(this.check_hour4_tl);
+            this.groupBox3.Controls.Add(this.check_min30_tl);
             this.groupBox3.ForeColor = System.Drawing.Color.White;
-            this.groupBox3.Location = new System.Drawing.Point(332, 272);
+            this.groupBox3.Location = new System.Drawing.Point(195, 21);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(94, 213);
-            this.groupBox3.TabIndex = 42;
+            this.groupBox3.Size = new System.Drawing.Size(49, 203);
+            this.groupBox3.TabIndex = 44;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "BB Avg Bias";
+            this.groupBox3.Text = "TL";
             // 
-            // text_lostCut
+            // check_hour1_tl
             // 
-            this.text_lostCut.BackColor = System.Drawing.Color.LightGray;
-            this.text_lostCut.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.text_lostCut.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.text_lostCut.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.text_lostCut.ForeColor = System.Drawing.Color.Black;
-            this.text_lostCut.Location = new System.Drawing.Point(140, 211);
-            this.text_lostCut.Name = "text_lostCut";
-            this.text_lostCut.Size = new System.Drawing.Size(256, 32);
-            this.text_lostCut.TabIndex = 40;
-            this.text_lostCut.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.check_hour1_tl.AutoSize = true;
+            this.check_hour1_tl.Location = new System.Drawing.Point(17, 136);
+            this.check_hour1_tl.Name = "check_hour1_tl";
+            this.check_hour1_tl.Size = new System.Drawing.Size(15, 14);
+            this.check_hour1_tl.TabIndex = 34;
+            this.check_hour1_tl.UseVisualStyleBackColor = true;
             // 
-            // textBox2
+            // check_week_tl
             // 
-            this.textBox2.BackColor = System.Drawing.Color.Black;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.textBox2.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(6, 214);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(128, 22);
-            this.textBox2.TabIndex = 41;
-            this.textBox2.Text = "Lost Cut (%)";
-            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.textBox2.Enter += new System.EventHandler(this.text_focus_disable);
+            this.check_week_tl.AutoSize = true;
+            this.check_week_tl.Location = new System.Drawing.Point(17, 22);
+            this.check_week_tl.Name = "check_week_tl";
+            this.check_week_tl.Size = new System.Drawing.Size(15, 14);
+            this.check_week_tl.TabIndex = 31;
+            this.check_week_tl.UseVisualStyleBackColor = true;
+            // 
+            // check_day_tl
+            // 
+            this.check_day_tl.AutoSize = true;
+            this.check_day_tl.Location = new System.Drawing.Point(17, 60);
+            this.check_day_tl.Name = "check_day_tl";
+            this.check_day_tl.Size = new System.Drawing.Size(15, 14);
+            this.check_day_tl.TabIndex = 32;
+            this.check_day_tl.UseVisualStyleBackColor = true;
+            // 
+            // check_hour4_tl
+            // 
+            this.check_hour4_tl.AutoSize = true;
+            this.check_hour4_tl.Location = new System.Drawing.Point(17, 98);
+            this.check_hour4_tl.Name = "check_hour4_tl";
+            this.check_hour4_tl.Size = new System.Drawing.Size(15, 14);
+            this.check_hour4_tl.TabIndex = 33;
+            this.check_hour4_tl.UseVisualStyleBackColor = true;
+            // 
+            // check_min30_tl
+            // 
+            this.check_min30_tl.AutoSize = true;
+            this.check_min30_tl.Location = new System.Drawing.Point(17, 174);
+            this.check_min30_tl.Name = "check_min30_tl";
+            this.check_min30_tl.Size = new System.Drawing.Size(15, 14);
+            this.check_min30_tl.TabIndex = 35;
+            this.check_min30_tl.UseVisualStyleBackColor = true;
             // 
             // Macro
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(438, 537);
-            this.Controls.Add(this.groupBox3);
+            this.ClientSize = new System.Drawing.Size(426, 554);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btn_pause);
             this.Controls.Add(this.btn_cancel);
@@ -617,8 +537,6 @@ namespace UpbitDealer.form
             this.ForeColor = System.Drawing.Color.White;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.MaximumSize = new System.Drawing.Size(454, 576);
-            this.MinimumSize = new System.Drawing.Size(454, 576);
             this.Name = "Macro";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Macro";
@@ -645,36 +563,31 @@ namespace UpbitDealer.form
         private System.Windows.Forms.TextBox text_parName1;
         private System.Windows.Forms.TextBox text_parName0;
         private System.Windows.Forms.TextBox text_yield;
-        private System.Windows.Forms.TextBox text_week;
         private System.Windows.Forms.TextBox text_time;
         private System.Windows.Forms.TextBox text_krw;
-        private System.Windows.Forms.TextBox text_day;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox text_min30;
         private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.TextBox text_hour1;
         private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox text_hour4;
         private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.CheckBox check_min30_bias;
-        private System.Windows.Forms.CheckBox check_hour1_bias;
-        private System.Windows.Forms.CheckBox check_hour4_bias;
-        private System.Windows.Forms.CheckBox check_day_bias;
-        private System.Windows.Forms.CheckBox check_week_bias;
         private System.Windows.Forms.TextBox text_limit;
         private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Button btn_pause;
         private System.Windows.Forms.TextBox text_top;
         private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.CheckBox check_hour1_auto;
-        private System.Windows.Forms.CheckBox check_week_auto;
-        private System.Windows.Forms.CheckBox check_day_auto;
-        private System.Windows.Forms.CheckBox check_hour4_auto;
-        private System.Windows.Forms.CheckBox check_min30_auto;
+        private System.Windows.Forms.CheckBox check_hour1_bb;
+        private System.Windows.Forms.CheckBox check_week_bb;
+        private System.Windows.Forms.CheckBox check_day_bb;
+        private System.Windows.Forms.CheckBox check_hour4_bb;
+        private System.Windows.Forms.CheckBox check_min30_bb;
         private System.Windows.Forms.TextBox text_lostCut;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.CheckBox check_hour1_tl;
+        private System.Windows.Forms.CheckBox check_week_tl;
+        private System.Windows.Forms.CheckBox check_day_tl;
+        private System.Windows.Forms.CheckBox check_hour4_tl;
+        private System.Windows.Forms.CheckBox check_min30_tl;
     }
 }
