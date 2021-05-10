@@ -229,52 +229,48 @@ namespace UpbitDealer.form
         }
 
 
-        private void btn_order_Click(object sender, EventArgs e)
+        private void resetBtn()
         {
-            type = 0;
             dataGridView1.DataSource = null;
-            btn_order.BackColor = Color.Red;
+            btn_order.BackColor = Color.DarkGray;
             btn_history.BackColor = Color.DarkGray;
             btn_macro.BackColor = Color.DarkGray;
             selected.uuid = "";
             text_selectInfo.Text = "";
+            text_selectInfo.Visible = false;
+            btn_cancel.Visible = false;
+            btn_history_get.Visible = false;
+            text_historyCoinName.ForeColor = Color.Gray;
+            text_historyCoinName.Text = "Name";
+            text_historyCoinName.Visible = false;
+            text_page.ForeColor = Color.Gray;
+            text_page.Text = "Page";
+            text_page.Visible = false;
+        }
+        private void btn_order_Click(object sender, EventArgs e)
+        {
+            type = 0;
+            resetBtn();
+            btn_order.BackColor = Color.Red;
             text_selectInfo.Visible = true;
             btn_cancel.Visible = true;
-            btn_history_get.Visible = false;
-            text_historyCoinName.Visible = false;
-            text_page.Visible = false;
         }
         private void btn_history_Click(object sender, EventArgs e)
         {
             type = 1;
-            dataGridView1.DataSource = null;
-            btn_order.BackColor = Color.DarkGray;
+            resetBtn();
             btn_history.BackColor = Color.Red;
-            btn_macro.BackColor = Color.DarkGray;
-            text_selectInfo.Visible = false;
-            btn_cancel.Visible = false;
             btn_history_get.Visible = true;
-            text_historyCoinName.ForeColor = Color.Gray;
-            text_historyCoinName.Text = "Name";
             text_historyCoinName.Visible = true;
-            text_page.ForeColor = Color.Gray;
-            text_page.Text = "Page";
             text_page.Visible = true;
         }
         private void btn_macro_Click(object sender, EventArgs e)
         {
             type = 2;
-            dataGridView1.DataSource = null;
-            btn_order.BackColor = Color.DarkGray;
-            btn_history.BackColor = Color.DarkGray;
+            resetBtn();
             btn_macro.BackColor = Color.Red;
-            selected.uuid = "";
-            text_selectInfo.Text = "";
             text_selectInfo.Visible = true;
             btn_cancel.Visible = true;
-            btn_history_get.Visible = false;
-            text_historyCoinName.Visible = false;
-            text_page.Visible = false;
         }
 
 
