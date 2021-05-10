@@ -847,7 +847,7 @@ namespace UpbitDealer.src
             string coinName = coinList[index];
 
             DataTable buyCandle;
-            double dropRate = 1;
+            double dropRate = 1.005;
 
             if (setting.min30_bb || setting.min30_tl)
             {
@@ -885,7 +885,7 @@ namespace UpbitDealer.src
             if ((double)buyCandle.Rows[0]["open"] >= (double)buyCandle.Rows[0]["close"] ||
                 (double)buyCandle.Rows[1]["open"] <= (double)buyCandle.Rows[1]["close"] * dropRate) return 0;
             if ((double)buyCandle.Rows[0]["close"] <
-                ((double)buyCandle.Rows[1]["open"] + (double)buyCandle.Rows[1]["close"]) * 0.5) return 0;
+                ((double)buyCandle.Rows[1]["open"] + (double)buyCandle.Rows[1]["close"] * 3) / 4) return 0;
 
 
             for (int i = 4; i >= 0; i--)
@@ -918,18 +918,17 @@ namespace UpbitDealer.src
 
                 if (isBBMode)
                 {
-                    if (bollinger[i].Tables[coinName].Rows.Count < 1) return 0;
+                    if (bollinger[i].Tables[coinName].Rows.Count < 2) return 0;
                     if (bollingerAvg[i, 0] < bollingerAvg[i, 1]) return 0;
                     if ((double)bollinger[i].Tables[coinName].Rows[0]["value"] <=
                         (double)bollinger[i].Tables[coinName].Rows[1]["value"]) return 0;
                 }
                 if (isTLMode)
                 {
-                    if (trendLine[i].Tables[coinName].Rows.Count < 1) return 0;
+                    if (trendLine[i].Tables[coinName].Rows.Count < 2) return 0;
                     if ((double)trendLine[i].Tables[coinName].Rows[0]["value"] < 0) return 0;
                     if ((double)trendLine[i].Tables[coinName].Rows[0]["value"] <=
-                        (double)trendLine[i].Tables[coinName].Rows[1]["value"])
-                        return 0;
+                        (double)trendLine[i].Tables[coinName].Rows[1]["value"]) return 0;
                 }
             }
 
@@ -946,16 +945,17 @@ namespace UpbitDealer.src
                 return -1;
             }
 
-            if ((double)sellCandle.Rows[0]["open"] * (100d + setting.yield * 10d) * 0.01 <= (double)sellCandle.Rows[0]["close"])
-                if (lastQuote.Tables[coinName].Rows.Count >= 5)
-                    if ((double)lastQuote.Tables[coinName].Rows[1]["value"] > (double)lastQuote.Tables[coinName].Rows[0]["value"] &&
-                        (double)lastQuote.Tables[coinName].Rows[2]["value"] > (double)lastQuote.Tables[coinName].Rows[1]["value"] &&
-                        (double)lastQuote.Tables[coinName].Rows[3]["value"] > (double)lastQuote.Tables[coinName].Rows[2]["value"] &&
-                        (double)lastQuote.Tables[coinName].Rows[4]["value"] > (double)lastQuote.Tables[coinName].Rows[3]["value"])
-                        return 1;
-            if ((double)sellCandle.Rows[0]["open"] <= (double)sellCandle.Rows[0]["close"]) return 0;
+            //if ((double)sellCandle.Rows[0]["open"] * (100d + setting.yield * 10d) * 0.01 <= (double)sellCandle.Rows[0]["close"])
+            //    if (lastQuote.Tables[coinName].Rows.Count >= 5)
+            //        if ((double)lastQuote.Tables[coinName].Rows[1]["value"] > (double)lastQuote.Tables[coinName].Rows[0]["value"] &&
+            //            (double)lastQuote.Tables[coinName].Rows[2]["value"] > (double)lastQuote.Tables[coinName].Rows[1]["value"] &&
+            //            (double)lastQuote.Tables[coinName].Rows[3]["value"] > (double)lastQuote.Tables[coinName].Rows[2]["value"] &&
+            //            (double)lastQuote.Tables[coinName].Rows[4]["value"] > (double)lastQuote.Tables[coinName].Rows[3]["value"])
+            //            return 1;
+            if ((double)sellCandle.Rows[0]["open"] <= (double)sellCandle.Rows[0]["close"] ||
+                (double)sellCandle.Rows[1]["open"] >= (double)sellCandle.Rows[1]["close"]) return 0;
             if ((double)sellCandle.Rows[0]["close"] >
-                ((double)sellCandle.Rows[1]["open"] + (double)sellCandle.Rows[1]["close"]) * 0.5) return 0;
+                ((double)sellCandle.Rows[1]["open"] + (double)sellCandle.Rows[1]["close"] * 3) / 4) return 0;
 
             return 1;
         }
