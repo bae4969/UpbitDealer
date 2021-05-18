@@ -926,7 +926,8 @@ namespace UpbitDealer.src
                 if (isTLMode)
                 {
                     if (trendLine[i].Tables[coinName].Rows.Count < 2) return 0;
-                    if ((double)trendLine[i].Tables[coinName].Rows[0]["value"] < setting.yield) return 0;
+                    if (trendLineAvg[i, 0] < trendLineAvg[i, 1]) return 0;
+                    //if ((double)trendLine[i].Tables[coinName].Rows[0]["value"] < setting.yield / 2) return 0;
                     if ((double)trendLine[i].Tables[coinName].Rows[0]["value"] <=
                         (double)trendLine[i].Tables[coinName].Rows[1]["value"]) return 0;
                 }
